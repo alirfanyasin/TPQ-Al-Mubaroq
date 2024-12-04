@@ -11,10 +11,10 @@ class ClassController extends Controller
 {
     public function index()
     {
-        $dataKelas = Kelas::withCount('santri')->get();
+        $dataKelas = Kelas::withCount('santri')->orderBy('jilid_id', 'asc')->get();
         $dataSantri = Santri::select('id', 'nama_lengkap', 'jenis_kelamin', 'nomor_telepon', 'kelas_id')->where('kelas_id', NULL)->get();
         return view('pages.class.index', [
-            'title' => 'Enroll Kelas',
+            'title' => 'Kelas',
             'dataKelas' => $dataKelas,
             'dataSantri' => $dataSantri
         ]);

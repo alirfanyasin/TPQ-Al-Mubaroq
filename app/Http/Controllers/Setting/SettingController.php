@@ -14,9 +14,9 @@ class SettingController extends Controller
     public function index()
     {
         $dataTagihanSantri = Tagihan::find(1);
-        $dataJilid = Jilid::all();
+        $dataJilid = Jilid::orderBy('nama', 'ASC')->get();
         $dataAsatidz = Asatidz::select('id', 'nama_lengkap')->get();
-        $dataKelas = Kelas::all();
+        $dataKelas = Kelas::orderBy('nama', 'ASC')->get();
         return view('pages.settings', [
             'title' => 'Settings',
             'dataTagihanSantri' => $dataTagihanSantri,

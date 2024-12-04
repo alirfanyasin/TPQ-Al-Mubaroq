@@ -45,7 +45,10 @@
                 aria-selected="false">Jilid</a>
 
               <a class="nav-link" id="kelas-tab" data-bs-toggle="pill" href="#kelas" role="tab" aria-controls="kelas"
-                aria-selected="false">Kelas</a>
+                aria-selected="false">Pengaturan Kelas</a>
+
+              <a class="nav-link" id="kelas-tab" data-bs-toggle="pill" href="#rapor" role="tab" aria-controls="rapor"
+                aria-selected="false">Pengaturan Rapor</a>
 
             </div>
           </div>

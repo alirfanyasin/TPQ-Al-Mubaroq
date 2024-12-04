@@ -21,7 +21,7 @@ class AsatidzController extends Controller
         session()->forget(['biodata_asatid_id', 'form_biodata', 'form_address', 'form_document']);
         return view('pages.asatidz.index', [
             'title' => 'Data Asatidz',
-            'datas' => Asatidz::select('id', 'nama_lengkap', 'jenis_kelamin', 'nomor_telepon', 'status')->get(),
+            'datas' => Asatidz::select('id', 'nama_lengkap', 'jenis_kelamin', 'nomor_telepon', 'status')->orderBy('nama_lengkap', 'ASC')->get(),
         ]);
     }
 
