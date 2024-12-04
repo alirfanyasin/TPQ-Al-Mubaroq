@@ -48,62 +48,62 @@
                   <tr>
                     <td>Nama Lengkap</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Irfan Yasin</td>
+                    <td>{{ $data->nama_lengkap }}</td>
                   </tr>
                   <tr>
                     <td>NIK</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>12021873978427</td>
+                    <td>{{ $data->nik }}</td>
                   </tr>
                   <tr>
                     <td>Nomor Induk</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>0927343423</td>
+                    <td>{{ $data->nomor_induk }}</td>
                   </tr>
                   <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Surabaya, 13 November 2024</td>
+                    <td>{{ $data->tempat_lahir }}, {{ date('d F Y', strtotime($data->tanggal_lahir)) }}</td>
                   </tr>
                   <tr>
                     <td>Jenis Kelamin</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Laki-Laki</td>
+                    <td>{{ $data->jenis_kelamin }}</td>
                   </tr>
                   <tr>
                     <td>Agama</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Islam</td>
+                    <td>{{ $data->agama }}</td>
                   </tr>
                   <tr>
                     <td>Jenis Tempat Tinggal</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Rumah</td>
+                    <td>{{ $data->jenis_tempat_tinggal }}</td>
                   </tr>
                   <tr>
                     <td>Anak ke-</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>1</td>
+                    <td>{{ $data->anak_ke }}</td>
                   </tr>
                   <tr>
                     <td>Anak Berkebutuhan Khsusu</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Tidak</td>
+                    <td>{{ $data->abk }}</td>
                   </tr>
                   <tr>
                     <td>Kewarganegaraan</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>WNI</td>
+                    <td>{{ $data->kewarganegaraan }}</td>
                   </tr>
                   <tr>
                     <td>Nomor Telepon (WA)</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>094230482398</td>
+                    <td>{{ $data->nomor_telepon }}</td>
                   </tr>
                   <tr>
                     <td>Tanggal Masuk</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>12 November 2024</td>
+                    <td>{{ date('d F Y', strtotime($data->tanggal_masuk)) }}</td>
                   </tr>
                 </table>
               </div>
@@ -117,27 +117,27 @@
                   <tr>
                     <td>Alamat Lengkap</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Jl. wonokromo, blok J, No. 11</td>
+                    <td>{{ $data->alamat_lengkap_domisili }}</td>
                   </tr>
                   <tr>
                     <td>RT / RW</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>002/004</td>
+                    <td>{{ $data->rt_domisili }}/{{ $data->rw_domisili }}</td>
                   </tr>
                   <tr>
                     <td>Kelurahan / Desa</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Wonokromo</td>
+                    <td>{{ $data->desa_domisili }}</td>
                   </tr>
                   <tr>
                     <td>Kecamatan</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Wonokromo</td>
+                    <td>{{ $data->kecamatan_domisili }}</td>
                   </tr>
                   <tr>
                     <td>Kabupaten / Kota</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Laki-Laki</td>
+                    <td>{{ $data->koia_domisili }}</td>
                   </tr>
                 </table>
               </div>
@@ -151,27 +151,27 @@
                   <tr>
                     <td>Alamat Lengkap</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Jl. wonokromo, blok J, No. 11</td>
+                    <td>{{ $data->alamat_lengkap_kk }}</td>
                   </tr>
                   <tr>
                     <td>RT / RW</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>002/004</td>
+                    <td>{{ $data->rt_kk }}/{{ $data->rw_kk }}</td>
                   </tr>
                   <tr>
                     <td>Kelurahan / Desa</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Wonokromo</td>
+                    <td>{{ $data->desa_kk }}</td>
                   </tr>
                   <tr>
                     <td>Kecamatan</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Wonokromo</td>
+                    <td>{{ $data->kecamatan_kk }}</td>
                   </tr>
                   <tr>
                     <td>Kabupaten / Kota</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Laki-Laki</td>
+                    <td>{{ $data->kota_kk }}</td>
                   </tr>
                 </table>
               </div>
@@ -185,42 +185,42 @@
                   <tr>
                     <td>Nama Lengkap</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>John Doe</td>
+                    <td>{{ $data->nama_lengkap_ayah }}</td>
                   </tr>
                   <tr>
                     <td>NIK</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>123432423423</td>
+                    <td>{{ $data->nik_ayah }}</td>
                   </tr>
                   <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Surabaya, 23 Juni 2024</td>
+                    <td>{{ $data->tempat_tinggal_ayah }}, {{ date('d F Y', strtotime($data->tanggal_lahir_ayah)) }}</td>
                   </tr>
                   <tr>
                     <td>Agama</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Islam</td>
+                    <td>{{ $data->agama_ayah }}</td>
                   </tr>
                   <tr>
                     <td>Status</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Masih Hidup</td>
+                    <td>{{ $data->status_ayah }}</td>
                   </tr>
                   <tr>
                     <td>Pekerjaan</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Programmer</td>
+                    <td>{{ $data->pekerjaan_ayah }}</td>
                   </tr>
                   <tr>
                     <td>Penghasilan</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Rp. 10.000.000</td>
+                    <td>Rp. {{ number_format($data->penghasilan_ayah, 0, ',', '.') }}</td>
                   </tr>
                   <tr>
                     <td>Nomor Telepon (WA)</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>084827384723</td>
+                    <td>{{ $data->nomor_telepon_ayah }}</td>
                   </tr>
                 </table>
               </div>
@@ -234,42 +234,42 @@
                   <tr>
                     <td>Nama Lengkap</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Alisya Alexandra</td>
+                    <td>{{ $data->nama_lengkap_ibu }}</td>
                   </tr>
                   <tr>
                     <td>NIK</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>123432423423</td>
+                    <td>{{ $data->nik_ibu }}</td>
                   </tr>
                   <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Surabaya, 23 Juni 2024</td>
+                    <td>{{ $data->tempat_tinggal_ibu }}, {{ date('d F Y', strtotime($data->tanggal_lahir_ibu)) }}</td>
                   </tr>
                   <tr>
                     <td>Agama</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Islam</td>
+                    <td>{{ $data->agama_ibu }}</td>
                   </tr>
                   <tr>
                     <td>Status</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Masih Hidup</td>
+                    <td>{{ $data->status_ibu }}</td>
                   </tr>
                   <tr>
                     <td>Pekerjaan</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Programmer</td>
+                    <td>{{ $data->pekerjaan_ibu }}</td>
                   </tr>
                   <tr>
                     <td>Penghasilan</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>Rp. 8.000.000</td>
+                    <td>Rp. {{ number_format($data->penghasilan_ibu, 0, ',', '.') }}</td>
                   </tr>
                   <tr>
                     <td>Nomor Telepon (WA)</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>084827384723</td>
+                    <td>{{ $data->nomor_telepon_ibu }}</td>
                   </tr>
                 </table>
               </div>
