@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kelas_settings', function (Blueprint $table) {
+        Schema::create('kelas', function (Blueprint $table) {
             $table->id();
+            $table->string('nama')->unique();
+            $table->foreignId('jilid_id')->nullable()->constrained();
+            $table->foreignId('asatidz_id')->nullable()->constrained();
+            $table->foreignId('santri_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kelas_settings');
+        Schema::dropIfExists('kelas');
     }
 };
