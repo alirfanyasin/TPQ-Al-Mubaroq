@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
+// Before autentication
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/autenticate', [LoginController::class, 'autenticate'])->name('autenticate');
 });
 
+
+// After autentication
 Route::middleware('auth')->group(function () {
     // Dashboard Route
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -28,18 +30,41 @@ Route::middleware('auth')->group(function () {
     // Santri Route
     Route::prefix('santri')->group(function () {
         Route::get('/', [SantriController::class, 'index'])->name('santri');
+        // Create route
         Route::get('/create/biodata', [SantriController::class, 'create_biodata'])->name('santri.create_biodata');
         Route::get('/create/address', [SantriController::class, 'create_address'])->name('santri.create_address');
         Route::get('/create/biodata-father', [SantriController::class, 'create_biodata_father'])->name('santri.create_biodata_father');
         Route::get('/create/biodata-mother', [SantriController::class, 'create_biodata_mother'])->name('santri.create_biodata_mother');
         Route::get('/create/document', [SantriController::class, 'create_document'])->name('santri.create_document');
+
+        // Store route
         Route::post('/store/biodata', [SantriController::class, 'store_biodata'])->name('santri.store_biodata');
         Route::post('/store/address', [SantriController::class, 'store_address'])->name('santri.store_address');
         Route::post('/store/biodata-father', [SantriController::class, 'store_biodata_father'])->name('santri.store_biodata_father');
         Route::post('/store/biodata-mother', [SantriController::class, 'store_biodata_mother'])->name('santri.store_biodata_mother');
         Route::post('/store/document', [SantriController::class, 'store_document'])->name('santri.store_document');
+
+        // Show route
         Route::get('/{id}/show', [SantriController::class, 'show'])->name('santri.show');
 
+        // Edit route
+        Route::get('/{id}/edit/biodata', [SantriController::class, 'edit_biodata'])->name('santri.edit_biodata');
+        Route::get('/{id}/edit/address', [SantriController::class, 'edit_address'])->name('santri.edit_address');
+        Route::get('/{id}/edit/biodata-father', [SantriController::class, 'edit_biodata_father'])->name('santri.edit_biodata_father');
+        Route::get('/{id}/edit/biodata-mother', [SantriController::class, 'edit_biodata_mother'])->name('santri.edit_biodata_mother');
+        Route::get('/{id}/edit/document', [SantriController::class, 'edit_document'])->name('santri.edit_document');
+
+        // Route update
+        Route::patch('/{id}/update/biodata', [SantriController::class, 'update_biodata'])->name('santri.update_biodata');
+        Route::patch('/{id}/update/address', [SantriController::class, 'update_address'])->name('santri.update_address');
+        Route::patch('/{id}/update/biodata-father', [SantriController::class, 'update_biodata_father'])->name('santri.update_biodata_father');
+        Route::patch('/{id}/update/biodata-mother', [SantriController::class, 'update_biodata_mother'])->name('santri.update_biodata_mother');
+        Route::patch('/{id}/update/document', [SantriController::class, 'update_document'])->name('santri.update_document');
+
+        // Destroy route
+        Route::delete('{id}/destroy', [SantriController::class, 'destroy'])->name('santri.destroy');
+
+        // Tagihan route
         Route::patch('/student-bill', [TagihanController::class, 'update'])->name('santri.student_bill');
         Route::get('/payment', [TagihanSantriController::class, 'index'])->name('santri.payment');
         Route::post('/payment', [TagihanSantriController::class, 'store'])->name('santri.store_payment');

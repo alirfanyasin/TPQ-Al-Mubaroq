@@ -56,11 +56,17 @@
                   <td>{{ $no++ }}</td>
                   <td>{{ $data->nama_lengkap }}</td>
                   <td>{{ $data->jenis_kelamin }}</td>
-                  <td>{{ $data->nomor_telepoin }}td>
+                  <td>{{ $data->nomor_telepon }}</td>
                   <td>
-                    <a href="#" class="btn icon"><i class="bi bi-eye"></i></a>
-                    <a href="#" class="btn icon"><i class="bi bi-pencil"></i></a>
-                    <a href="#" class="btn icon"><i class="bi bi-trash"></i></a>
+                    <a href="{{ route('santri.show', ['id' => $data->id]) }}" class="btn icon"><i
+                        class="bi bi-eye"></i></a>
+                    <a href="{{ route('santri.edit_biodata', ['id' => $data->id]) }}" class="btn icon"><i
+                        class="bi bi-pencil"></i></a>
+                    <form action="{{ route('santri.destroy', ['id' => $data->id]) }}" method="POST" class="d-inline">
+                      @csrf
+                      @method('DELETE')
+                      <button class="btn icon"><i class="bi bi-trash"></i></button>
+                    </form>
                   </td>
                 </tr>
               @endforeach

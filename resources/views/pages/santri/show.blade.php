@@ -21,18 +21,20 @@
         <div class="card-body">
           <div class="row">
             <div class="mb-4 col-xl-4 col-md-3">
-              <div class="overflow-hidden rounded-4 w-100">
-                <img
-                  src="https://web.rupa.ai/wp-content/uploads/2023/07/Aruna_Asian_man_in_suit_posing_for_a_formal_photo_with_straight_b39d3ce1-e8c6-4664-a7bd-b4818badee83.png"
-                  alt="User Profile" class="object-cover w-100 h-100">
+              <div>
+                <h5 class="mb-3">Foto Santri</h5>
+                <div class="overflow-hidden rounded-4 w-100">
+                  <img src="{{ asset('storage/' . $data->foto_santri) }}" alt="User Profile"
+                    class="object-cover w-100 h-100">
+                </div>
               </div>
 
 
               <div class="mt-5">
-                <h5>Kartu Keluarga</h5>
-                <div class="mb-4 overflow-hidden rounded-4 w-100" style="height: 220px;">
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlFujN0pcx2HkVBJf2wUP699METkD1fQkWIA&s"
-                    alt="User Profile" class="object-cover w-100 h-100">
+                <h5 class="mb-3">Kartu Keluarga</h5>
+                <div class="overflow-hidden rounded-4 w-100">
+                  <img src="{{ asset('storage/' . $data->kk_santri) }}" alt="User Profile"
+                    class="object-cover w-100 h-100">
                 </div>
               </div>
             </div>

@@ -21,12 +21,16 @@
         <div class="card-body">
           <div class="row">
             <div class="mb-4 col-xl-4 col-md-3">
-              <div class="overflow-hidden rounded-4 w-100">
-                <img src="{{ asset('storage/' . $data->foto_asatidz) }}" alt="User Profile"
-                  class="object-cover w-100 h-100">
+              <div>
+                <h5 class="mb-3">Foto Asatidz</h5>
+                <div class="overflow-hidden rounded-4 w-100">
+                  <img src="{{ asset('storage/' . $data->foto_asatidz) }}" alt="User Profile"
+                    class="object-cover w-100 h-100">
+                </div>
               </div>
+
               <div class="mt-5">
-                <h5>Kartu Keluarga</h5>
+                <h5 class="mb-3">Kartu Keluarga</h5>
                 <div class="mb-4 overflow-hidden rounded-4 w-100" style="height: 220px;">
                   <img src="{{ asset('storage/' . $data->kk_asatidz) }}" alt="Kartu Keluarga"
                     class="object-cover w-100 h-100">
