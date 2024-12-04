@@ -16,7 +16,7 @@
 @endsection
 @section('content')
   <div class="page-content">
-    <form action="{{ route('santri.store_document') }}" method="POST">
+    <form action="{{ route('santri.store_document') }}" method="POST" enctype="multipart/form-data">
       @csrf
       <section class="section">
         <div class="card">
@@ -51,8 +51,9 @@
                 <a href="{{ route('santri.create_biodata_mother') }}" class="btn icon icon-right btn-danger me-2">
                   <i class="bi bi-arrow-left"></i>
                   Kembali </a>
-                <button type="submit" class="btn icon icon-right btn-primary">
-                  Selanjutnya <i class="bi bi-arrow-right"></i>
+                <button type="submit" class="btn icon icon-left btn-primary">
+                  <i data-feather="check-circle"></i>
+                  Simpan Data
                 </button>
               </div>
             </div>

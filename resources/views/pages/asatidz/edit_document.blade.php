@@ -62,8 +62,9 @@
                   <i class="bi bi-arrow-left"></i>
                   Kembali </a>
 
-                <button type="submit" class="btn icon icon-right btn-primary">
-                  Simpan Data <i class="bi bi-floppy"></i>
+                <button type="submit" class="btn icon icon-left btn-primary">
+                  <i data-feather="check-circle"></i>
+                  Simpan Data
                 </button>
               </div>
             </div>

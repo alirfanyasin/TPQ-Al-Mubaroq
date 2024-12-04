@@ -57,7 +57,7 @@ return new class extends Migration
             $table->string('nomor_telepon_ibu')->nullable();
             $table->string('foto_santri')->nullable();
             $table->string('kk_santri')->nullable();
-            $table->string('tanggal_masuk')->nullable();
+            $table->dateTime('tanggal_masuk')->nullable();
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tagihan extends Model
+class TagihanSantri extends Model
 {
     protected $guarded = ['id'];
 }

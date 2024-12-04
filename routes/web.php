@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollClass\EnrollClassController;
 use App\Http\Controllers\Santri\SantriController;
+use App\Http\Controllers\Santri\TagihanSantriController;
+use App\Models\Tagihan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -29,13 +31,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/create/biodata-father', [SantriController::class, 'create_biodata_father'])->name('santri.create_biodata_father');
         Route::get('/create/biodata-mother', [SantriController::class, 'create_biodata_mother'])->name('santri.create_biodata_mother');
         Route::get('/create/document', [SantriController::class, 'create_document'])->name('santri.create_document');
-        Route::get('/create/payment', [SantriController::class, 'create_payment'])->name('santri.create.payment');
         Route::post('/store/biodata', [SantriController::class, 'store_biodata'])->name('santri.store_biodata');
         Route::post('/store/address', [SantriController::class, 'store_address'])->name('santri.store_address');
         Route::post('/store/biodata-father', [SantriController::class, 'store_biodata_father'])->name('santri.store_biodata_father');
         Route::post('/store/biodata-mother', [SantriController::class, 'store_biodata_mother'])->name('santri.store_biodata_mother');
         Route::post('/store/document', [SantriController::class, 'store_document'])->name('santri.store_document');
         Route::get('/{id}/show', [SantriController::class, 'show'])->name('santri.show');
+
+        Route::get('/student-bill', [Tagihan::class, 'update'])->name('santri.student_bill');
+        Route::get('/payment', [TagihanSantriController::class, 'payment'])->name('santri.payment');
+        Route::post('/payment', [TagihanSantriController::class, 'store'])->name('santri.store_payment');
     });
 
     // Asatidz Route

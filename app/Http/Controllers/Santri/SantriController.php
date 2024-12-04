@@ -13,7 +13,7 @@ class SantriController extends Controller
      */
     public function index()
     {
-        session()->forget(['biodata_santri_id', 'form_biodata_santri', 'form_address_santri', 'form_biodata_father', 'form_biodata_mother', 'form_document_ssntri']);
+        session()->forget(['biodata_santri_id', 'form_biodata_santri', 'form_address_santri', 'form_biodata_father', 'form_biodata_mother', 'form_document_santri']);
         return view('pages.santri.index', [
             'title' => 'Data Santri'
         ]);
@@ -157,6 +157,8 @@ class SantriController extends Controller
             'kota_kk.required' => 'Kabupaten / Kota wajib di isi',
         ]);
 
+        $validatedData['tanggal_masuk'] = now();
+
         if (session()->has('biodata_santri_id')) {
             Santri::where('id', session('biodata_santri_id'))->update($validatedData);
         } else {
@@ -282,8 +284,8 @@ class SantriController extends Controller
             $asatidz = Santri::create($validatedDocument);
             session(['biodata_santri_id' => $asatidz->id]);
         }
-        session(['form_document_ssntri' => $validatedDocument]);
-        return redirect()->route('asatidz');
+        session(['form_document_santri' => $validatedDocument]);
+        return redirect()->route('santri.payment');
     }
 
 
