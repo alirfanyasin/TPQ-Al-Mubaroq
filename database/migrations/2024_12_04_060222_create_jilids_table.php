@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tagihans', function (Blueprint $table) {
+        Schema::create('jilids', function (Blueprint $table) {
             $table->id();
-            $table->string('tagihan_pendaftaran')->default(0);
-            $table->string('tagihan_bulanan')->default(0);
-            $table->string('tagihan_biaya_seragam')->default(0);
+            $table->string('nama');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tagihans');
+        Schema::dropIfExists('jilids');
     }
 };

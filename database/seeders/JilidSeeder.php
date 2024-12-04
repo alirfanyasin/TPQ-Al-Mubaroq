@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tagihan;
+use App\Models\Jilid;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TagihanSeeder extends Seeder
+class JilidSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Tagihan::create([
-            'tagihan_pendaftaran' => 0,
-            'tagihan_bulanan' => 0,
-            'tagihan_biaya_seragam' => 0
-        ]);
+        for ($i = 1; $i <= 7; $i++) {
+            Jilid::create([
+                'nama' => $i
+            ]);
+        }
     }
 }

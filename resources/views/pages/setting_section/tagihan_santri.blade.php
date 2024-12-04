@@ -13,7 +13,7 @@
               <div class="form-group">
                 <label for="tagihan-pendaftaran">Tagihan Pendaftaran</label>
                 <input type="number" class="form-control" id="tagihan-pendaftaran" placeholder="Rp."
-                  name="tagihan_pembayaran" value="{{ $dataTagihanSantri->tagihan_pembayaran }}">
+                  name="tagihan_pembayaran" value="{{ $dataTagihanSantri->tagihan_pendaftaran }}">
               </div>
             </div>
             <div class="col-md-6">

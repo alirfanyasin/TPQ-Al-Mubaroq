@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollClass\EnrollClassController;
 use App\Http\Controllers\Santri\SantriController;
 use App\Http\Controllers\Santri\TagihanSantriController;
+use App\Http\Controllers\Setting\JilidController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Setting\TagihanController;
 use App\Models\Tagihan;
@@ -99,6 +100,11 @@ Route::middleware('auth')->group(function () {
 
     // Settings Route
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
+    Route::post('/setting/jilid/store', [JilidController::class, 'store'])->name('setting.store_jilid');
+    Route::patch('/setting/jilid/{id}/update', [JilidController::class, 'update'])->name('setting.update_jilid');
+    Route::delete('/setting/jilid/{id}/destroy', [JilidController::class, 'destroy'])->name('setting.destroy_jilid');
+
+
 
 
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
