@@ -66,10 +66,10 @@
 
         @role(['admin'])
           <li
-            class="sidebar-item  {{ Request::is('enroll') ? 'active' : '' }} {{ Request::is('enroll/*') ? 'active' : '' }}">
-            <a href="{{ route('enroll-class') }}" class='sidebar-link'>
+            class="sidebar-item  {{ Request::is('class') ? 'active' : '' }} {{ Request::is('class/*') ? 'active' : '' }}">
+            <a href="{{ route('class.index') }}" class='sidebar-link'>
               <i class="bi bi-people"></i>
-              <span>Enroll Kelas</span>
+              <span>Kelas</span>
             </a>
           </li>
 

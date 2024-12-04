@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Kelas extends Model
 {
@@ -31,12 +32,12 @@ class Kelas extends Model
     }
 
     /**
-     * Get the user that owns the Kelas
+     * Get all of the santri for the Kelas
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function user(): BelongsTo
+    public function santri(): HasMany
     {
-        return $this->belongsTo(User::class, 'foreign_key', 'other_key');
+        return $this->hasMany(Santri::class, 'kelas_id');
     }
 }

@@ -3,8 +3,8 @@
 use App\Http\Controllers\Asatidz\AsatidzController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EnrollClass\EnrollClassController;
 use App\Http\Controllers\Santri\SantriController;
 use App\Http\Controllers\Santri\TagihanSantriController;
 use App\Http\Controllers\Setting\JilidController;
@@ -92,10 +92,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/account', [AsatidzController::class, 'account'])->name('asatidz.account');
     });
 
-    // Enroll Route
-    Route::prefix('enroll')->group(function () {
-        Route::get('/class', [EnrollClassController::class, 'index'])->name('enroll-class');
-        Route::get('/class/{name}', [EnrollClassController::class, 'class'])->name('class');
+
+    Route::prefix('class')->group(function () {
+        Route::get('/', [ClassController::class, 'index'])->name('class.index');
+        Route::post('/enroll', [ClassController::class, 'enroll'])->name('class.enroll');
+        Route::get('/room/{id}/{nama}', [ClassController::class, 'class_room'])->name('class.room');
+        Route::post('/leave-multiple', [ClassController::class, 'leave_multiple'])->name('class.leave_multiple');
     });
 
 

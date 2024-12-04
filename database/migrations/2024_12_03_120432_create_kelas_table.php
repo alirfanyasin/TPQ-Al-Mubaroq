@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nama')->unique();
             $table->foreignId('jilid_id')->nullable()->constrained();
             $table->foreignId('asatidz_id')->nullable()->constrained();
-            $table->foreignId('santri_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

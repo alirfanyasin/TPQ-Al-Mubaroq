@@ -58,7 +58,7 @@ return new class extends Migration
             $table->string('foto_santri')->nullable();
             $table->string('kk_santri')->nullable();
             $table->dateTime('tanggal_masuk')->nullable();
-            $table->foreignId('jilid_id')->nullable()->constrained();
+            $table->foreignId('kelas_id')->nullable()->constrained();
             $table->timestamps();
         });
     }
