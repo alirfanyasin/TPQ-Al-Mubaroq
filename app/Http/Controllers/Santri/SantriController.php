@@ -15,7 +15,8 @@ class SantriController extends Controller
     {
         session()->forget(['biodata_santri_id', 'form_biodata_santri', 'form_address_santri', 'form_biodata_father', 'form_biodata_mother', 'form_document_santri']);
         return view('pages.santri.index', [
-            'title' => 'Data Santri'
+            'title' => 'Data Santri',
+            'datas' => Santri::select('id', 'nama_lengkap', 'jenis_kelamin', 'nomor_telepon')->get()
         ]);
     }
 

@@ -7,6 +7,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollClass\EnrollClassController;
 use App\Http\Controllers\Santri\SantriController;
 use App\Http\Controllers\Santri\TagihanSantriController;
+use App\Http\Controllers\Setting\SettingController;
+use App\Http\Controllers\Setting\TagihanController;
 use App\Models\Tagihan;
 use Illuminate\Support\Facades\Route;
 
@@ -38,8 +40,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/store/document', [SantriController::class, 'store_document'])->name('santri.store_document');
         Route::get('/{id}/show', [SantriController::class, 'show'])->name('santri.show');
 
-        Route::get('/student-bill', [Tagihan::class, 'update'])->name('santri.student_bill');
-        Route::get('/payment', [TagihanSantriController::class, 'payment'])->name('santri.payment');
+        Route::patch('/student-bill', [TagihanController::class, 'update'])->name('santri.student_bill');
+        Route::get('/payment', [TagihanSantriController::class, 'index'])->name('santri.payment');
         Route::post('/payment', [TagihanSantriController::class, 'store'])->name('santri.store_payment');
     });
 
@@ -70,14 +72,8 @@ Route::middleware('auth')->group(function () {
     });
 
 
-
-
     // Settings Route
-    Route::get('/settings', function () {
-        return view('pages.settings', [
-            'title' => 'Settings'
-        ]);
-    })->name('settings');
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings');
 
 
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

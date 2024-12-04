@@ -40,65 +40,30 @@
           <table class="table table-striped" id="table1">
             <thead>
               <tr>
+                <th>No</th>
                 <th>Nama Lengkap</th>
                 <th>Jenis Kelamin</th>
                 <th>Nomor Telepon (WA)</th>
-                <th>Status</th>
                 <th>Menu</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Graiden</td>
-                <td>Laki-Laki</td>
-                <td>076 4820 8838</td>
-                <td><span class="badge bg-success">Active</span></td>
-                <td>
-                  <a href="#" class="btn icon"><i class="bi bi-eye"></i></a>
-                  <a href="#" class="btn icon"><i class="bi bi-pencil"></i></a>
-                  <a href="#" class="btn icon"><i class="bi bi-trash"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Dale</td>
-                <td>Perempuan</td>
-                <td>0500 527693</td>
-                <td><span class="badge bg-success">Active</span></td>
-                <td>
-                  <a href="#" class="btn icon"><i class="bi bi-pencil"></i></a>
-                  <a href="#" class="btn icon"><i class="bi bi-trash"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Nathaniel</td>
-                <td>Perempuan</td>
-                <td>(012165) 76278</td>
-                <td><span class="badge bg-success">Active</span></td>
-                <td>
-                  <a href="#" class="btn icon"><i class="bi bi-pencil"></i></a>
-                  <a href="#" class="btn icon"><i class="bi bi-trash"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Darius</td>
-                <td>Laki-Laki</td>
-                <td>0309 690 7871</td>
-                <td><span class="badge bg-success">Active</span></td>
-                <td>
-                  <a href="#" class="btn icon"><i class="bi bi-pencil"></i></a>
-                  <a href="#" class="btn icon"><i class="bi bi-trash"></i></a>
-                </td>
-              </tr>
-              <tr>
-                <td>Oleg</td>
-                <td>Laki-Laki</td>
-                <td>0500 441046</td>
-                <td><span class="badge bg-danger">InActive</span></td>
-                <td>
-                  <a href="#" class="btn icon"><i class="bi bi-pencil"></i></a>
-                  <a href="#" class="btn icon"><i class="bi bi-trash"></i></a>
-                </td>
-              </tr>
+              @php
+                $no = 1;
+              @endphp
+              @foreach ($datas as $data)
+                <tr>
+                  <td>{{ $no++ }}</td>
+                  <td>{{ $data->nama_lengkap }}</td>
+                  <td>{{ $data->jenis_kelamin }}</td>
+                  <td>{{ $data->nomor_telepoin }}td>
+                  <td>
+                    <a href="#" class="btn icon"><i class="bi bi-eye"></i></a>
+                    <a href="#" class="btn icon"><i class="bi bi-pencil"></i></a>
+                    <a href="#" class="btn icon"><i class="bi bi-trash"></i></a>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>

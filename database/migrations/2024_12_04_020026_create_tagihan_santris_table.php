@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('tagihan_santris', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tagihan_id')->constrained();
+            $table->string('tagihan_pedaftaran')->default(0);
+            $table->string('tagihan_bulanan')->default(0);
+            $table->string('tagihan_biaya_seragam')->default(0);
             $table->foreignId('santri_id')->constrained();
+            $table->string('status');
             $table->timestamps();
         });
     }

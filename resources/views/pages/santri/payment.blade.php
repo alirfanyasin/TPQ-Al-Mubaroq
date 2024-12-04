@@ -29,7 +29,9 @@
               <div class="col-md-8">
                 <div class="mb-4">
                   <h4>Biaya Pendaftaran</h4>
-                  <p>Biaya pendaftaran sebesar <b>Rp. 120.000</b>, silahkan input pembayaran santri dibawah ini</p>
+                  <p>Biaya pendaftaran sebesar <b>Rp. {{ number_format($data->tagihan_pembayaran, 0, ',', '.') }}</b>,
+                    silahkan input pembayaran
+                    santri dibawah ini</p>
                   <div class="form-group">
                     <label for="pembayaran-awal-pendaftaran">Pembayaran Awal</label>
                     <input type="number" class="form-control" id="pembayaran-awal-pendaftaran" placeholder="Rp."
@@ -39,7 +41,9 @@
 
                 <div class="mb-4">
                   <h4>Biaya Bulanan</h4>
-                  <p>Biaya bulanan sebesar <b>Rp. 100.000</b>, silahkan input pembayaran santri dibawah ini</p>
+                  <p>Biaya bulanan sebesar <b>Rp. {{ number_format($data->tagihan_bulanan, 0, ',', '.') }}</b>, silahkan
+                    input pembayaran santri
+                    dibawah ini</p>
                   <div class="form-group">
                     <label for="pembayaran-awal-bulanan">Pembayaran Awal</label>
                     <input type="number" class="form-control" id="pembayaran-awal-bulanan" placeholder="Rp."
@@ -49,7 +53,9 @@
 
                 <div class="mb-4">
                   <h4>Biaya Seragam</h4>
-                  <p>Biaya seragam sebesar <b>Rp. 100.000</b>, silahkan input pembayaran santri dibawah ini</p>
+                  <p>Biaya seragam sebesar <b>Rp. {{ number_format($data->tagihan_biaya_seragam, 0, ',', '.') }}</b>,
+                    silahkan input pembayaran santri
+                    dibawah ini</p>
                   <div class="form-group">
                     <label for="pembayaran-awal-seragam">Pembayaran Awal</label>
                     <input type="number" class="form-control" id="pembayaran-awal-seragam" placeholder="Rp."
@@ -76,7 +82,7 @@
                         <tr>
                           <td>Tagihan</td>
                           <td style="padding: 0 10px;">:</td>
-                          <td>Rp. 120.000</td>
+                          <td>Rp. {{ number_format($data->tagihan_pembayaran, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                           <td>Pembayaran Awal</td>
@@ -104,7 +110,7 @@
                         <tr>
                           <td>Tagihan</td>
                           <td style="padding: 0 10px;">:</td>
-                          <td>Rp. 100.000</td>
+                          <td>Rp. {{ number_format($data->tagihan_bulanan, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                           <td>Pembayaran Awal</td>
@@ -131,7 +137,7 @@
                         <tr>
                           <td>Tagihan</td>
                           <td style="padding: 0 10px;">:</td>
-                          <td>Rp. 100.000</td>
+                          <td>Rp. {{ number_format($data->tagihan_biaya_seragam, 0, ',', '.') }}</td>
                         </tr>
                         <tr>
                           <td>Pembayaran Awal</td>

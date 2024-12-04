@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('tagihans', function (Blueprint $table) {
             $table->id();
-            $table->string('tagihan_pembayaran')->default(0);
+            $table->string('tagihan_pemdaftaran')->default(0);
             $table->string('tagihan_bulanan')->default(0);
             $table->string('tagihan_biaya_seragam')->default(0);
             $table->timestamps();

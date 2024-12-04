@@ -306,41 +306,7 @@
 
 
               {{-- Tagihan Santri Start --}}
-              <div class="tab-pane fade" id="tagihan-santri" role="tabpanel" aria-labelledby="tagihan-santri-tab">
-                <section class="section">
-                  <div class="card">
-                    <div class="card-header">
-                      <h4 class="card-title">Tagihan Santri</h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="tagihan-pendaftaran">Tagihan Pendaftaran</label>
-                            <input type="number" class="form-control" id="tagihan-pendaftaran" placeholder="Rp.">
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="tagihan-biaya-bulanan">Tagihan Biaya Bulanan</label>
-                            <input type="number" class="form-control" id="tagihan-biaya-bulanan" placeholder="Rp.">
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="biaya-seragam">Biaya Seragam</label>
-                            <input type="number" class="form-control" id="biaya-seragam" placeholder="Rp.">
-                          </div>
-                        </div>
-                        <div class="justify-content-end d-flex">
-                          <a href="#" class="btn icon icon-left btn-primary"><i data-feather="check-circle"></i>
-                            Simpan</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
+              @include('pages.setting_section.tagihan_santri')
               {{-- Tagihan Santri End --}}
 
 
