@@ -5,10 +5,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
 use App\Http\Controllers\Santri\SantriController;
 use App\Http\Controllers\Santri\TagihanSantriController;
 use App\Http\Controllers\Setting\JilidController;
 use App\Http\Controllers\Setting\KelasController;
+use App\Http\Controllers\Setting\RaporController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Setting\TagihanController;
 use App\Models\Tagihan;
@@ -101,14 +103,26 @@ Route::middleware('auth')->group(function () {
     });
 
 
+    Route::prefix('rapor')->group(function () {
+        Route::get('/', [RaporRaporController::class, 'index'])->name('rapor.index');
+    });
+
+
     // Settings Route
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/setting/jilid/store', [JilidController::class, 'store'])->name('setting.store_jilid');
     Route::patch('/setting/jilid/{id}/update', [JilidController::class, 'update'])->name('setting.update_jilid');
     Route::delete('/setting/jilid/{id}/destroy', [JilidController::class, 'destroy'])->name('setting.destroy_jilid');
+
     Route::post('/kelas/store', [KelasController::class, 'store'])->name('setting.store_kelas');
     Route::patch('/kelas/{id}/update', [KelasController::class, 'update'])->name('setting.update_kelas');
     Route::delete('/kelas/{id}/destroy', [KelasController::class, 'destroy'])->name('setting.destroy_kelas');
+
+    Route::post('/setting/rapor', [RaporController::class, 'store'])->name('setting.store_rapor');
+    Route::patch('/setting/rapor/{id}/update', [RaporController::class, 'update'])->name('setting.update_rapor');
+    Route::delete('/setting/rapor/{id}/destroy', [RaporController::class, 'destroy'])->name('setting.destroy_rapor');
+
+
 
 
 

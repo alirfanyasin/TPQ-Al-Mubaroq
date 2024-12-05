@@ -68,7 +68,7 @@
           <li
             class="sidebar-item  {{ Request::is('class') ? 'active' : '' }} {{ Request::is('class/*') ? 'active' : '' }}">
             <a href="{{ route('class.index') }}" class='sidebar-link'>
-              <i class="bi bi-people"></i>
+              <i class="bi bi-box"></i>
               <span>Kelas</span>
             </a>
           </li>
@@ -100,8 +100,9 @@
             </ul>
           </li>
         @endrole
-        <li class="sidebar-item">
-          <a href="" class='sidebar-link'>
+        <li
+          class="sidebar-item {{ Request::is('rapor') ? 'active' : '' }} {{ Request::is('rapor/*') ? 'active' : '' }}">
+          <a href="{{ route('rapor.index') }}" class='sidebar-link'>
             <i class="bi bi-file-earmark-text"></i>
             <span>Rapor</span>
           </a>
