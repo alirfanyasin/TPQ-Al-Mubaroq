@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use Database\Seeders\Rapor\SemesterSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call([SantriSeeder::class]);
         $this->call([TagihanSeeder::class]);
         $this->call([JilidSeeder::class]);
+        $this->call([SemesterSeeder::class]);
     }
 }
