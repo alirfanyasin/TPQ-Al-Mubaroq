@@ -7,6 +7,7 @@ use App\Models\Asatidz;
 use App\Models\Jilid;
 use App\Models\Kelas;
 use App\Models\Rapor\Rapor;
+use App\Models\Rapor\RaporItem;
 use App\Models\Tagihan;
 use Illuminate\Http\Request;
 
@@ -18,14 +19,14 @@ class SettingController extends Controller
         $dataJilid = Jilid::orderBy('nama', 'ASC')->get();
         $dataAsatidz = Asatidz::select('id', 'nama_lengkap')->get();
         $dataKelas = Kelas::orderBy('nama', 'ASC')->get();
-        // $dataRapor = Rapor::orderBy('tahun_ajaran')->get();
+        $dataRaporItem = RaporItem::orderBy('jilid_id', 'ASC')->get();
         return view('pages.settings', [
             'title' => 'Settings',
             'dataTagihanSantri' => $dataTagihanSantri,
             'dataJilid' => $dataJilid,
             'dataAsatidz' => $dataAsatidz,
             'dataKelas' => $dataKelas,
-            // 'dataRapor' => $dataRapor
+            'dataRaporItem' => $dataRaporItem
         ]);
     }
 }

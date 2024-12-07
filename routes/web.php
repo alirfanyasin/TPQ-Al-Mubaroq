@@ -11,6 +11,7 @@ use App\Http\Controllers\Santri\TagihanSantriController;
 use App\Http\Controllers\Setting\JilidController;
 use App\Http\Controllers\Setting\KelasController;
 use App\Http\Controllers\Setting\RaporController;
+use App\Http\Controllers\Setting\RaporItemController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Setting\TagihanController;
 use App\Models\Tagihan;
@@ -108,6 +109,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-semeter', [RaporRaporController::class, 'update_semeter'])->name('rapor.update_semeter');
         // Route::patch('/{id}/update', [RaporRaporController::class, 'update'])->name('rapor.update');
         // Route::delete('/{id}/destroy', [RaporRaporController::class, 'destroy'])->name('rapor.destroy');
+
     });
 
 
@@ -124,6 +126,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/setting/rapor', [RaporController::class, 'store'])->name('setting.store_rapor');
     Route::patch('/setting/rapor/{id}/update', [RaporController::class, 'update'])->name('setting.update_rapor');
     Route::delete('/setting/rapor/{id}/destroy', [RaporController::class, 'destroy'])->name('setting.destroy_rapor');
+
+    Route::post('/setting/store/item-rapor', [RaporItemController::class, 'store'])->name('setting.rapor.store_item');
+    Route::delete('/setting/{id}/destroy/item-rapor', [RaporItemController::class, 'destroy'])->name('setting.rapor.destroy_item');
+    Route::patch('/setting/{id}/update/item-rapor', [RaporItemController::class, 'update'])->name('setting.rapor.update_item');
+
+
 
 
 

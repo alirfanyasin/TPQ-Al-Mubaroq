@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rapor_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->foreignId('rapor_id')->nullable()->constrained();
-            $table->foreignId('semester_id')->nullable()->constrained();
-            $table->foreignId('jilid_id')->nullable()->constrained();
-            $table->timestamps();
-        });
+        // Schema::create('rapor_categories', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('nama');
+        //     $table->foreignId('rapor_id')->nullable()->constrained();
+        //     $table->foreignId('semester_id')->nullable()->constrained();
+        //     $table->foreignId('jilid_id')->nullable()->constrained();
+        //     $table->timestamps();
+        // });
     }
 
     /**

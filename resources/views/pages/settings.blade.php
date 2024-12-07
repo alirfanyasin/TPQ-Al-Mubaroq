@@ -48,7 +48,7 @@
                 aria-selected="false">Pengaturan Kelas</a>
 
               <a class="nav-link" id="kelas-tab" data-bs-toggle="pill" href="#rapor" role="tab" aria-controls="rapor"
-                aria-selected="false">Pengaturan Rapor</a>
+                aria-selected="false">Pengaturan Item Penilaian Rapor</a>
 
             </div>
           </div>
@@ -384,7 +384,7 @@
               {{-- Kelas End --}}
 
               {{-- Rapor Start --}}
-              {{-- @include('pages.setting_section.rapor') --}}
+              @include('pages.setting_section.rapor_item')
               {{-- Rapor End --}}
             </div>
           </div>
