@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Rapor\Rapor;
 use App\Models\Rapor\RaporCategory;
+use App\Models\Rapor\RaporItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -32,14 +33,13 @@ class Jilid extends Model
         return $this->hasMany(Rapor::class, 'jilid_id');
     }
 
-
     /**
-     * Get all of the raporCategory for the Jilid
+     * Get all of the raporItem for the Jilid
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function raporCategory(): HasMany
+    public function raporItem(): HasMany
     {
-        return $this->hasMany(RaporCategory::class, 'jilid_id');
+        return $this->hasMany(RaporItem::class, 'jilid_id');
     }
 }

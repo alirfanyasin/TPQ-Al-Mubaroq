@@ -105,10 +105,9 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('rapor')->group(function () {
         Route::get('/', [RaporRaporController::class, 'index'])->name('rapor.index');
-        Route::post('/store', [RaporRaporController::class, 'store'])->name('rapor.store');
-        Route::patch('/{id}/update', [RaporRaporController::class, 'update'])->name('rapor.update');
-        Route::delete('/{id}/destroy', [RaporRaporController::class, 'destroy'])->name('rapor.destroy');
-        Route::get('/category', [RaporRaporController::class, 'category'])->name('rapor.category');
+        Route::post('/update-semeter', [RaporRaporController::class, 'update_semeter'])->name('rapor.update_semeter');
+        // Route::patch('/{id}/update', [RaporRaporController::class, 'update'])->name('rapor.update');
+        // Route::delete('/{id}/destroy', [RaporRaporController::class, 'destroy'])->name('rapor.destroy');
     });
 
 

@@ -148,7 +148,7 @@
                 </select>
               </fieldset>
               <fieldset class="form-group">
-                <label for="nama-asatidz">Pilih Nama Asatidz</label>
+                <label for="nama-asatidz">Pilih Nama Asatidz (Wali Kelas)</label>
                 <select class="form-select" id="nama-asatidz" name="asatidz_id" required>
                   @foreach ($dataAsatidz as $data)
                     <option value="{{ $data->id }}">{{ $data->nama_lengkap }}</option>

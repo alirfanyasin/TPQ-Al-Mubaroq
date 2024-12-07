@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Class;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
+use App\Models\Rapor\Rapor;
+use App\Models\Rapor\RaporItem;
 use App\Models\Santri;
 use Illuminate\Http\Request;
 
@@ -44,6 +46,9 @@ class ClassController extends Controller
             if ($santri) {
                 $santri->update(['kelas_id' => $kelasId]);
             }
+            // Menambahkan rapor untuk santri
+            $rapor = Rapor::create(['santri_id' => $santriId, 'jilid_id' => $santri->kelas->jilid_id]);
+            RaporItem::create(['rapor_id' => $rapor->id, 'jilid_id' => $santri->kelas->jilid_id]);
         }
         return redirect()->route('class.index')->with('success', 'Santri berhasil di-enroll.');
     }
@@ -56,6 +61,7 @@ class ClassController extends Controller
         ]);
         $santriIds = $request->selected_santri;
         Santri::whereIn('id', $santriIds)->update(['kelas_id' => NULL]);
+        Rapor::whereIn('santri_id', $santriIds)->delete();
         return redirect()->route('class.index')->with('success', 'Santri berhasil dikeluarkan.');
     }
 }

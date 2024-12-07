@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rapors', function (Blueprint $table) {
+        Schema::create('rapor_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('santri_id')->nullable()->constrained();
+            $table->string('nama');
+            $table->foreignId('rapor_id')->nullable()->constrained();
             $table->foreignId('semester_id')->nullable()->constrained();
             $table->foreignId('jilid_id')->nullable()->constrained();
             $table->timestamps();
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rapors');
+        Schema::dropIfExists('rapor_categories');
     }
 };

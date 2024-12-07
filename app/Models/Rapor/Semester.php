@@ -19,4 +19,14 @@ class Semester extends Model
     {
         return $this->hasMany(Rapor::class, 'semester_id');
     }
+
+    /**
+     * Get all of the raporItem for the Semester
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function raporItem(): HasMany
+    {
+        return $this->hasMany(RaporItem::class, 'semester_id');
+    }
 }

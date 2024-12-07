@@ -18,14 +18,14 @@ class SettingController extends Controller
         $dataJilid = Jilid::orderBy('nama', 'ASC')->get();
         $dataAsatidz = Asatidz::select('id', 'nama_lengkap')->get();
         $dataKelas = Kelas::orderBy('nama', 'ASC')->get();
-        $dataRapor = Rapor::orderBy('tahun_ajaran')->get();
+        // $dataRapor = Rapor::orderBy('tahun_ajaran')->get();
         return view('pages.settings', [
             'title' => 'Settings',
             'dataTagihanSantri' => $dataTagihanSantri,
             'dataJilid' => $dataJilid,
             'dataAsatidz' => $dataAsatidz,
             'dataKelas' => $dataKelas,
-            'dataRapor' => $dataRapor
+            // 'dataRapor' => $dataRapor
         ]);
     }
 }

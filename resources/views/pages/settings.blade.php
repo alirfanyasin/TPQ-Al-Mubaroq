@@ -384,7 +384,7 @@
               {{-- Kelas End --}}
 
               {{-- Rapor Start --}}
-              @include('pages.setting_section.rapor')
+              {{-- @include('pages.setting_section.rapor') --}}
               {{-- Rapor End --}}
             </div>
           </div>

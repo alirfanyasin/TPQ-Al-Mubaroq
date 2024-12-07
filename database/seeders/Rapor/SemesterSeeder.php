@@ -13,11 +13,12 @@ class SemesterSeeder extends Seeder
      */
     public function run(): void
     {
-        Semester::create([
-            'nama' => 'Genap'
-        ]);
+
         Semester::create([
             'nama' => 'Ganjil'
+        ]);
+        Semester::create([
+            'nama' => 'Genap'
         ]);
     }
 }

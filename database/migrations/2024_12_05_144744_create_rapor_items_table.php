@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('rapor_items', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->unsignedInteger('nilai');
-            $table->foreignId('rapor_id')->constrained();
+            $table->string('nama')->nullable();
+            $table->unsignedInteger('nilai')->nullable();
+            $table->foreignId('rapor_category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('semester_id')->nullable()->constrained();
+            $table->foreignId('jilid_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

@@ -1,9 +1,9 @@
 @extends('layouts.auth')
 @section('auth-content')
   <div id="auth-left">
-    <div class="auth-logo">
+    {{-- <div class="auth-logo">
       <a href="index.html"><img src="/template/assets/images/logo/logo.svg" alt="Logo"></a>
-    </div>
+    </div> --}}
     <h1 class="auth-title">Log in.</h1>
     <p class="mb-5 auth-subtitle">Selamat Datang Di TPQ AL-Mubarok.</p>
 
