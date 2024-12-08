@@ -70,7 +70,7 @@
                                 @enderror
                               </div>
                               <fieldset class="form-group">
-                                <label for="jenis_penilaian">Pilih Nama Jilid</label>
+                                <label for="jenis_penilaian">Pilih Jenis Penilaian</label>
                                 <select class="form-select" id="jenis_penilaian" name="jenis_penilaian" required>
                                   <option value="BACA TULIS AL-QURAN">BACA TULIS AL-QURAN</option>
                                   <option value="HAFALAN DOA HARIAN">HAFALAN DOA HARIAN</option>
@@ -84,7 +84,7 @@
                                 @enderror
                               </fieldset>
                               <fieldset class="form-group">
-                                <label for="nama-jilid">Pilih Jenis Penilaian</label>
+                                <label for="nama-jilid">Pilih Nama Jilid</label>
                                 <select class="form-select" id="nama-jilid" name="jilid_id" required>
                                   @foreach ($dataJilid as $jilid)
                                     <option value="{{ $jilid->id }}"
@@ -158,7 +158,7 @@
                 @enderror
               </div>
               <fieldset class="form-group">
-                <label for="jenis_penilaian">Pilih Nama Jilid</label>
+                <label for="jenis_penilaian">Pilih Jenis Penialaian</label>
                 <select class="form-select" id="jenis_penilaian" name="jenis_penilaian" required>
                   <option value="BACA TULIS AL-QURAN">BACA TULIS AL-QURAN</option>
                   <option value="HAFALAN DOA HARIAN">HAFALAN DOA HARIAN</option>
@@ -172,7 +172,7 @@
                 @enderror
               </fieldset>
               <fieldset class="form-group">
-                <label for="nama-jilid">Pilih Jenis Penialaian</label>
+                <label for="nama-jilid">Pilih Nama Jilid</label>
                 <select class="form-select" id="nama-jilid" name="jilid_id" required>
                   @foreach ($dataJilid as $data)
                     <option value="{{ $data->id }}">{{ $data->nama }}</option>

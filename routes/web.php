@@ -109,7 +109,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-semeter', [RaporRaporController::class, 'update_semeter'])->name('rapor.update_semeter');
         // Route::patch('/{id}/update', [RaporRaporController::class, 'update'])->name('rapor.update');
         // Route::delete('/{id}/destroy', [RaporRaporController::class, 'destroy'])->name('rapor.destroy');
-
+        Route::post('/{id}/generate-item-penilaian', [RaporRaporController::class, 'generate_item_penilaian'])->name('rapor.generate_item_penilaian');
+        Route::get('/{id}/item-penilaian', [RaporRaporController::class, 'item_penilaian'])->name('rapor.item_penilaian');
+        Route::patch('/{id}/simpan-nilai', [RaporRaporController::class, 'simpan_nilai'])->name('rapor.simpan_nilai');
     });
 
 

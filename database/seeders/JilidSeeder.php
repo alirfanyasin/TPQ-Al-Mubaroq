@@ -13,9 +13,20 @@ class JilidSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 7; $i++) {
+        $dataJilid = [
+            "Pra",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "Qur'an",
+        ];
+
+        foreach ($dataJilid as $jilid) {
             Jilid::create([
-                'nama' => $i
+                'nama' => $jilid
             ]);
         }
     }

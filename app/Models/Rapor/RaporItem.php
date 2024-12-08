@@ -5,6 +5,7 @@ namespace App\Models\Rapor;
 use App\Models\Jilid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class RaporItem extends Model
 {
@@ -38,5 +39,16 @@ class RaporItem extends Model
     public function jilid(): BelongsTo
     {
         return $this->belongsTo(Jilid::class, 'jilid_id');
+    }
+
+
+    /**
+     * Get all of the raporNilai for the RaporItem
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function raporNilai(): HasMany
+    {
+        return $this->hasMany(RaporNilai::class, 'rapor_item_id');
     }
 }

@@ -53,4 +53,15 @@ class Rapor extends Model
     {
         return $this->hasMany(RaporItem::class, 'rapor_id');
     }
+
+
+    /**
+     * Get all of the raporNilai for the Rapor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function raporNilai(): HasMany
+    {
+        return $this->hasMany(RaporNilai::class, 'rapor_id');
+    }
 }

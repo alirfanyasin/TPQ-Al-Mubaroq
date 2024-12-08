@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('rapors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('santri_id')->nullable()->constrained();
+            $table->foreignId('santri_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('semester_id')->nullable()->constrained();
-            $table->foreignId('jilid_id')->nullable()->constrained();
+            $table->foreignId('jilid_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

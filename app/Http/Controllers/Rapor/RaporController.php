@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Jilid;
 use App\Models\Rapor\Rapor;
 use App\Models\Rapor\RaporItem;
+use App\Models\Rapor\RaporNilai;
 use App\Models\Rapor\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -25,48 +26,62 @@ class RaporController extends Controller
     public function update_semeter(Request $request)
     {
         Rapor::query()->update(['semester_id' => $request->semester_id]);
-        RaporItem::query()->update(['semester_id' => $request->semester_id]);
         return redirect()->back()->with('success', 'Semester telah berhasil diperbarui.');
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'jilid_id' => 'required',
-    //         'semester_id' => 'required',
-    //         'jilid_id' => [
-    //             'required',
-    //             Rule::unique('rapors')->where(function ($query) use ($request) {
-    //                 return $query->where('semester_id', $request->semester_id)
-    //                     ->where('jilid_id', $request->jilid_id);
-    //             }),
-    //         ],
-    //     ], [
-    //         'jilid_id.unique' => 'Jilid dan semester sudah ada',
-    //         'jilid_id.required' => 'Jilid harus diisi.',
-    //         'semester_id.required' => 'Semester harus diisi.',
-    //     ]);
+    public function generate_item_penilaian(string $id)
+    {
+        $dataRapor = Rapor::findOrFail($id);
+        $raporItems = RaporItem::where('semester_id', $dataRapor->semester_id)
+            ->where('jilid_id', $dataRapor->jilid_id)
+            ->get();
 
-    //     Rapor::create($validated);
-    //     return redirect()->route('rapor.index')->with('success', 'Rapor berhasil ditambahkan');
-    // }
+        foreach ($raporItems as $item) {
+            $existingRaporNilai = RaporNilai::where('rapor_id', $id)
+                ->where('rapor_item_id', $item->id)
+                ->exists();
 
-    // public function update(Request $request, string $id)
-    // {
-    //     $data = Rapor::find($id);
-    //     $validated = $request->validate([
-    //         'tahun_ajaran' => 'required',
-    //     ]);
-    //     $validated['semester_id'] = $request->semester_id;
-    //     $data->update($validated);
-    //     return redirect()->route('rapor.index')->with('success', 'Rapor berhasil diupdate');
-    // }
+            if (!$existingRaporNilai) {
+                RaporNilai::create([
+                    'rapor_id' => $id,
+                    'rapor_item_id' => $item->id,
+                    'nilai' => 0.0,
+                ]);
+            }
+        }
 
-    // public function destroy(string $id)
-    // {
-    //     $data = Rapor::find($id);
-    //     $data->delete();
-    //     return redirect()->route('rapor.index')->with('success', 'Rapor berhasil dihapus');
-    // }
+        return redirect()->route('rapor.item_penilaian', ['id' => $id]);
+    }
 
+
+
+
+    public function item_penilaian(string $id)
+    {
+        $dataRapor = Rapor::find($id);
+        return view('pages.rapor.penilaian', [
+            'title' => 'Penilaian Rapor ' . $dataRapor->santri->nama_lengkap,
+            'datas' => RaporNilai::where('rapor_id', $id)->get(),
+            'rapor' => $dataRapor
+        ]);
+    }
+
+
+    public function simpan_nilai(Request $request, string $id)
+    {
+        // Validasi input
+        $request->validate([
+            'nilai.*' => 'required|numeric|min:0|max:100', // Contoh validasi nilai
+        ]);
+
+        // Iterasi nilai yang dikirim dari form
+        foreach ($request->nilai as $raporItemId => $nilai) {
+            // Perbarui nilai pada database
+            RaporNilai::where('id', $raporItemId)
+                ->where('rapor_id', $id)
+                ->update(['nilai' => $nilai]);
+        }
+
+        return redirect()->route('rapor.index')->with('success', 'Nilai berhasil disimpan.');
+    }
 }

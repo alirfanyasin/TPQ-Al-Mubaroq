@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Rapor\RaporItem;
 use Database\Seeders\Rapor\SemesterSeeder;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call([TagihanSeeder::class]);
         $this->call([JilidSeeder::class]);
         $this->call([SemesterSeeder::class]);
+        $this->call([RaporItemSeeder::class]);
     }
 }

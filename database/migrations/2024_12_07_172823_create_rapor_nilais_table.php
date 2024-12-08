@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('rapor_nilais', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rapor_id')->nullable()->constrained();
-            $table->foreignId('rapor_item_id')->nullable()->constrained();
-            $table->decimal('nilai');
+            $table->foreignId('rapor_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('rapor_item_id')->nullable()->constrained()->onDelete('cascade');
+            $table->decimal('nilai')->nullable();
             $table->timestamps();
         });
     }

@@ -20,11 +20,11 @@
       <div class="card">
         <div class="card-header">
           <button type="button" class="btn btn-primary icon icon-left" data-bs-toggle="modal"
-            data-bs-target="#changeSemesterModal"><i data-feather="plus"></i> Update Semester</button>
-          <a href="#" class="btn btn-secondary icon icon-left">
+            data-bs-target="#changeSemesterModal">Update Semester</button>
+          {{-- <a href="#" class="btn btn-secondary icon icon-left">
             <i class="bi bi-people"></i>
             Akun Asatidz
-          </a>
+          </a> --}}
           {{-- <div class="btn-group">
                 <div class="dropdown">
                   <button class="btn btn-success icon icon-left dropdown-toggle me-1" type="button"
@@ -64,7 +64,12 @@
                   <td>{{ $data->semester->nama ?? '-' }}</td>
                   <td>
                     <a href="" class="btn icon"><i class="bi bi-eye"></i></a>
-                    <a href="" class="btn btn-outline-primary">Nilai</a>
+                    <form action="{{ route('rapor.generate_item_penilaian', ['id' => $data->id]) }}" method="POST"
+                      class="d-inline">
+                      @csrf
+                      <button type="submit" class="btn btn-outline-primary">Nilai</button>
+                    </form>
+                    {{-- <a href="" class="btn btn-outline-primary">Nilai</a> --}}
 
                     {{-- <button type="button" class="btn d-inline-block icon" data-bs-toggle="modal"
                       data-bs-target="#editRaporModal{{ $data->id }}"><i class="bi bi-pencil"></i></button>
@@ -129,3 +134,11 @@
   </form>
   {{-- Modal update end --}}
 @endSection
+@push('css')
+  <link rel="stylesheet" href="/template/assets/extensions/simple-datatables/style.css">
+  <link rel="stylesheet" href="/template/assets/css/pages/simple-datatables.css">
+@endpush
+@push('js')
+  <script src="/template/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+  <script src="/template/assets/js/pages/simple-datatables.js"></script>
+@endpush

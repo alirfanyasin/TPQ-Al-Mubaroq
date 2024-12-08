@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama')->nullable();
             $table->string('jenis_penilaian')->nullable();
             $table->foreignId('semester_id')->nullable()->constrained();
-            $table->foreignId('jilid_id')->nullable()->constrained();
+            $table->foreignId('jilid_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
