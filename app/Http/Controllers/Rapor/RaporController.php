@@ -22,6 +22,64 @@ class RaporController extends Controller
             'jilids' => Jilid::all(),
         ]);
     }
+    public function show(string $id)
+    {
+        $dataRapor = Rapor::with(['raporNilai.raporItem', 'santri'])->findOrFail($id);
+
+        $groupedData = optional($dataRapor->raporNilai)->groupBy(fn($nilai) => optional($nilai->raporItem)->jenis_penilaian) ?? collect();
+
+        $totalNilai = $dataRapor->raporNilai ? $dataRapor->raporNilai->sum('nilai') : 0;
+        $totalRow = $dataRapor->raporNilai ? $dataRapor->raporNilai->count() : 0;
+
+        $average = $totalRow > 0 ? ($totalNilai / $totalRow) : 0;
+        $grade = match (true) {
+            $average >= 90 && $average <= 100 => 'A',
+            $average >= 80 && $average < 90 => 'B+',
+            $average >= 70 && $average < 80 => 'B',
+            $average >= 60 && $average < 70 => 'C',
+            $average < 60 => 'D',
+            default => null,
+        };
+
+        return view('pages.rapor.rapor_santri', [
+            'title' => 'Rapor Santri ' . optional($dataRapor->santri)->nama_lengkap,
+            'data' => $dataRapor,
+            'groupedData' => $groupedData,
+            'totalNilai' => $totalNilai,
+            'totalRow' => $totalRow,
+            'grade' => $grade,
+        ]);
+    }
+
+
+    public function print_one(string $id)
+    {
+        $dataRapor = Rapor::with(['raporNilai.raporItem', 'santri'])->findOrFail($id);
+
+        $groupedData = optional($dataRapor->raporNilai)->groupBy(fn($nilai) => optional($nilai->raporItem)->jenis_penilaian) ?? collect();
+
+        $totalNilai = $dataRapor->raporNilai ? $dataRapor->raporNilai->sum('nilai') : 0;
+        $totalRow = $dataRapor->raporNilai ? $dataRapor->raporNilai->count() : 0;
+
+        $average = $totalRow > 0 ? round($totalNilai / $totalRow) : 0;
+        $grade = match (true) {
+            $average >= 90 && $average <= 100 => 'A',
+            $average >= 80 && $average < 90 => 'B+',
+            $average >= 70 && $average < 80 => 'B',
+            $average >= 60 && $average < 70 => 'C',
+            $average < 60 => 'D',
+            default => null,
+        };
+
+        return view('pages.rapor.print_one', [
+            'title' => 'Rapor Santri | ' . $dataRapor->santri->nama_lengkap,
+            'data' => $dataRapor,
+            'groupedData' => $groupedData,
+            'totalNilai' => $totalNilai,
+            'totalRow' => $totalRow,
+            'grade' => $grade,
+        ]);
+    }
 
     public function update_semeter(Request $request)
     {

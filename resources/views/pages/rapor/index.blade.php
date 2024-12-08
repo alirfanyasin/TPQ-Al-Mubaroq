@@ -63,7 +63,8 @@
                   <td>{{ $data->jilid->nama ?? '-' }}</td>
                   <td>{{ $data->semester->nama ?? '-' }}</td>
                   <td>
-                    <a href="" class="btn icon"><i class="bi bi-eye"></i></a>
+                    <a href="{{ route('rapor.show', ['id' => $data->id]) }}" class="btn icon"><i
+                        class="bi bi-eye"></i></a>
                     <form action="{{ route('rapor.generate_item_penilaian', ['id' => $data->id]) }}" method="POST"
                       class="d-inline">
                       @csrf

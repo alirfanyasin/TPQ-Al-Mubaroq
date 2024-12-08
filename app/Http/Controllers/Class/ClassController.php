@@ -47,8 +47,7 @@ class ClassController extends Controller
                 $santri->update(['kelas_id' => $kelasId]);
             }
             // Menambahkan rapor untuk santri
-            $rapor = Rapor::create(['santri_id' => $santriId, 'jilid_id' => $santri->kelas->jilid_id]);
-            RaporItem::create(['rapor_id' => $rapor->id, 'jilid_id' => $santri->kelas->jilid_id]);
+            Rapor::create(['santri_id' => $santriId, 'jilid_id' => $santri->kelas->jilid_id]);
         }
         return redirect()->route('class.index')->with('success', 'Santri berhasil di-enroll.');
     }

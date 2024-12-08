@@ -112,6 +112,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/{id}/generate-item-penilaian', [RaporRaporController::class, 'generate_item_penilaian'])->name('rapor.generate_item_penilaian');
         Route::get('/{id}/item-penilaian', [RaporRaporController::class, 'item_penilaian'])->name('rapor.item_penilaian');
         Route::patch('/{id}/simpan-nilai', [RaporRaporController::class, 'simpan_nilai'])->name('rapor.simpan_nilai');
+        Route::get('/{id}/show', [RaporRaporController::class, 'show'])->name('rapor.show');
+        Route::get('/{id}/print-one', [RaporRaporController::class, 'print_one'])->name('rapor.print_one');
     });
 
 

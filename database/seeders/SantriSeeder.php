@@ -59,8 +59,8 @@ class SantriSeeder extends Seeder
                 'pekerjaan_ibu' => 'Pekerjaan Ibu ' . fake()->jobTitle(),
                 'penghasilan_ibu' => rand(1000000, 5000000),
                 'nomor_telepon_ibu' => '08123456789' . $i,
-                'foto_santri' => 'images/foto_santri/default.jpg',
-                'kk_santri' => 'images/kk_santri/default.jpg',
+                'foto_santri' => 'https://darunnajah.com/wp-content/uploads/2019/10/Santri-Darunnajah-1024x817.jpg',
+                'kk_santri' => 'https://lh6.googleusercontent.com/proxy/RLJbRNliZg8-7mGW0nqTsQbi3k6iY5EHPhfiTyqUJmqYJtHnxK6NJmXJEWme4Pym69gUfhDk-ThRsQiJYCcGQhpPjvDo',
                 'tanggal_masuk' => Carbon::now()->subMonths(rand(1, 12))->format('Y-m-d'),
             ]);
             dump('Santri ' . $data->nama_lengkap);
