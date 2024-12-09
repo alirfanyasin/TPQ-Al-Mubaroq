@@ -30,7 +30,7 @@
                 Import dan Export
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuExportImport">
-                <a class="dropdown-item" href="#">Import Data</a>
+                <a class="dropdown-item" href="{{ route('santri.donwload_template') }}">Import Data</a>
                 <a class="dropdown-item" href="{{ route('santri.export') }}">Export Data</a>
               </div>
             </div>

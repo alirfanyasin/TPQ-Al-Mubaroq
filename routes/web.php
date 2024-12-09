@@ -75,7 +75,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/payment', [TagihanSantriController::class, 'store'])->name('santri.store_payment');
 
         // Export 
-        Route::get('/export/all', [SantriController::class, 'export'])->name('santri.export');
+        Route::get('/export/excel', [SantriController::class, 'export'])->name('santri.export');
+
+        // Import
+        Route::get('/donwload_template', [SantriController::class, 'donwload_template'])->name('santri.donwload_template');
+        Route::post('/import', [SantriController::class, 'import'])->name('santri.import');
     });
 
     // Asatidz Route

@@ -63,7 +63,8 @@
                   <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>{{ $data->tempat_lahir }}, {{ date('d F Y', strtotime($data->tanggal_lahir)) }}</td>
+                    <td>{{ $data->tempat_lahir }}, {{ date('d F Y', strtotime($data->tanggal_lahir)) ?? 'Belum ada' }}
+                    </td>
                   </tr>
                   <tr>
                     <td>Jenis Kelamin</td>
@@ -103,7 +104,7 @@
                   <tr>
                     <td>Tanggal Masuk</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>{{ date('d F Y', strtotime($data->tanggal_masuk)) }}</td>
+                    <td>{{ date('d F Y', strtotime($data->tanggal_masuk)) ?? 'Belum ada' }}</td>
                   </tr>
                 </table>
               </div>
@@ -137,7 +138,7 @@
                   <tr>
                     <td>Kabupaten / Kota</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>{{ $data->koia_domisili }}</td>
+                    <td>{{ $data->kota_domisili }}</td>
                   </tr>
                 </table>
               </div>
@@ -195,7 +196,8 @@
                   <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>{{ $data->tempat_tinggal_ayah }}, {{ date('d F Y', strtotime($data->tanggal_lahir_ayah)) }}</td>
+                    <td>{{ $data->tempat_lahir_ayah }},
+                      {{ date('d F Y', strtotime($data->tanggal_lahir_ayah)) ?? 'Belum ada' }}</td>
                   </tr>
                   <tr>
                     <td>Agama</td>
@@ -244,7 +246,8 @@
                   <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>{{ $data->tempat_tinggal_ibu }}, {{ date('d F Y', strtotime($data->tanggal_lahir_ibu)) }}</td>
+                    <td>{{ $data->tempat_lahir_ibu }},
+                      {{ date('d F Y', strtotime($data->tanggal_lahir_ibu)) ?? 'Belum ada' }}</td>
                   </tr>
                   <tr>
                     <td>Agama</td>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Santri;
 
 use App\Exports\SantrisExport;
 use App\Http\Controllers\Controller;
+use App\Imports\SantrisImport;
 use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -627,5 +628,42 @@ class SantriController extends Controller
     public function export()
     {
         return Excel::download(new SantrisExport, 'santris.xlsx');
+    }
+
+    public function donwload_template()
+    {
+        return view('pages.import.import_santri', [
+            'title' => 'Template Import  Santri',
+
+        ]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ], [
+            'file.required' => 'File wajib diisi',
+            'file.mimes' => 'File wajib bertipe xlsx, xls, csv',
+            'file.max' => 'File maksimal 2 mb',
+        ]);
+
+        if (!$request->hasFile('file')) {
+            return back()->withErrors(['file' => 'File tidak ditemukan, pastikan Anda memilih file untuk diunggah.']);
+        }
+
+        $file = $request->file('file');
+
+        if (!$file->isValid()) {
+            return back()->withErrors(['file' => 'File tidak valid atau rusak.']);
+        }
+
+        try {
+            Excel::import(new SantrisImport, $file);
+        } catch (\Exception $e) {
+            return back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
+        }
+
+        return redirect('/santri')->with('success', 'Berhasil import data santri');
     }
 }
