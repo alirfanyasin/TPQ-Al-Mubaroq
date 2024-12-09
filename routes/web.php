@@ -100,6 +100,9 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{id}/update/document', [AsatidzController::class, 'update_document'])->name('asatidz.update_document');
         Route::delete('/{id}/destroy', [AsatidzController::class, 'destroy'])->name('asatidz.destroy');
         Route::get('/account', [AsatidzController::class, 'account'])->name('asatidz.account');
+
+        // Export
+        Route::get('/export/excel', [AsatidzController::class, 'export'])->name('asatidz.export');
     });
 
 

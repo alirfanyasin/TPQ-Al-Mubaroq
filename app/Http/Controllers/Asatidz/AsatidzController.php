@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Asatidz;
 
+use App\Exports\AsatidzExport;
 use App\Http\Controllers\Controller;
 use App\Jobs\CreateNewUserAfter;
 use App\Models\Asatidz;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AsatidzController extends Controller
 {
@@ -435,5 +437,11 @@ class AsatidzController extends Controller
         }
         $asatidz->delete();
         return redirect()->route('asatidz')->with('success', 'Data Asatidz berhasil dihapus!');
+    }
+
+
+    public function export()
+    {
+        return Excel::download(new AsatidzExport, 'asatidz.xlsx');
     }
 }
