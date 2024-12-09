@@ -152,13 +152,15 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col d-flex justify-content-end">
-              <a href="{{ route('rapor.print_one', ['id' => $data->id]) }}" target="_blank" class="btn btn-primary">Cetak
-                / Print</a>
+          @if (!$data->raporNilai->isEmpty())
+            <div class="row">
+              <div class="col d-flex justify-content-end">
+                <a href="{{ route('rapor.print_one', ['id' => $data->id]) }}" target="_blank"
+                  class="btn btn-primary">Cetak
+                  / Print</a>
+              </div>
             </div>
-          </div>
-
+          @endif
         </div>
       </div>
     </section>

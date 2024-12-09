@@ -61,7 +61,7 @@ class RaporController extends Controller
         $totalNilai = $dataRapor->raporNilai ? $dataRapor->raporNilai->sum('nilai') : 0;
         $totalRow = $dataRapor->raporNilai ? $dataRapor->raporNilai->count() : 0;
 
-        $average = $totalRow > 0 ? round($totalNilai / $totalRow) : 0;
+        $average = $totalRow > 0 ? ($totalNilai / $totalRow) : 0;
         $grade = match (true) {
             $average >= 90 && $average <= 100 => 'A',
             $average >= 80 && $average < 90 => 'B+',

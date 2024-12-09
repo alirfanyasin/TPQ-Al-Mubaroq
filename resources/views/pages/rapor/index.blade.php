@@ -19,25 +19,21 @@
     <section class="section">
       <div class="card">
         <div class="card-header">
-          <button type="button" class="btn btn-primary icon icon-left" data-bs-toggle="modal"
+
+          <button type="button" class="btn btn-primary icon icon-left me-1" data-bs-toggle="modal"
             data-bs-target="#changeSemesterModal">Update Semester</button>
-          {{-- <a href="#" class="btn btn-secondary icon icon-left">
-            <i class="bi bi-people"></i>
-            Akun Asatidz
-          </a> --}}
-          {{-- <div class="btn-group">
-                <div class="dropdown">
-                  <button class="btn btn-success icon icon-left dropdown-toggle me-1" type="button"
-                    id="dropdownMenuExportImport" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                    Import dan Export
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuExportImport">
-                    <a class="dropdown-item" href="#">Import Data</a>
-                    <a class="dropdown-item" href="#">Export Data</a>
-                  </div>
-                </div>
-              </div> --}}
+
+          <div class="d-inline-block">
+
+            <div class="input-group">
+              <button class="btn btn-success" type="button" id="button-print">Cetak</button>
+              <select class="form-select" name="kelas" aria-describedby="button-print">
+                <option value="Semua">Semua</option>
+                <option value="2A">Kelas 2A</option>
+                <option value="1A">Kelas 1A</option>
+              </select>
+            </div>
+          </div>
         </div>
         <div class="card-body">
           <table class="table table-striped" id="table1">
@@ -63,12 +59,15 @@
                   <td>{{ $data->jilid->nama ?? '-' }}</td>
                   <td>{{ $data->semester->nama ?? '-' }}</td>
                   <td>
-                    <a href="{{ route('rapor.show', ['id' => $data->id]) }}" class="btn icon"><i
-                        class="bi bi-eye"></i></a>
+                    <a href="{{ route('rapor.show', ['id' => $data->id]) }}" class="btn icon" data-bs-toggle="tooltip"
+                      data-bs-placement="top" title="Detail Rapor"><i class="bi bi-eye"></i></a>
+
                     <form action="{{ route('rapor.generate_item_penilaian', ['id' => $data->id]) }}" method="POST"
                       class="d-inline">
                       @csrf
-                      <button type="submit" class="btn btn-outline-primary">Nilai</button>
+
+                      <button type="submit" class="btn icon" data-bs-toggle="tooltip" data-bs-placement="top"
+                        title="Masukkan Nilai Rapor"><i class="bi bi-person-lines-fill"></i></button>
                     </form>
                     {{-- <a href="" class="btn btn-outline-primary">Nilai</a> --}}
 
