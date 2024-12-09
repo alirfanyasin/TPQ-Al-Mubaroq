@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Santri;
 
+use App\Exports\SantrisExport;
 use App\Http\Controllers\Controller;
 use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SantriController extends Controller
 {
@@ -619,5 +621,11 @@ class SantriController extends Controller
         }
         $santri->delete();
         return redirect()->route('santri')->with('success', 'Data Santri berhasil dihapus!');
+    }
+
+
+    public function export()
+    {
+        return Excel::download(new SantrisExport, 'santris.xlsx');
     }
 }

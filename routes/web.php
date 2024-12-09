@@ -73,6 +73,9 @@ Route::middleware('auth')->group(function () {
         Route::patch('/student-bill', [TagihanController::class, 'update'])->name('santri.student_bill');
         Route::get('/payment', [TagihanSantriController::class, 'index'])->name('santri.payment');
         Route::post('/payment', [TagihanSantriController::class, 'store'])->name('santri.store_payment');
+
+        // Export 
+        Route::get('/export/all', [SantriController::class, 'export'])->name('santri.export');
     });
 
     // Asatidz Route
