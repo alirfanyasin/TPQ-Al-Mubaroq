@@ -62,7 +62,7 @@
                   <tr>
                     <td>Tempat, Tanggal Lahir</td>
                     <td style="padding: 0 10px;">:</td>
-                    <td>{{ $data->tempat_lahir }}, {{ $data->tanggal_lahir }}</td>
+                    <td>{{ $data->tempat_lahir }}, {{ date('d F Y', strtotime($data->tanggal_lahir)) }}</td>
                   </tr>
                   <tr>
                     <td>Jenis Kelamin</td>
