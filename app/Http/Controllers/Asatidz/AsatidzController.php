@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Asatidz;
 
 use App\Exports\AsatidzExport;
 use App\Http\Controllers\Controller;
+use App\Imports\AsatidzImport;
 use App\Jobs\CreateNewUserAfter;
 use App\Models\Asatidz;
 use App\Models\User;
@@ -443,5 +444,42 @@ class AsatidzController extends Controller
     public function export()
     {
         return Excel::download(new AsatidzExport, 'asatidz.xlsx');
+    }
+
+    public function donwload_template()
+    {
+        return view('pages.import.import_asatidz', [
+            'title' => 'Template Import Asatidz'
+        ]);
+    }
+
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ], [
+            'file.required' => 'File wajib diisi',
+            'file.mimes' => 'File wajib bertipe xlsx, xls, csv',
+            'file.max' => 'File maksimal 2 mb',
+        ]);
+
+        if (!$request->hasFile('file')) {
+            return back()->withErrors(['file' => 'File tidak ditemukan, pastikan Anda memilih file untuk diunggah.']);
+        }
+
+        $file = $request->file('file');
+
+        if (!$file->isValid()) {
+            return back()->withErrors(['file' => 'File tidak valid atau rusak.']);
+        }
+
+        try {
+            Excel::import(new AsatidzImport, $file);
+        } catch (\Exception $e) {
+            return back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
+        }
+
+        return redirect('/asatidz')->with('success', 'Berhasil import data asatidz');
     }
 }

@@ -103,6 +103,9 @@ Route::middleware('auth')->group(function () {
 
         // Export
         Route::get('/export/excel', [AsatidzController::class, 'export'])->name('asatidz.export');
+        // Import
+        Route::get('/donwload_template', [AsatidzController::class, 'donwload_template'])->name('asatidz.donwload_template');
+        Route::post('/import', [AsatidzController::class, 'import'])->name('asatidz.import');
     });
 
 
