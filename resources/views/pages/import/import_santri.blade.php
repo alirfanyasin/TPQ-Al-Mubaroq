@@ -23,7 +23,7 @@
             <div class="card-body">
               <div class="mb-5 alert alert-warning"><i class="bi bi-exclamation-triangle"></i> Jika belum memiliki
                 template
-                untuk import data santri silahkan download terlebih dahulu dengan klik tombol <b>Download Template</b>.
+                untuk import data santri, silahkan download terlebih dahulu dengan klik tombol <b>Download Template</b>.
                 <br> <a href="{{ asset('storage/template_import/template_data_santri.xlsx') }}"
                   class="mt-3 btn btn-primary d-inline-block">Donwload Template</a>
               </div>
