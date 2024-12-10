@@ -12,7 +12,7 @@ class TagihanController extends Controller
     {
         $dataTagihan = Tagihan::find(1);
         $data = [
-            'tagihan_pembayaran' => $request->tagihan_pembayaran,
+            'tagihan_pendaftaran' => $request->tagihan_pendaftaran,
             'tagihan_bulanan' => $request->tagihan_bulanan,
             'tagihan_biaya_seragam' => $request->tagihan_biaya_seragam,
         ];

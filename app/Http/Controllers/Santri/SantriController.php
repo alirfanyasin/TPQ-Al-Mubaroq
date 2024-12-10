@@ -6,6 +6,10 @@ use App\Exports\SantrisExport;
 use App\Http\Controllers\Controller;
 use App\Imports\SantrisImport;
 use App\Models\Santri;
+use App\Models\Tagihan\Bulanan as TagihanBulanan;
+use App\Models\Tagihan\Pendaftaran as TagihanPendaftaran;
+use App\Models\Tagihan\Seragam as TagihanSeragam;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -124,6 +128,21 @@ class SantriController extends Controller
         } else {
             $santri = Santri::create($validatedData);
             session(['biodata_santri_id' => $santri->id]);
+
+            // Create tagihan
+            TagihanPendaftaran::create([
+                'status' => 'Belum Lunas',
+                'santri_id' => $santri->id
+            ]);
+            TagihanSeragam::create([
+                'status' => 'Belum Lunas',
+                'santri_id' => $santri->id
+            ]);
+            TagihanBulanan::create([
+                'status' => 'Belum Lunas',
+                'date' => Carbon::now()->format('M-Y'),
+                'santri_id' => $santri->id
+            ]);
         }
         session(['form_biodata_santri' => $validatedData]);
         return redirect()->route('santri.create_address');
