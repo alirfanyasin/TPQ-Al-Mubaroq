@@ -71,8 +71,10 @@ Route::middleware('auth')->group(function () {
 
         // Tagihan route
         Route::patch('/student-bill', [TagihanController::class, 'update'])->name('santri.student_bill');
-        Route::get('/payment', [TagihanSantriController::class, 'index'])->name('santri.payment');
+        Route::get('/payment', [TagihanSantriController::class, 'payment'])->name('santri.payment');
         Route::post('/payment', [TagihanSantriController::class, 'store'])->name('santri.store_payment');
+
+
 
         // Export 
         Route::get('/export/excel', [SantriController::class, 'export'])->name('santri.export');
@@ -81,6 +83,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/donwload_template', [SantriController::class, 'donwload_template'])->name('santri.donwload_template');
         Route::post('/import', [SantriController::class, 'import'])->name('santri.import');
     });
+
 
     // Asatidz Route
     Route::prefix('asatidz')->group(function () {
@@ -127,6 +130,15 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{id}/simpan-nilai', [RaporRaporController::class, 'simpan_nilai'])->name('rapor.simpan_nilai');
         Route::get('/{id}/show', [RaporRaporController::class, 'show'])->name('rapor.show');
         Route::get('/{id}/print-one', [RaporRaporController::class, 'print_one'])->name('rapor.print_one');
+    });
+
+
+
+    // Tagihan Route
+    Route::prefix('tagihan')->group(function () {
+        Route::get('/', [TagihanSantriController::class, 'index'])->name('tagihan.index');
+        Route::get('/{id}/pembayaran/{nama_lengkap}', [TagihanSantriController::class, 'pembayaran'])->name('tagihan.pembayaran');
+        Route::patch('/{id}/pembayaran', [TagihanSantriController::class, 'store_pembayaran'])->name('tagihan.store_pembayaran');
     });
 
 

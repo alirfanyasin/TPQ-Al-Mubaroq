@@ -6,6 +6,9 @@ use App\Models\Santri;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Tagihan\Bulanan as TagihanBulanan;
+use App\Models\Tagihan\Pendaftaran as TagihanPendaftaran;
+use App\Models\Tagihan\Seragam as TagihanSeragam;
 use Illuminate\Support\Str;
 
 class SantriSeeder extends Seeder
@@ -62,6 +65,19 @@ class SantriSeeder extends Seeder
                 'foto_santri' => 'https://darunnajah.com/wp-content/uploads/2019/10/Santri-Darunnajah-1024x817.jpg',
                 'kk_santri' => 'https://lh6.googleusercontent.com/proxy/RLJbRNliZg8-7mGW0nqTsQbi3k6iY5EHPhfiTyqUJmqYJtHnxK6NJmXJEWme4Pym69gUfhDk-ThRsQiJYCcGQhpPjvDo',
                 'tanggal_masuk' => Carbon::now()->subMonths(rand(1, 12))->format('Y-m-d'),
+            ]);
+            TagihanPendaftaran::create([
+                'status' => 'Belum Lunas',
+                'santri_id' => $data->id
+            ]);
+            TagihanSeragam::create([
+                'status' => 'Belum Lunas',
+                'santri_id' => $data->id
+            ]);
+            TagihanBulanan::create([
+                'status' => 'Belum Lunas',
+                'date' => Carbon::now()->format('M-Y'),
+                'santri_id' => $data->id
             ]);
             dump('Santri ' . $data->nama_lengkap);
         }

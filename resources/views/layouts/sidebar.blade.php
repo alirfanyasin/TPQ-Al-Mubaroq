@@ -73,8 +73,9 @@
             </a>
           </li>
 
-          <li class="sidebar-item">
-            <a href="#" class='sidebar-link'>
+          <li
+            class="sidebar-item {{ Request::is('tagihan') ? 'active' : '' }} {{ Request::is('tagihan/*') ? 'active' : '' }}">
+            <a href="{{ route('tagihan.index') }}" class='sidebar-link'>
               <i class="bi bi-people"></i>
               <span>Tagihan Santri</span>
             </a>
