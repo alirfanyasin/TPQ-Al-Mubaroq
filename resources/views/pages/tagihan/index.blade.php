@@ -19,7 +19,7 @@
     <section class="section">
       <div class="card">
         <div class="card-header">
-          <a href="{{ route('santri.create_biodata') }}" class="btn btn-primary icon icon-left">History Tagihan
+          <a href="{{ route('santri.history_tagihan_bulanan') }}" class="btn btn-primary icon icon-left">History Tagihan
             Bulanan</a>
           {{-- <div class="btn-group">
             <div class="dropdown">

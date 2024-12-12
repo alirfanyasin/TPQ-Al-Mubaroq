@@ -90,6 +90,38 @@ class TagihanSantriController extends Controller
     }
 
 
+    // public function history_tagihan_bulanan()
+    // {
+    //     $dataTagihanBulanan = Bulanan::orderBy('date', 'asc')->get();
+    //     return view('pages.tagihan.history_bulanan', [
+    //         'title' => 'History Tagihan Bulanan',
+    //         'datas' => $dataTagihanBulanan
+    //     ]);
+    // }
+
+    public function history_tagihan_bulanan(Request $request)
+    {
+        $bulan = $request->input('bulan');
+
+        // Jika bulan tidak dipilih atau dipilih "Semua", ambil semua data
+        if ($bulan === 'Semua' || !$bulan) {
+            $dataTagihanBulanan = Bulanan::orderBy('date', 'asc')->get();
+        } else {
+            // Filter berdasarkan bulan
+            $dataTagihanBulanan = Bulanan::whereMonth('date', $bulan)
+                ->orderBy('date', 'asc')
+                ->get();
+        }
+
+        return view('pages.tagihan.history_bulanan', [
+            'title' => 'History Tagihan Bulanan',
+            'datas' => $dataTagihanBulanan,
+            'bulan' => $bulan, // Untuk menampilkan bulan yang dipilih
+        ]);
+    }
+
+
+
 
     /**
      * Display a listing of the resource.
