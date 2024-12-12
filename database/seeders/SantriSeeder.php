@@ -76,7 +76,8 @@ class SantriSeeder extends Seeder
             ]);
             TagihanBulanan::create([
                 'status' => 'Belum Lunas',
-                'date' => Carbon::now()->format('M-Y'),
+                'date' => Carbon::now(),
+                // 'date' => '2024-11-11 22:45:02',
                 'santri_id' => $data->id
             ]);
             dump('Santri ' . $data->nama_lengkap);

@@ -10,20 +10,29 @@ use App\Models\Tagihan\Pendaftaran;
 use App\Models\Tagihan\Seragam;
 use App\Models\Tagihan\TagihanSantri as TagihanTagihanSantri;
 use App\Models\TagihanSantri;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TagihanSantriController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data = Santri::with(['tagihanPendaftaran', 'tagihanSeragam', 'tagihanBulanan'])->get();
 
-        return view('pages.santri.tagihan', [
+        $data = Santri::with(['tagihanPendaftaran', 'tagihanSeragam', 'tagihanBulanan' => function ($query) {
+            $query->orderBy('date', 'asc');
+        }])->get();
+
+        foreach ($data as $santri) {
+            $tagihanBulanIni = $santri->tagihanBulanan()->where('status', 'Belum Lunas')
+                ->whereMonth('date', Carbon::now()->month)
+                ->whereYear('date', Carbon::now()->year)
+                ->first();
+            $santri->tagihanBulanIni = $tagihanBulanIni;
+        }
+        return view('pages.tagihan.index', [
             'title' => 'Tagihan Santri',
             'datas' => $data
         ]);
@@ -33,10 +42,15 @@ class TagihanSantriController extends Controller
     {
         $data = Tagihan::find(1);
         $tagihanSantri = Santri::find($id);
-        return view('pages.santri.pembayaran_tagihan', [
+        $tagihanBulananSantri = Santri::find($id)->tagihanBulanan()
+            ->orderBy('date', 'desc')
+            ->first();
+
+        return view('pages.tagihan.pembayaran', [
             'title' => 'Pembayaran Santri ' . $nama_lengkap,
             'data' => $data,
-            'tagihanSantri' => $tagihanSantri
+            'tagihanSantri' => $tagihanSantri,
+            'tagihanBulananSantri' => $tagihanBulananSantri
         ]);
     }
 
@@ -45,23 +59,36 @@ class TagihanSantriController extends Controller
         $tagihan = Tagihan::find(1);
         $dataPendaftaran = Pendaftaran::where('santri_id', $id)->first();
         $dataSeragam = Seragam::where('santri_id', $id)->first();
-        $dataBulanan = Bulanan::where('santri_id', $id)->first();
+        $dataBulanan = Bulanan::where('santri_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();;
 
-        $updateTagihan = function ($data, $bayar, $totalTagihan) {
+        $updateTagihan = function ($data, $bayar, $totalTagihan, $santriId) {
             if ($data) {
                 $data->update([
                     'bayar' => $bayar,
                     'status' => $bayar >= $totalTagihan ? 'Lunas' : 'Belum Lunas'
                 ]);
+
+                // Tambahkan tagihan bulan berikutnya
+                if ($bayar >= $totalTagihan && $data instanceof Bulanan) {
+                    Bulanan::create([
+                        'date' => Carbon::parse($data->date)->addMonth(),
+                        'santri_id' => $santriId,
+                        'bayar' => 0,
+                        'status' => 'Belum Lunas'
+                    ]);
+                }
             }
         };
 
-        $updateTagihan($dataPendaftaran, $request->tagihan_pendaftaran, $tagihan->tagihan_pendaftaran);
-        $updateTagihan($dataSeragam, $request->tagihan_seragam, $tagihan->tagihan_biaya_seragam);
-        $updateTagihan($dataBulanan, $request->tagihan_bulanan, $tagihan->tagihan_bulanan);
+        $updateTagihan($dataPendaftaran, $request->tagihan_pendaftaran, $tagihan->tagihan_pendaftaran, $id);
+        $updateTagihan($dataSeragam, $request->tagihan_seragam, $tagihan->tagihan_biaya_seragam, $id);
+        $updateTagihan($dataBulanan, $request->tagihan_bulanan, $tagihan->tagihan_bulanan, $id);
 
         return redirect()->route('tagihan.index');
     }
+
 
 
     /**

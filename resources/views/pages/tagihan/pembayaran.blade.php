@@ -48,7 +48,7 @@
                   <div class="form-group">
                     <label for="pembayaran-awal-bulanan">Pembayaran Awal</label>
                     <input type="text" class="form-control" id="pembayaran-awal-bulanan" placeholder="Rp."
-                      name="tagihan_bulanan" value="{{ $tagihanSantri->tagihanBulanan->bayar }}">
+                      name="tagihan_bulanan" value="{{ $tagihanBulananSantri->bayar }}">
                   </div>
                 </div>
 

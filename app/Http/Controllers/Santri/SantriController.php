@@ -140,7 +140,7 @@ class SantriController extends Controller
             ]);
             TagihanBulanan::create([
                 'status' => 'Belum Lunas',
-                'date' => Carbon::now()->format('M-Y'),
+                'date' => Carbon::now(),
                 'santri_id' => $santri->id
             ]);
         }
