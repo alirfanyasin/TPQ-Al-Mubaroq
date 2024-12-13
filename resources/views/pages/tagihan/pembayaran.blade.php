@@ -41,7 +41,8 @@
                 </div>
 
                 <div class="mb-4">
-                  <h4>Biaya Bulanan</h4>
+                  <h4>Biaya Bulanan ({{ \Carbon\Carbon::parse($tagihanBulananSantri->date)->format('M-Y') }})
+                  </h4>
                   <p>Biaya bulanan sebesar <b>Rp. {{ number_format($data->tagihan_bulanan, 0, ',', '.') }}</b>, silahkan
                     input pembayaran santri
                     dibawah ini</p>
