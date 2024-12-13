@@ -62,10 +62,12 @@
                         class="bi bi-eye"></i></a>
                     <a href="{{ route('santri.edit_biodata', ['id' => $data->id]) }}" class="btn icon"><i
                         class="bi bi-pencil"></i></a>
+                    {{-- <a href="{{ route('santri.destroy', ['id' => $data->id]) }}" class="btn icon"
+                      data-confirm-delete="true"><i class="bi bi-trash"></i></a> --}}
                     <form action="{{ route('santri.destroy', ['id' => $data->id]) }}" method="POST" class="d-inline">
                       @csrf
                       @method('DELETE')
-                      <button class="btn icon"><i class="bi bi-trash"></i></button>
+                      <button class="btn icon" type="submit"><i class="bi bi-trash"></i></button>
                     </form>
                   </td>
                 </tr>

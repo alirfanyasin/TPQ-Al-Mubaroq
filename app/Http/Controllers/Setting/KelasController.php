@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class KelasController extends Controller
 {
@@ -21,7 +22,9 @@ class KelasController extends Controller
             'jilid_id' => $request->jilid_id,
             'asatidz_id' => $request->asatidz_id
         ]);
-        return redirect()->route('settings')->with('success', 'Kelas berhasil ditambahkan');
+        // Alert::success('Berhasil', 'Kelas berhasil ditambahkan', 'success');
+        toast('Kelas berhasil ditambahkan', 'success');
+        return redirect()->route('settings');
     }
 
 
@@ -33,13 +36,15 @@ class KelasController extends Controller
             'jilid_id' => $request->jilid_id,
             'asatidz_id' => $request->asatidz_id
         ]);
-        return redirect()->route('settings')->with('success', 'Kelas berhasil diupdate');
+        // Alert::success('Berhasil', 'Kelas berhasil diupdate', 'success');
+        toast('Kelas berhasil diupdate', 'success');
+        return redirect()->route('settings');
     }
 
     public function destroy(string $id)
     {
         $data = Kelas::find($id);
         $data->delete();
-        return redirect()->route('settings')->with('success', 'Kelas berhasil dihapus');
+        return redirect()->route('settings');
     }
 }
