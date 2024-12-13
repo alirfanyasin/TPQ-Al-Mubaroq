@@ -22,8 +22,8 @@ class KelasController extends Controller
             'jilid_id' => $request->jilid_id,
             'asatidz_id' => $request->asatidz_id
         ]);
-        // Alert::success('Berhasil', 'Kelas berhasil ditambahkan', 'success');
-        toast('Kelas berhasil ditambahkan', 'success');
+        Alert::success('Berhasil', 'Kelas berhasil ditambahkan', 'success');
+        // toast('Kelas berhasil ditambahkan', 'success');
         return redirect()->route('settings');
     }
 
@@ -36,8 +36,8 @@ class KelasController extends Controller
             'jilid_id' => $request->jilid_id,
             'asatidz_id' => $request->asatidz_id
         ]);
-        // Alert::success('Berhasil', 'Kelas berhasil diupdate', 'success');
-        toast('Kelas berhasil diupdate', 'success');
+        Alert::success('Berhasil', 'Kelas berhasil diupdate', 'success');
+        // toast('Kelas berhasil diupdate', 'success');
         return redirect()->route('settings');
     }
 

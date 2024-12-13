@@ -116,7 +116,7 @@ return [
     |  The default background is '#fff'.
     */
 
-    'background' => env('SWEET_ALERT_BACKGROUND', '#FFF'),
+    'background' => env('SWEET_ALERT_BACKGROUND', 'transparent'),
     // 'background' => session('theme', 'light') === 'dark'
     //     ? env('SWEET_ALERT_BACKGROUND', 'transparent')
     //     : env('SWEET_ALERT_BACKGROUND', '#fff'),
@@ -176,7 +176,7 @@ return [
 
     'button_text' => [
         'confirm' => env('SWEET_ALERT_CONFIRM_BUTTON_TEXT', 'OK'),
-        'cancel' => env('SWEET_ALERT_CANCEL_BUTTON_TEXT', 'Cancel'),
+        'cancel' => env('SWEET_ALERT_CANCEL_BUTTON_TEXT', 'Batal'),
     ],
 
     /*
