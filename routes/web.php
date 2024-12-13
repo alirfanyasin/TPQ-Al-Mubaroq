@@ -139,7 +139,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [TagihanSantriController::class, 'index'])->name('tagihan.index');
         Route::get('/{id}/pembayaran/{nama_lengkap}', [TagihanSantriController::class, 'pembayaran'])->name('tagihan.pembayaran');
         Route::patch('/{id}/pembayaran', [TagihanSantriController::class, 'store_pembayaran'])->name('tagihan.store_pembayaran');
-        // Route::get('/history-tagihan-bulanan', [TagihanSantriController::class, 'history_tagihan_bulanan'])->name('santri.history_tagihan_bulanan');
         Route::match(['get', 'post'], '/history-tagihan-bulanan', [TagihanSantriController::class, 'history_tagihan_bulanan'])->name('santri.history_tagihan_bulanan');
 
         // Route::post('/history-tagihan-bulanan', [TagihanSantriController::class, 'history_tagihan_bulanan'])->name('santri.history_tagihan_bulanan');
