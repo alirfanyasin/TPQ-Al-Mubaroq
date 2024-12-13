@@ -13,8 +13,13 @@
   <link rel="shortcut icon" href="/template/assets/images/logo/favicon.png" type="image/png">
   <link rel="stylesheet" href="/template/assets/css/shared/iconly.css">
   <link rel="stylesheet" href="/template/assets/extensions/sweetalert2/sweetalert2.min.css">
-
   @stack('css')
+  <style>
+    .swal2-popup {
+      background-color: white;
+      /* Default untuk mode terang */
+    }
+  </style>
 </head>
 
 <body>
@@ -39,6 +44,8 @@
   <script src="/template/assets/js/pages/sweetalert2.js"></script>>
 
   @stack('js')
+  @include('sweetalert::alert')
+
 
 </body>
 

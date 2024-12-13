@@ -20,6 +20,9 @@ class SettingController extends Controller
         $dataAsatidz = Asatidz::select('id', 'nama_lengkap')->get();
         $dataKelas = Kelas::orderBy('nama', 'ASC')->get();
         $dataRaporItem = RaporItem::orderBy('jilid_id', 'ASC')->get();
+
+        confirmDelete('Hapus Kelas', 'Apakah Anda yakin?');
+
         return view('pages.settings', [
             'title' => 'Settings',
             'dataTagihanSantri' => $dataTagihanSantri,
