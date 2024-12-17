@@ -24,15 +24,18 @@
             data-bs-target="#changeSemesterModal">Update Semester</button>
 
           <div class="d-inline-block">
-
-            <div class="input-group">
-              <button class="btn btn-success" type="button" id="button-print">Cetak</button>
-              <select class="form-select" name="kelas" aria-describedby="button-print">
-                <option value="Semua">Semua</option>
-                <option value="2A">Kelas 2A</option>
-                <option value="1A">Kelas 1A</option>
-              </select>
-            </div>
+            <form action="{{ route('rapor.print') }}" method="POST">
+              @csrf
+              <div class="input-group">
+                <button class="btn btn-success" type="submit" id="button-print">Cetak</button>
+                <select class="form-select" name="kelas" aria-describedby="button-print">
+                  <option value="semua">Semua</option>
+                  @foreach ($classes as $class)
+                    <option value="{{ $class->id }}">Kelas {{ $class->nama }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </form>
           </div>
         </div>
         <div class="card-body">
