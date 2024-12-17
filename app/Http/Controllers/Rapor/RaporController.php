@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Rapor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jilid;
+use App\Models\Kelas;
 use App\Models\Rapor\Rapor;
 use App\Models\Rapor\RaporItem;
 use App\Models\Rapor\RaporNilai;
 use App\Models\Rapor\Semester;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -20,6 +22,7 @@ class RaporController extends Controller
             'datas' => Rapor::orderBy('jilid_id', 'asc')->get(),
             'semesters' => Semester::all(),
             'jilids' => Jilid::all(),
+            'classes' => Kelas::orderBy('nama', 'asc')->get()
         ]);
     }
     public function show(string $id)
@@ -141,5 +144,22 @@ class RaporController extends Controller
         }
 
         return redirect()->route('rapor.index')->with('success', 'Nilai berhasil disimpan.');
+    }
+
+    public function print(Request $request)
+    {
+        if ($request->kelas === 'semua') {
+            $dataRapor = Rapor::with(['raporNilai.raporItem', 'santri.kelas.asatidz', 'jilid'])->get();
+        } else {
+            $dataRapor = Rapor::with(['raporNilai.raporItem', 'santri.kelas.asatidz', 'jilid'])
+                ->whereHas('santri.kelas', function ($query) use ($request) {
+                    $query->where('id', $request->kelas);
+                })->get();
+        }
+
+        return view('pages.rapor.print', [
+            'dataRapor' => $dataRapor, // Kirim semua data rapor
+            'title' => 'Rapor Santri',
+        ]);
     }
 }

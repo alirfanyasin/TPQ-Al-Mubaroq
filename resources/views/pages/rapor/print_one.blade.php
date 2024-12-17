@@ -90,7 +90,7 @@
         </tr>
       </table>
     </div>
-    <div class="col-6">
+    {{-- <div class="col-6">
       <p class="">Keterangan : </p>
       <table class="w-100">
         <tr>
@@ -119,8 +119,35 @@
           <td>59-0</td>
         </tr>
       </table>
+    </div> --}}
+  </div>
+
+  <p class="text-center fw-semibold" style="margin-top: 50px;">
+    "Sesungguhnya Kamilah yang menurunkan Al-Qur'an dan <br> pasti Kami (pula) yang memeliharanya." [Q.S Al-Hijr:9]
+  </p>
+
+
+  <div class="row" style="display: flex;">
+    <div class="text-center col-6">
+      <div style="margin-bottom: 40px"></div>
+      <p>Wali Kelas,</p>
+      <img
+        src="https://www.shutterstock.com/image-vector/fake-autograph-samples-handdrawn-signatures-260nw-2332469589.jpg"
+        width="200px" alt="Signature">
+      <p>{{ $data->santri->kelas->asatidz->nama_lengkap }}</p>
+    </div>
+    <div class="text-center col-6">
+      <p class="text-center">
+        Surabaya, {{ now()->format('d M Y') }}
+      </p>
+      <p>Ketua TPQ,</p>
+      <img
+        src="https://www.shutterstock.com/image-vector/fake-autograph-samples-handdrawn-signatures-260nw-2332469589.jpg"
+        width="200px" alt="Signature">
+      <p>{{ $data->santri->kelas->asatidz->nama_lengkap }}</p>
     </div>
   </div>
+
 
   <script src="/template/assets/js/bootstrap.js"></script>
   <script src="/template/assets/js/app.js"></script>

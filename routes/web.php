@@ -130,6 +130,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{id}/simpan-nilai', [RaporRaporController::class, 'simpan_nilai'])->name('rapor.simpan_nilai');
         Route::get('/{id}/show', [RaporRaporController::class, 'show'])->name('rapor.show');
         Route::get('/{id}/print-one', [RaporRaporController::class, 'print_one'])->name('rapor.print_one');
+        Route::post('/print', [RaporRaporController::class, 'print'])->name('rapor.print');
     });
 
 
