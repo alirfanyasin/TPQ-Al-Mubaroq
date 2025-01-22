@@ -25,7 +25,7 @@ class SantriSeeder extends Seeder
                 'nomor_induk' => 'NIS-' . $i,
                 'tempat_lahir' => fake()->address(),
                 'tanggal_lahir' => Carbon::now()->subYears(rand(10, 20))->format('Y-m-d'),
-                'jenis_kelamin' => $i % 2 == 0 ? 'Laki-laki' : 'Perempuan',
+                'jenis_kelamin' => $i % 2 == 0 ? 'Laki-Laki' : 'Perempuan',
                 'agama' => 'Islam',
                 'jenis_tempat_tinggal' => $i % 2 == 0 ? 'Rumah Orang Tua' : 'Asrama',
                 'anak_ke' => rand(1, 5),

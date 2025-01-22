@@ -31,6 +31,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     // Dashboard Route
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/edit', [DashboardController::class, 'edit'])->name('edit.dashboard');
+    Route::put('/{id}/update', [DashboardController::class, 'update'])->name('update.dashboard');
 
     // Santri Route
     Route::prefix('santri')->group(function () {
