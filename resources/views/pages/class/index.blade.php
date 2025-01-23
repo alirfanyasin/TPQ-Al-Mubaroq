@@ -110,13 +110,13 @@
     </div>
   </div>
 @endsection
-{{-- @push('css')
+@push('css')
   <link rel="stylesheet" href="/template/assets/extensions/simple-datatables/style.css">
   <link rel="stylesheet" href="/template/assets/css/pages/simple-datatables.css">
-@endpush --}}
+@endpush
 @push('js')
-  {{-- <script src="/template/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
-  <script src="/template/assets/js/pages/simple-datatables.js"></script> --}}
+  <script src="/template/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
+  <script src="/template/assets/js/pages/simple-datatables.js"></script>
 
   <script>
     document.getElementById('selectAll').addEventListener('click', function() {

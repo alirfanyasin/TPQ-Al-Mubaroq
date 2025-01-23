@@ -8,6 +8,7 @@ use App\Models\Rapor\Rapor;
 use App\Models\Rapor\RaporItem;
 use App\Models\Santri;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ClassController extends Controller
 {
@@ -49,6 +50,7 @@ class ClassController extends Controller
             // Menambahkan rapor untuk santri
             Rapor::create(['santri_id' => $santriId, 'jilid_id' => $santri->kelas->jilid_id]);
         }
+        Alert::success('Berhasil', 'Siswa berhasil dienroll', 'success');
         return redirect()->route('class.index')->with('success', 'Santri berhasil di-enroll.');
     }
 
@@ -61,6 +63,7 @@ class ClassController extends Controller
         $santriIds = $request->selected_santri;
         Santri::whereIn('id', $santriIds)->update(['kelas_id' => NULL]);
         Rapor::whereIn('santri_id', $santriIds)->delete();
+        Alert::success('Berhasil', 'Siswa berhasil keluarkan', 'success');
         return redirect()->route('class.index')->with('success', 'Santri berhasil dikeluarkan.');
     }
 }
