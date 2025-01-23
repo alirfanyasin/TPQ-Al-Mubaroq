@@ -3,7 +3,7 @@
   <div class="row">
     <div class="order-last col-12 col-md-6 order-md-1">
       <h3>Dashboard</h3>
-      <p class="text-subtitle text-muted">Halo, selamat datang John Ducky</p>
+      <p class="text-subtitle text-muted">Halo, selamat datang {{ auth()->user()->name }}</p>
     </div>
     <div class="order-first col-12 col-md-6 order-md-2">
       <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -20,7 +20,7 @@
     <section class="row">
       <div class="col-12 col-lg-9">
         <div class="row">
-          <div class="col-6 col-lg-3 col-md-6">
+          <div class="col-6 col-lg-4 col-md-6">
             <div class="card">
               <div class="px-4 card-body py-4-5">
                 <div class="row">
@@ -30,14 +30,15 @@
                     </div>
                   </div>
                   <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                    <h6 class="font-semibold text-muted">Profile Views</h6>
+                    <h6 class="font-semibold text-muted">Total Santri</h6>
                     <h6 class="mb-0 font-extrabold">112.000</h6>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-6 col-lg-3 col-md-6">
+
+          <div class="col-6 col-lg-4 col-md-6">
             <div class="card">
               <div class="px-4 card-body py-4-5">
                 <div class="row">
@@ -47,31 +48,15 @@
                     </div>
                   </div>
                   <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                    <h6 class="font-semibold text-muted">Followers</h6>
+                    <h6 class="font-semibold text-muted">Total Asatidz</h6>
                     <h6 class="mb-0 font-extrabold">183.000</h6>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-6 col-lg-3 col-md-6">
-            <div class="card">
-              <div class="px-4 card-body py-4-5">
-                <div class="row">
-                  <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                    <div class="mb-2 stats-icon green">
-                      <i class="iconly-boldAdd-User"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                    <h6 class="font-semibold text-muted">Following</h6>
-                    <h6 class="mb-0 font-extrabold">80.000</h6>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-6 col-lg-3 col-md-6">
+
+          <div class="col-6 col-lg-4 col-md-6">
             <div class="card">
               <div class="px-4 card-body py-4-5">
                 <div class="row">
@@ -81,7 +66,7 @@
                     </div>
                   </div>
                   <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                    <h6 class="font-semibold text-muted">Saved Post</h6>
+                    <h6 class="font-semibold text-muted">Total Kelas</h6>
                     <h6 class="mb-0 font-extrabold">112</h6>
                   </div>
                 </div>
