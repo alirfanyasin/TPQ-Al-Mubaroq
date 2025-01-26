@@ -81,7 +81,7 @@
             </a>
           </li>
           <li class="sidebar-item">
-            <a href="" class='sidebar-link'>
+            <a href="{{ route('gaji.asatidz.index') }}" class='sidebar-link'>
               <i class="bi bi-person-video3"></i>
               <span>Penggajian Asatidz</span>
             </a>

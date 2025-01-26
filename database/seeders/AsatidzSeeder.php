@@ -40,7 +40,14 @@ class AsatidzSeeder extends Seeder
                 'tanggal_lahir' => now()->subYears(rand(20, 40))->toDateString(),
                 'jenis_kelamin' => $i % 2 == 0 ? 'Laki-Laki' : 'Perempuan',
                 'agama' => 'Islam',
-                'jabatan' => 'Guru ' . Str::random(3),
+                'jabatan' => collect([
+                    'Pembina',
+                    'Kepala TPQ',
+                    'Sekretaris',
+                    'Bendahara',
+                    'Admin',
+                    'Pengajar'
+                ])->random(),
                 'npwp' => 'NPWP-' . mt_rand(1000, 9999),
                 'pendidikan_terakhir' => 'S1',
                 'jurusan' => 'Pendidikan ' . Str::random(3),

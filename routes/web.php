@@ -1,24 +1,26 @@
 <?php
 
-use App\Http\Controllers\Asatidz\AsatidzController;
+use App\Models\Tagihan;
+use App\Models\GajiAsatidz;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HariAktifController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Class\ClassController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
+use App\Http\Controllers\Setting\GajiController;
 use App\Http\Controllers\Santri\SantriController;
-use App\Http\Controllers\Santri\TagihanSantriController;
 use App\Http\Controllers\Setting\JilidController;
 use App\Http\Controllers\Setting\KelasController;
 use App\Http\Controllers\Setting\RaporController;
-use App\Http\Controllers\Setting\RaporItemController;
+use App\Http\Controllers\Asatidz\AbsensiController;
+use App\Http\Controllers\Asatidz\AsatidzController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Setting\TagihanController;
-use App\Models\Tagihan;
-use Illuminate\Support\Facades\Route;
-
-
-
+use App\Http\Controllers\Setting\RaporItemController;
+use App\Http\Controllers\Asatidz\GajiAsatidzController;
+use App\Http\Controllers\Santri\TagihanSantriController;
+use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
 
 // Before autentication
 Route::middleware('guest')->group(function () {
@@ -26,9 +28,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/autenticate', [LoginController::class, 'autenticate'])->name('autenticate');
 });
 
-
 // After autentication
 Route::middleware('auth')->group(function () {
+    // Hari Aktif
+    Route::get('/hari-aktif', [HariAktifController::class, 'index'])->name('asatidz.hari_aktif');
+    Route::put('/hari-aktif/update', [HariAktifController::class, 'update'])->name('hari_aktif.update');
+    
     // Dashboard Route
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/edit', [DashboardController::class, 'edit'])->name('edit.dashboard');
@@ -111,6 +116,9 @@ Route::middleware('auth')->group(function () {
         // Import
         Route::get('/donwload_template', [AsatidzController::class, 'donwload_template'])->name('asatidz.donwload_template');
         Route::post('/import', [AsatidzController::class, 'import'])->name('asatidz.import');
+
+        // Salary setting
+        Route::patch('/asatidz-salary', [GajiController::class, 'update'])->name('asatidz.salary');
     });
 
 
@@ -135,7 +143,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/print', [RaporRaporController::class, 'print'])->name('rapor.print');
     });
 
-
+    // Gaji Asatidz Route
+    Route::prefix('gaji-asatidz')->group(function () {
+        Route::match(['get', 'post'], '/', [GajiAsatidzController::class, 'index'])->name('gaji.asatidz.index');
+        Route::get('/{id}/edit', [GajiAsatidzController::class, 'edit'])->name('gaji-asatidz.edit');
+        Route::PATCH('/{id}/edit', [GajiAsatidzController::class, 'update'])->name('gaji-asatidz.update');
+        // Route::get('/{id}/show', [GajiAsatidzController::class, 'show'])->name('gaji-asatidz.show');
+        // Route::get('/{id}/print', [GajiAsatidzController::class, 'print'])->name('gaji-asatidz.print');
+        // Route::post('/print', [GajiAsatidzController::class, 'print'])->name('gaji-asatidz.print');
+    });
 
     // Tagihan Route
     Route::prefix('tagihan')->group(function () {
@@ -147,6 +163,12 @@ Route::middleware('auth')->group(function () {
         // Route::post('/history-tagihan-bulanan', [TagihanSantriController::class, 'history_tagihan_bulanan'])->name('santri.history_tagihan_bulanan');
     });
 
+    // Absensi Asatitdz
+    Route::match(['get', 'post'], '/absensi', [AbsensiController::class, 'index'])->name('absensi.index');
+    Route::get('/absensi/new', [AbsensiController::class, 'create'])->name('asatidz.create');
+    Route::post('/absensi/new', [AbsensiController::class, 'store'])->name('absensi.store');
+    Route::get('/absensi/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
+    Route::put('/absensi/{id}/edit', [AbsensiController::class, 'update'])->name('absensi.update');
 
     // Settings Route
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
@@ -165,14 +187,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/setting/store/item-rapor', [RaporItemController::class, 'store'])->name('setting.rapor.store_item');
     Route::delete('/setting/{id}/destroy/item-rapor', [RaporItemController::class, 'destroy'])->name('setting.rapor.destroy_item');
     Route::patch('/setting/{id}/update/item-rapor', [RaporItemController::class, 'update'])->name('setting.rapor.update_item');
-
-
-
-
-
-
-
-
 
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
