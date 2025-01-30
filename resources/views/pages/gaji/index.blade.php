@@ -62,12 +62,17 @@
             <table class="table table-striped" id="table1">
               <thead>
               <tr>
-                <th class="text-center">No</th>
-                <th class="text-center">Nama</th>
-                <th class="text-center">Status Keanggotaan</th>
-                <th class="text-center">Gaji Bulan Ini</th>
-                <th class="text-center">Total Jam Kerja</th>
-                <th class="text-center">Menu</th>
+                <th class="text-center" style="font-size: 0.9em;">No</th>
+                <th class="text-center" style="font-size: 0.9em;">Nama</th>
+                <th class="text-center" style="font-size: 0.9em;">Status Keanggotaan</th>
+                <th class="text-center" style="font-size: 0.9em;">Gaji Bulan Ini</th>
+                <th class="text-center" style="font-size: 0.9em;">Total Jam Kerja</th>
+                <th class="text-center" style="font-size: 0.9em;">Gaji Bruto</th>
+                <th class="text-center" style="font-size: 0.9em;">Gaji Tambahan</th>
+                <th class="text-center" style="font-size: 0.9em;">Gaji Lembur</th>
+                <th class="text-center" style="font-size: 0.9em;">Kabon</th>
+                <th class="text-center" style="font-size: 0.9em;">Sembako</th>
+                <th class="text-center" style="font-size: 0.9em;">Menu</th>
               </tr>
               </thead>
               <tbody>
@@ -92,10 +97,11 @@
                     }
                     
                     $total_gaji = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional + $lembur + $row->Gaji->extra + $setting->kenaikan - $row->Gaji->kasbon;
+                    $gaji_bruto = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional;
                   @endphp
                     <tr role="button" onclick="window.location.href='{{ route('asatidz.show', $row->id) }}'" style="cursor: pointer">
                     <td class="text-center">{{ $row->id }}</td>
-                    <td>{{ $row->nama_lengkap }}</td>
+                    <td style="font-size: 0.9em;">{{ $row->nama_lengkap }}</td>
                     <td class="status text-center">
                       @if ($row->status != 'Magang')
                       <span class="badge bg-success">Tetap</span>
@@ -114,14 +120,39 @@
                       @endphp
                       <span class="badge bg-primary">{{ $tot_sesi }}</span>
                     </td>
-                    <td class="edit text-center">
-                        <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); window.location.href='{{ route('gaji-asatidz.edit', $row->id) }}'" style="cursor: pointer">
-                      <i class="bi bi-pencil"></i>
-                      </button>
-                      {{-- <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); openModalNPA({{ $row->id }})" style="cursor: pointer">
-                      <i class="bi bi-trash"></i>
-                      </button> --}}
+                    <td class="mnony text-center">
+                      <span class="badge bg-primary">
+                      Rp. {{ number_format($gaji_bruto, 0, ',', '.') }}
+                      </span>
                     </td>
+                    <td class="mnony text-center">
+                      <span class="badge bg-primary">
+                      Rp. {{ number_format($row->Gaji->extra, 0, ',', '.') }}
+                      </span>
+                    </td>
+                    <td class="mnony text-center">
+                      <span class="badge bg-primary">
+                      Rp. {{ number_format($lembur, 0, ',', '.') }}
+                      </span>
+                    </td>
+                    <td class="mnony text-center">
+                      <span class="badge bg-primary">
+                      Rp. {{ number_format($row->kasbon, 0, ',', '.') }}
+                      </span>
+                    </td>
+                    <td class="mnony text-center">
+                      <span class="badge bg-primary">
+                      {{ ($row->Gaji->jumlah_hari_efektif / $totalHariAktif) * 100 > 80 ? 'YA' : 'TIDAK' }}
+                      </span>
+                    </td>
+                    <td class="edit text-center">
+                      <form action="{{ route('gaji-asatidz.edit', $row->id) }}" method="GET">
+                        <input type="hidden" name="bulan" value="{{ request('bulan', now()->format('F Y')) }}">
+                        <button class="btn btn-sm btn-primary" type="submit">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                      </form>
+                    </td>                  
                     </tr>
                 @endforeach
               </tbody>

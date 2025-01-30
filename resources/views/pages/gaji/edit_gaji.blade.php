@@ -24,6 +24,7 @@
         @method('PATCH')
       <div class="card">
         <div class="card-header">
+          <input type="hidden" name="bulan_filter" value="{{ $bulanFilter }}">
           <h4 class="card-title">Edit Gaji - {{ $asatidz->nama_lengkap }}</h4>
         </div>
         <hr>

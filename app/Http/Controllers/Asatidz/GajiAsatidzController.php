@@ -84,6 +84,7 @@ class GajiAsatidzController extends Controller
                 $total_bulan_ini += $asatidz->Gaji->gaji_bruto;
             }
         }
+        
         $total_bulan_ini = 'Rp. ' . number_format($total_bulan_ini, 0, ',', '.');
     
         // Total hadir hari ini
@@ -111,35 +112,56 @@ class GajiAsatidzController extends Controller
     }
     
 
-    public function show(Request $id)
-    {
-        $npa = $id->input('asatidz_id');
-        $asatidz = Asatidz::where('asatidz_id', $npa)->first();
-        $ttl = $asatidz->tanggal_lahir;
-        $umur = Carbon::parse($ttl)->age;
-        $bulan_ini = GajiAsatidzBulanan::where('asatidz_id', $npa)->where('tanggal', 'LIKE', Carbon::now()->format('Y-m').'%')->first();
-        $totalSesi = absensi::where('asatidz_id', $npa)->whereMonth('created_at', Carbon::now()->month)->sum('jumlah_sesi');
-        return view('asatidz.detail_asatidz', ['asatidz' => $asatidz, 'umur' => $umur, 'bulan_ini' => $bulan_ini, 'totalSesi' => $totalSesi]);
-    }
+    // public function show(Request $id)
+    // {
+    //     $npa = $id->input('asatidz_id');
+    //     $asatidz = Asatidz::where('asatidz_id', $npa)->first();
+    //     $ttl = $asatidz->tanggal_lahir;
+    //     $umur = Carbon::parse($ttl)->age;
+    //     $bulan_ini = GajiAsatidzBulanan::where('asatidz_id', $npa)->where('tanggal', 'LIKE', Carbon::now()->format('Y-m').'%')->first();
+    //     $totalSesi = absensi::where('asatidz_id', $npa)->whereMonth('created_at', Carbon::now()->month)->sum('jumlah_sesi');
+    //     return view('asatidz.detail_asatidz', ['asatidz' => $asatidz, 'umur' => $umur, 'bulan_ini' => $bulan_ini, 'totalSesi' => $totalSesi]);
+    // }
 
     public function edit(Request $request, $id)
     {
-        // Mengambil data asatidz dan gaji terbaru
-        $asatidz = Asatidz::with(['gaji' => function ($query) {
-            $query->orderBy('tanggal', 'desc'); // Sort by the latest date
+        // Ambil bulan yang difilter dari request atau gunakan default bulan ini
+        $bulanFilter = $request->input('bulan', Carbon::now()->format('Y m'));
+
+        $months = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+        
+        // Pastikan data hari aktif tersedia
+        $bulanFilterParts = explode(' ', $bulanFilter);
+        // dd($bulanFilter);
+        $bulanName = $bulanFilterParts[0];
+        $tahun = $bulanFilterParts[1];
+        $bulanIndex = array_search($bulanName, $months) + 1;
+        $formattedBulanFilter = Carbon::createFromDate($tahun, $bulanIndex, 1)->format('F Y');
+
+        // Ambil data asatidz
+        $asatidz = Asatidz::with(['gaji' => function ($query) use ($formattedBulanFilter) {
+            $query->whereYear('tanggal', Carbon::createFromFormat('F Y', $formattedBulanFilter)->year)
+                  ->whereMonth('tanggal', Carbon::createFromFormat('F Y', $formattedBulanFilter)->month)
+                  ->orderBy('tanggal', 'desc'); // Ambil data gaji berdasarkan bulan
         }])->findOrFail($id);
-        $gaji = $asatidz->Gaji->sortByDesc('tanggal')->first();
 
-        // Menghitung total hari aktif bulan ini
-        $hariAktif = HariAktif::where('bulan_tahun', 'like', '%' . Carbon::now()->format('F Y') . '%')->first();
-        $totalHariAktif = $hariAktif->jumlah_hari;
+        // Ambil data gaji bulan yang dipilih
+        $gaji = $asatidz->gaji->first(); // Ambil gaji terbaru sesuai filter
 
+        $hariAktif = HariAktif::where('bulan_tahun', 'like', '%' . $formattedBulanFilter . '%')->first();
+        $totalHariAktif = $hariAktif ? $hariAktif->jumlah_hari : 0;
+    
         return view('pages.gaji.edit_gaji', [
-            'asatidz' => $asatidz, 
+            'asatidz' => $asatidz,
             'gaji' => $gaji,
-            'hari_aktif_bulan_ini' => $totalHariAktif
+            'hari_aktif_bulan_ini' => $totalHariAktif,
+            'bulanFilter' => $bulanFilter
         ]);
     }
+    
 
     public function update(Request $request, $id)
     {
@@ -151,9 +173,21 @@ class GajiAsatidzController extends Controller
             'kasbon' => 'nullable|numeric',
         ]);
 
-        // Find the latest 'gaji' record for the given asatidz_id
+        // Ambil bulan yang difilter dari request atau gunakan default bulan ini
+        $bulanFilter = $request->bulan_filter;
+        $bulanFilterParts = explode(' ', $bulanFilter);
+        $bulanName = $bulanFilterParts[0];
+        $tahun = $bulanFilterParts[1];
+        $months = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+        $bulanIndex = array_search($bulanName, $months) + 1;
+
+        // Update data gaji asatidz
         $gaji = GajiAsatidzBulanan::where('asatidz_id', $id)
-            ->orderBy('tanggal', 'desc')
+            ->whereYear('tanggal', $tahun)
+            ->whereMonth('tanggal', $bulanIndex)
             ->firstOrFail();
 
         $gaji->update([
@@ -162,6 +196,7 @@ class GajiAsatidzController extends Controller
             'tunjangan_operasional' => $request->tunjangan_operasional,
             'extra' => $request->extra,
             'kasbon' => $request->kasbon,
+            'gaji_bruto' => $request->gaji_pokok + $request->tunjangan_jabatan + $request->tunjangan_operasional,
         ]);
 
         return redirect()->route('gaji.asatidz.index')->with('success', 'Data gaji berhasil diperbarui.');
