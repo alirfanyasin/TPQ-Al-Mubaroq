@@ -19,9 +19,10 @@
     <section class="section">
       <div class="card">
         <div class="card-header">
-          <a href="{{ route('santri.create_biodata') }}" class="btn btn-primary icon icon-left"><i
-              data-feather="plus"></i> Tambah
-            Santri</a>
+          <a href="{{ route('santri.create_biodata') }}" class="btn btn-primary icon icon-left">
+            <i data-feather="plus"></i>
+            Tambah Santri
+          </a>
           <div class="btn-group">
             <div class="dropdown">
               <button class="btn btn-success icon icon-left dropdown-toggle me-1" type="button"

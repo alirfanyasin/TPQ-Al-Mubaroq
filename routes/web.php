@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Route;
 // Before autentication
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/autenticate', [LoginController::class, 'autenticate'])->name('autenticate');
+    Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 });
 
 
