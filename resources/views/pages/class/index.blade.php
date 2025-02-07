@@ -47,7 +47,7 @@
       <div class="card">
         <div class="card-header">
           <h4>Santri Belum Memiliki Kelas</h4>
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enrollModal">Enroll</button>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enrollModal">Masukkan Ke Kelas</button>
         </div>
         <div class="card-body">
           <table class="table table-striped" id="table1">

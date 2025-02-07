@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Rapor\Rapor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -39,5 +40,16 @@ class Kelas extends Model
     public function santri(): HasMany
     {
         return $this->hasMany(Santri::class, 'kelas_id');
+    }
+
+
+    /**
+     * Get all of the rapor for the Kelas
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function rapor(): HasMany
+    {
+        return $this->hasMany(Rapor::class, 'kelas_id');
     }
 }
