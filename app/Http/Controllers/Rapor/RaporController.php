@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Rapor;
 
+use App\Exports\RaporExport;
 use App\Http\Controllers\Controller;
 use App\Models\Jilid;
 use App\Models\Kelas;
@@ -13,6 +14,8 @@ use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RaporController extends Controller
 {
@@ -177,5 +180,23 @@ class RaporController extends Controller
             'dataRapor' => $dataRapor, // Kirim semua data rapor
             'title' => 'Rapor Santri',
         ]);
+    }
+
+
+    public function export_rapor(Request $request)
+    {
+        $kelasId = $request->input('kelas_id');
+
+        if (!$kelasId) {
+            return redirect()->back()->withErrors(['kelas_id' => 'Kelas ID is required']);
+        }
+
+        // Mengambil kelas berdasarkan kelas_id
+        $kelas = Kelas::findOrFail($kelasId);
+
+        // Mengambil jilid_id dari relasi jilid pada model Kelas
+        $jilidId = $kelas->jilid->id;
+
+        return Excel::download(new RaporExport($jilidId, $kelasId), 'rapors.xlsx');
     }
 }
