@@ -23,7 +23,7 @@
           <button type="button" class="btn btn-primary icon icon-left" data-bs-toggle="modal"
             data-bs-target="#changeSemesterModal">Update Semester</button>
 
-          <a href="#" class="btn btn-secondary icon icon-left d-inline-block">Import</a>
+          <a href="{{ route('rapors.import-view') }}" class="btn btn-secondary icon icon-left d-inline-block">Import</a>
 
           {{-- <a href="{{ route('rapors.export') }}" class="btn btn-secondary icon icon-left d-inline-block">Export</a> --}}
 
@@ -51,7 +51,7 @@
                 <button class="btn btn-danger" type="submit" id="button-export">Export</button>
                 <select class="form-select" name="kelas_id" aria-describedby="button-export">
                   @foreach ($classes as $class)
-                    <option value="{{ $class->id }}">{{ $class->nama }}</option>
+                    <option value="{{ $class->id }}">Kelas {{ $class->nama }}</option>
                   @endforeach
                 </select>
               </div>
@@ -103,21 +103,16 @@
                     <a href="{{ route('rapor.show', ['id' => $data->id]) }}" class="btn icon" data-bs-toggle="tooltip"
                       data-bs-placement="top" title="Detail Rapor"><i class="bi bi-eye"></i></a>
 
-                    <form action="{{ route('rapor.generate_item_penilaian', ['id' => $data->id]) }}" method="POST"
+                    <a href="{{ route('rapor.item_penilaian', ['id' => $data->id]) }}" class="btn icon"
+                      data-bs-toggle="tooltip" data-bs-placement="top" title="Detail Rapor"><i
+                        class="bi bi-person-lines-fill"></i></a>
+
+                    {{-- <form action="{{ route('rapor.item_penilaian', ['id' => $data->id]) }}" method="POST"
                       class="d-inline">
                       @csrf
 
                       <button type="submit" class="btn icon" data-bs-toggle="tooltip" data-bs-placement="top"
                         title="Masukkan Nilai Rapor"><i class="bi bi-person-lines-fill"></i></button>
-                    </form>
-                    {{-- <a href="" class="btn btn-outline-primary">Nilai</a> --}}
-
-                    {{-- <button type="button" class="btn d-inline-block icon" data-bs-toggle="modal"
-                      data-bs-target="#editRaporModal{{ $data->id }}"><i class="bi bi-pencil"></i></button>
-                    <form action="{{ route('rapor.destroy', ['id' => $data->id]) }}" method="POST" class="d-inline">
-                      @csrf
-                      @method('DELETE')
-                      <button class="btn icon"><i class="bi bi-trash"></i></button>
                     </form> --}}
                   </td>
                 </tr>
