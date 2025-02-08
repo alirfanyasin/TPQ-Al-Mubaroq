@@ -13,6 +13,7 @@
   <link rel="shortcut icon" href="/template/assets/images/logo/favicon.png" type="image/png">
   <link rel="stylesheet" href="/template/assets/css/shared/iconly.css">
   <link rel="stylesheet" href="/template/assets/extensions/sweetalert2/sweetalert2.min.css">
+  {{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
   @stack('css')
   <style>
     .swal2-popup {

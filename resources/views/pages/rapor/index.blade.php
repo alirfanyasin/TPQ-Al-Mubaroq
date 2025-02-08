@@ -20,8 +20,43 @@
       <div class="card">
         <div class="card-header">
 
-          <button type="button" class="btn btn-primary icon icon-left me-1" data-bs-toggle="modal"
+          <button type="button" class="btn btn-primary icon icon-left" data-bs-toggle="modal"
             data-bs-target="#changeSemesterModal">Update Semester</button>
+
+          <a href="#" class="btn btn-secondary icon icon-left d-inline-block">Import</a>
+
+          {{-- <a href="{{ route('rapors.export') }}" class="btn btn-secondary icon icon-left d-inline-block">Export</a> --}}
+
+
+          {{-- <div class="d-inline-block">
+            <form action="" method="POST">
+              @csrf
+              <div class="input-group">
+                <button class="btn btn-danger" type="submit" id="button-export">Export</button>
+                <select class="form-select" name="kelas" aria-describedby="button-export">
+                  @foreach ($classes as $class)
+                    <option><a href="/export-rapors?jilid_id={{ $class->jilid->id }}&kelas_id={{ $class->id }}"
+                        class="btn btn-secondary icon icon-left d-inline-block">Export {{ $class->nama }}</a></option>
+                  @endforeach
+                </select>
+              </div>
+            </form>
+          </div> --}}
+
+
+          <div class="d-inline-block">
+            <form action="/rapor/export-rapors" method="GET">
+              @csrf
+              <div class="input-group">
+                <button class="btn btn-danger" type="submit" id="button-export">Export</button>
+                <select class="form-select" name="kelas_id" aria-describedby="button-export">
+                  @foreach ($classes as $class)
+                    <option value="{{ $class->id }}">{{ $class->nama }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </form>
+          </div>
 
           <div class="d-inline-block">
             <form action="{{ route('rapor.print') }}" method="POST">
@@ -37,6 +72,9 @@
               </div>
             </form>
           </div>
+
+
+
         </div>
         <div class="card-body">
           <table class="table table-striped" id="table1">

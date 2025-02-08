@@ -14,19 +14,21 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function autenticate(Request $request): RedirectResponse
+    public function authenticate(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
+        ], [
+            'username.required' => 'Username wajib diisi',
+            'password.required' => 'Password wajib diisi',
         ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             return redirect()->intended('/');
         }
 
-        return redirect('/login')->with(['errors' => 'Username atau Password Salah']);
+        return redirect()->route('login')->withErrors(['errors' => 'Username atau Password Salah']);
     }
 }
