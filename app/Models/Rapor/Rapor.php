@@ -3,6 +3,7 @@
 namespace App\Models\Rapor;
 
 use App\Models\Jilid;
+use App\Models\Kelas;
 use App\Models\Santri;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -63,5 +64,15 @@ class Rapor extends Model
     public function raporNilai(): HasMany
     {
         return $this->hasMany(RaporNilai::class, 'rapor_id');
+    }
+
+    /**
+     * Get the kelas that owns the Rapor
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function kelas(): BelongsTo
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 }

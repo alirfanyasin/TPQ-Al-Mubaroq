@@ -25,7 +25,7 @@ use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
 // Before autentication
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/autenticate', [LoginController::class, 'autenticate'])->name('autenticate');
+    Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 });
 
 // After autentication
@@ -141,6 +141,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/show', [RaporRaporController::class, 'show'])->name('rapor.show');
         Route::get('/{id}/print-one', [RaporRaporController::class, 'print_one'])->name('rapor.print_one');
         Route::post('/print', [RaporRaporController::class, 'print'])->name('rapor.print');
+
+        // Export
+        Route::get('/export-rapors', [RaporRaporController::class, 'export_rapor'])->name('rapors.export');
     });
 
     // Gaji Asatidz Route
