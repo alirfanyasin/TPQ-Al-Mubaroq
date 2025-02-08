@@ -7,21 +7,74 @@ use Carbon\Carbon;
 use App\Models\absensi;
 use App\Models\Asatidz;
 use App\Models\HariAktif;
+use App\Exports\GajiExport;
+use App\Imports\GajiImport;
+use App\Models\GajiAsatidz;
 use Illuminate\Http\Request;
 use App\Exports\ExportAsatidz;
 use App\Imports\ImportAsatidz;
 use App\Models\AbsensiHistory;
-use App\Http\Controllers\Controller;
 use App\Models\GajiAsatidzBulanan;
-use App\Models\GajiAsatidz;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 
 class GajiAsatidzController extends Controller
 {
+    public function gaji_month()
+    {
+        $asatidz = Asatidz::all();
+        $setting = GajiAsatidz::first();
+        $jabatan = [
+            'Pembina' => 75000,
+            'Kepala TPQ' => 50000,
+            'Sekretaris' => 25000,
+            'Bendahara' => 25000,
+            'Admin' => 25000,
+            'Pengajar' => 25000,
+        ];
+        $operasional = [
+            225000,
+            125000,
+            100000,
+            75000,
+            50000,
+            50000,
+            125000,
+            125000,
+            75000,
+            100000,
+            100000,
+            75000,
+            25000,
+        ];
+        $i = 0;
+        foreach ($asatidz as $asatid) {
+            $gaji_pokok = 0;
+            if ($asatid->status == 'Magang') {
+                $gaji_pokok = $setting->gaji_magang;
+            } else {
+                $gaji_pokok = $setting->gaji_tetap;
+            }
+            $gaji_bruto = $gaji_pokok + ($asatid->status == 'Magang' ? 0 : $jabatan[$asatid->jabatan]) + ($asatid->status == 'Tetap' ? $operasional[$i] : 0);
+            GajiAsatidzBulanan::factory()->create([
+                'asatidz_id' => $asatid->id,
+                'gaji_pokok' => $gaji_pokok,
+                'tunjangan_jabatan' => $jabatan[$asatid->jabatan],
+                'tunjangan_operasional' => ($asatid->status == 'Tetap' ? $operasional[$i] : 0),
+                'kenaikan' => ($asatid->status == 'Magang' ? 0 : 25000),
+                'gaji_bruto' => $gaji_bruto,
+                'tanggal' => Carbon::now()->format('Y-m-d'),
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+            $i++;
+        }
+    }
+
     public function checkDuplicate(Request $request)
     {
         $id = $request->input('asatidz_id');
@@ -202,7 +255,48 @@ class GajiAsatidzController extends Controller
         return redirect()->route('gaji.asatidz.index')->with('success', 'Data gaji berhasil diperbarui.');
     }
 
+    public function export()
+    {
+        return Excel::download(new GajiExport, 'gaji.xlsx');
+    }
 
+    public function donwload_template()
+    {
+        return view('pages.import.import_asatidz', [
+            'title' => 'Template Import Asatidz'
+        ]);
+    }
+
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+        ], [
+            'file.required' => 'File wajib diisi',
+            'file.mimes' => 'File wajib bertipe xlsx, xls, csv',
+            'file.max' => 'File maksimal 2 mb',
+        ]);
+
+        if (!$request->hasFile('file')) {
+            return back()->withErrors(['file' => 'File tidak ditemukan, pastikan Anda memilih file untuk diunggah.']);
+        }
+
+        $file = $request->file('file');
+
+        if (!$file->isValid()) {
+            return back()->withErrors(['file' => 'File tidak valid atau rusak.']);
+        }
+
+        try {
+            Excel::import(new GajiImport, $file);
+        } catch (\Exception $e) {
+            return back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
+        }
+
+        return redirect('/asatidz')->with('success', 'Berhasil import data asatidz');
+    }
+    
     // public function export()
     // {
     //     $export = new ExportAsatidz();
@@ -253,19 +347,3 @@ class GajiAsatidzController extends Controller
     //     redirect()->back();
     // }
 }
-
-
-
-// namespace App\Http\Controllers\Asatidz;
-
-// use Illuminate\Http\Request;
-// use App\Http\Controllers\Controller;
-
-// class GajiAsatidzController extends Controller
-// {
-//     //
-//     public function index()
-//     {
-//         return view('pages.gaji.index');
-//     }
-// }

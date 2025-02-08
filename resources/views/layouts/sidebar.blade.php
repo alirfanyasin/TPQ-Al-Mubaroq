@@ -90,13 +90,13 @@
             <a href="#" class='sidebar-link'>
               <i class="bi bi-person-check"></i>
               <span>Presensi</span>
-            </a>
+          </a>
             <ul class="submenu ">
               <li class="submenu-item ">
                 <a href="">Santri</a>
               </li>
               <li class="submenu-item ">
-                <a href="">Asatidz</a>
+                <a href="{{ route('absensi.index') }}">Asatidz</a>
               </li>
             </ul>
           </li>

@@ -252,6 +252,7 @@ class AbsensiController extends Controller
         // Now update the penggajian records based on the accumulated values
         foreach ($absen as $npa => $totalSesi) {
             $penggajian = GajiAsatidzBulanan::where('asatidz_id', $npa)->whereRaw("SUBSTRING(tanggal, 1, 7) = ?", [$dateObject])->first();
+            // dd($dateObject);
             $penggajian->jumlah_hari_efektif = $totalSesi;
             // You need to define this variable
             $penggajian->lembur = ($penggajian->jumlah_hari_efektif > $totalHariAktif) ? ($penggajian->jumlah_hari_efektif - $totalHariAktif) : 0;

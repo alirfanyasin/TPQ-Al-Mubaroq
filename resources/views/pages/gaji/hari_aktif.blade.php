@@ -19,9 +19,6 @@
   <div class="page-content">
     <section class="section">
       <div class="card">
-        <div class="card-header">
-          <a href="" class="btn btn-primary icon icon-left">History Pembayaran Gaji Bulanan</a>
-        </div>
         <div class="card-body">
           <table class="table table-striped" id="table1">
             <thead>

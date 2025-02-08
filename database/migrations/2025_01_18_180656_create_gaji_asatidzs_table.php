@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('gaji_asatidzs_table');
+        Schema::dropIfExists('gaji_asatidzs');
     }
 };

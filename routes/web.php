@@ -151,6 +151,13 @@ Route::middleware('auth')->group(function () {
         // Route::get('/{id}/show', [GajiAsatidzController::class, 'show'])->name('gaji-asatidz.show');
         // Route::get('/{id}/print', [GajiAsatidzController::class, 'print'])->name('gaji-asatidz.print');
         // Route::post('/print', [GajiAsatidzController::class, 'print'])->name('gaji-asatidz.print');
+
+        // Export
+        Route::get('/export/excel', [GajiAsatidzController::class, 'export'])->name('gaji.export');
+        // Import
+        Route::get('/donwload_template', [GajiAsatidzController::class, 'donwload_template'])->name('gaji.donwload_template');
+        Route::post('/import', [GajiAsatidzController::class, 'import'])->name('gaji.import');
+        
     });
 
     // Tagihan Route
