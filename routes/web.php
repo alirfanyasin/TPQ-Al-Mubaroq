@@ -135,7 +135,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/update-semeter', [RaporRaporController::class, 'update_semeter'])->name('rapor.update_semeter');
         // Route::patch('/{id}/update', [RaporRaporController::class, 'update'])->name('rapor.update');
         // Route::delete('/{id}/destroy', [RaporRaporController::class, 'destroy'])->name('rapor.destroy');
-        Route::post('/{id}/generate-item-penilaian', [RaporRaporController::class, 'generate_item_penilaian'])->name('rapor.generate_item_penilaian');
+        // Route::post('/{id}/generate-item-penilaian', [RaporRaporController::class, 'generate_item_penilaian'])->name('rapor.generate_item_penilaian');
+        // Route::get('/{id}/item-penilaian', [RaporRaporController::class, 'item_penilaian'])->name('rapor.item_penilaian');
+
         Route::get('/{id}/item-penilaian', [RaporRaporController::class, 'item_penilaian'])->name('rapor.item_penilaian');
         Route::patch('/{id}/simpan-nilai', [RaporRaporController::class, 'simpan_nilai'])->name('rapor.simpan_nilai');
         Route::get('/{id}/show', [RaporRaporController::class, 'show'])->name('rapor.show');
@@ -144,6 +146,8 @@ Route::middleware('auth')->group(function () {
 
         // Export
         Route::get('/export-rapors', [RaporRaporController::class, 'export_rapor'])->name('rapors.export');
+        Route::get('/import-rapors', [RaporRaporController::class, 'import_rapor_view'])->name('rapors.import-view');
+        Route::post('/import-rapors', [RaporRaporController::class, 'import_rapor'])->name('rapors.import-post');
     });
 
     // Gaji Asatidz Route
