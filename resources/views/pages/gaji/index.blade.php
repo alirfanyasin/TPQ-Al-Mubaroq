@@ -31,7 +31,7 @@
                   Import dan Export Gaji
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuExportImport">
-                  <a class="dropdown-item" href="{{ route('asatidz.donwload_template') }}">Import Data</a>
+                  <a class="dropdown-item" href="{{ route('gaji.donwload_template') }}">Import Data</a>
                   <a class="dropdown-item" href="{{ route('gaji.export') }}">Export Data .xlxs</a>
                   <a class="dropdown-item" href="">Export Data PDF</a>
                 </div>
@@ -80,6 +80,7 @@
                     @php
                     $lembur = 0;
                     $gajiPokok = 0;
+                    
                     if ($row->status == 'Magang') {
                       $lembur = $setting->lembur_magang * $row->Gaji->lembur;
                       if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
@@ -87,6 +88,7 @@
                       } else {
                         $gajiPokok = $setting->gaji_magang;
                       }
+                      // dd($lembur);
                     } else {
                       $lembur = $setting->lembur_tetap * $row->lembur;
                       if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
@@ -98,6 +100,7 @@
                     
                     $total_gaji = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional + $lembur + $row->Gaji->extra + $setting->kenaikan - $row->Gaji->kasbon;
                     $gaji_bruto = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional;
+                    
                   @endphp
                     <tr role="button" onclick="window.location.href='{{ route('asatidz.show', $row->id) }}'" style="cursor: pointer">
                     <td class="text-center">{{ $row->id }}</td>

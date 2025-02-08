@@ -262,40 +262,40 @@ class GajiAsatidzController extends Controller
 
     public function donwload_template()
     {
-        return view('pages.import.import_asatidz', [
-            'title' => 'Template Import Asatidz'
+        return view('pages.import.import_gaji', [
+            'title' => 'Template Import Gaji Asatidz'
         ]);
     }
 
 
-    public function import(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|mimes:xlsx,xls,csv|max:2048',
-        ], [
-            'file.required' => 'File wajib diisi',
-            'file.mimes' => 'File wajib bertipe xlsx, xls, csv',
-            'file.max' => 'File maksimal 2 mb',
-        ]);
+    // public function import(Request $request)
+    // {
+    //     $request->validate([
+    //         'file' => 'required|mimes:xlsx,xls,csv|max:2048',
+    //     ], [
+    //         'file.required' => 'File wajib diisi',
+    //         'file.mimes' => 'File wajib bertipe xlsx, xls, csv',
+    //         'file.max' => 'File maksimal 2 mb',
+    //     ]);
 
-        if (!$request->hasFile('file')) {
-            return back()->withErrors(['file' => 'File tidak ditemukan, pastikan Anda memilih file untuk diunggah.']);
-        }
+    //     if (!$request->hasFile('file')) {
+    //         return back()->withErrors(['file' => 'File tidak ditemukan, pastikan Anda memilih file untuk diunggah.']);
+    //     }
 
-        $file = $request->file('file');
+    //     $file = $request->file('file');
 
-        if (!$file->isValid()) {
-            return back()->withErrors(['file' => 'File tidak valid atau rusak.']);
-        }
+    //     if (!$file->isValid()) {
+    //         return back()->withErrors(['file' => 'File tidak valid atau rusak.']);
+    //     }
 
-        try {
-            Excel::import(new GajiImport, $file);
-        } catch (\Exception $e) {
-            return back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
-        }
+    //     try {
+    //         Excel::import(new GajiImport, $file);
+    //     } catch (\Exception $e) {
+    //         return back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
+    //     }
 
-        return redirect('/asatidz')->with('success', 'Berhasil import data asatidz');
-    }
+    //     return redirect('/asatidz')->with('success', 'Berhasil import data asatidz');
+    // }
     
     // public function export()
     // {
@@ -313,37 +313,34 @@ class GajiAsatidzController extends Controller
     //     }
     // }
 
-    // public function import(Request $request)
-    // {
-    //     $data = $request->file('file');
-    //     $spreadsheet = IOFactory::load($data);
-    //     $sheet = $spreadsheet->getActiveSheet();
-    //     try {
-    //         Excel::import(new ImportAsatidz($sheet), $data);
-    //     } catch (Exception $e) {
-    //         $message = str_replace(" ", "-", $e->getMessage());
-    //         if (stristr($message, "Undefined-array-key") ==  true) {
-    //             $message = str_replace("Undefined-array-key", "tidak-ada-coulumn", $message);
-    //         }
-    //         return redirect()->route('settings', ['error' => $message]);
-    //     }
+    public function import(Request $request)
+    {
+        try {
+            $data = $request->file('file');
+            $spreadsheet = IOFactory::load($data);
+            $sheet = $spreadsheet->getActiveSheet();
+            Excel::import(new GajiImport($sheet), $data);
+        } catch (Exception $e) {
+            $message = str_replace(" ", "-", $e->getMessage());
+            if (stristr($message, "Undefined-array-key") ==  true) {
+                $message = str_replace("Undefined-array-key", "tidak-ada-coulumn", $message);
+            }
+            dd($message);
+            return redirect()->route('settings', ['error' => $message]);
+        }
 
-    //     return redirect()->back()->with('success', 'Data berhasil diimport!');
-    // }
-    // public function tempAsatidz()
-    // {
-    //     $filename = 'temp_asatidz.xlsx';
-    //     $filePath = 'public/' . $filename;
-    //     if (Storage::exists($filePath)) {
-    //         $file = Storage::get($filePath);
-    //         $mimeType = Storage::mimeType($filePath);
+        return redirect()->back()->with('success', 'Data berhasil diimport!');
+    }
 
-    //         $response = response($file, 200)
-    //             ->header('Content-Type', $mimeType)
-    //             ->header('Content-Disposition', "attachment; filename=$filename");
+    public function tempGaji()
+    {
+        $filename = 'template_penggajian.xlsx';
+        $filePath = storage_path('app/public/' . $filename);
 
-    //         return $response;
-    //     }
-    //     redirect()->back();
-    // }
+        if (file_exists($filePath)) {
+            return response()->download($filePath);
+        }
+        
+        return redirect()->back()->with('error', 'File not found.');
+    }
 }

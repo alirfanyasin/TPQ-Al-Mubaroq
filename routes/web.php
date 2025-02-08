@@ -155,15 +155,14 @@ Route::middleware('auth')->group(function () {
         Route::match(['get', 'post'], '/', [GajiAsatidzController::class, 'index'])->name('gaji.asatidz.index');
         Route::get('/{id}/edit', [GajiAsatidzController::class, 'edit'])->name('gaji-asatidz.edit');
         Route::PATCH('/{id}/edit', [GajiAsatidzController::class, 'update'])->name('gaji-asatidz.update');
-        // Route::get('/{id}/show', [GajiAsatidzController::class, 'show'])->name('gaji-asatidz.show');
-        // Route::get('/{id}/print', [GajiAsatidzController::class, 'print'])->name('gaji-asatidz.print');
-        // Route::post('/print', [GajiAsatidzController::class, 'print'])->name('gaji-asatidz.print');
 
         // Export
         Route::get('/export/excel', [GajiAsatidzController::class, 'export'])->name('gaji.export');
+        
         // Import
         Route::get('/donwload_template', [GajiAsatidzController::class, 'donwload_template'])->name('gaji.donwload_template');
-        Route::post('/import', [GajiAsatidzController::class, 'import'])->name('gaji.import');
+        Route::get('/gaji_template', [GajiAsatidzController::class, 'tempGaji'])->name('gaji.template');
+        Route::post('/gaji_template/import', [GajiAsatidzController::class, 'import'])->name('gaji.import');
         
     });
 
