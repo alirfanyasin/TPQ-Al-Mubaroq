@@ -21,7 +21,7 @@ class AbsensiSeeder extends Seeder
     public function run()
     {
         $tanggal = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
-        $tglindo = 'Juli 2023';
+        $tglindo = 'Januari 2025';
         $gaji = GajiAsatidzBulanan::where('tanggal', $tanggal)->get();
         $haris = AbsensiHistory::where('tanggal', 'LIKE', '%' . $tglindo)->get();
     
