@@ -64,4 +64,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(User::class);
     }
+
+
+    /**
+     * Get all of the activityLog for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activityLog(): HasMany
+    {
+        return $this->hasMany(ActivityLog::class, 'user_id');
+    }
 }
