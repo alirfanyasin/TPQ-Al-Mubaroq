@@ -33,8 +33,8 @@ class RaporItemSeeder extends Seeder
 
                     1 => ["Sebelum Makan", "Setelah Makan", "Niat Wudhu"],
                     2 => ["Masuk Masjid", "Keluar Masjid", "Niat Sholat Subuh", "Niat Sholat Dhuhur"],
-                    3 => ["Masuk Kamar Mandi", "Keluar Kamar Mandi", "Niat Sholat Isya'", "Sesudah Wudhu"],
-                    4 => ["Bercermin", "Naik Kendaraan", "Rukuk", "I'tidal"],
+                    3 => ["Masuk Kamar Mandi", "Keluar Kamar Mandi", "Niat Sholat Isya", "Sesudah Wudhu"],
+                    4 => ["Bercermin", "Naik Kendaraan", "Rukuk", "Itidal"],
                     5 => ["Turun Hujan", "Mendengar Petir", "Tahiyyat Awal"],
                     6 => ["Penutup Majelis", "Bersin & Jawab", "Qunut"],
                     7 => ["Bertambah Ilmu", "Mau Tidur", "Bangun Tidur", "Masuk Masjid", "Keluar Masjid", "Masuk Kamar Mandi", "Keluar Kamar Mandi", "Kedua Orang Tua", "Masuk Rumah", "Keluar Rumah", "Doa & Dzikir"],
@@ -42,12 +42,12 @@ class RaporItemSeeder extends Seeder
                 ]
             ],
             [
-                "category" => "HAFALAN SURAT PENDEK",
+                "category" => "HAFALAN SURAH PENDEK",
                 "items" => [
 
                     1 => ["Al Fatihah"],
                     2 => ["An Nas", "Al Falaq"],
-                    3 => ["An Nashr", "AL Kafirun"],
+                    3 => ["An Nashr", "Al Kafirun"],
                     4 => ["Quraisy", "Al Fil"],
                     5 => ["Al Humazah", "Al Ashr"],
                     6 => ["Al Adiyat", "Al Zalzalah"],
