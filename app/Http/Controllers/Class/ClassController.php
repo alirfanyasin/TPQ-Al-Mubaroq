@@ -111,6 +111,11 @@ class ClassController extends Controller
         Santri::whereIn('id', $santriIds)->update(['kelas_id' => NULL]);
         Rapor::whereIn('santri_id', $santriIds)->delete();
         Alert::success('Berhasil', 'Siswa berhasil keluarkan', 'success');
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'description' => ActivityLog::MESSAGE['out_class'],
+            'type' => $request->method(),
+        ]);
         return redirect()->route('class.index')->with('success', 'Santri berhasil dikeluarkan.');
     }
 }

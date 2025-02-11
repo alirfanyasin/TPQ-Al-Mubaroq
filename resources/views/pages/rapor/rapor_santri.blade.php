@@ -24,7 +24,9 @@
               <div>
                 <h5 class="mb-3">Foto Santri</h5>
                 <div class="overflow-hidden rounded-4 w-100">
-                  <img src="{{ asset($data->santri->foto_santri) }}" alt="User Profile" class="object-cover w-100 h-100">
+                  {{-- <img src="{{ asset($data->santri->foto_santri) }}" alt="User Profile" class="object-cover w-100 h-100"> --}}
+                  <img src="{{ asset('storage/' . $data->santri->foto_santri) }}" alt="User Profile"
+                    class="object-cover w-100 h-100">
                 </div>
               </div>
             </div>
