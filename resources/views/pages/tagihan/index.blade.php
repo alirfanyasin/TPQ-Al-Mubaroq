@@ -73,7 +73,7 @@
                       </span>
 
                       <span class="badge bg-secondary">
-                        {{ \Carbon\Carbon::parse($data->tagihanBulanIni->date)->format('d-m-Y') }}
+                        {{ \Carbon\Carbon::parse($data->tagihanBulanIni->date)->format('d-M-Y') }}
                       </span>
                     @else
                       <span
