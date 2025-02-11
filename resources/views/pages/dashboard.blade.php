@@ -107,7 +107,6 @@
                           <td class="col-3">
                             <div class="d-flex align-items-center">
                               <div class="avatar avatar-md">
-                                <img src="/template/assets/images/faces/5.jpg">
                               </div>
                               <p class="mb-0 font-bold ms-3">{{ $activity->user->name }}</p>
                             </div>
