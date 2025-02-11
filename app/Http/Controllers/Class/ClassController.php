@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Class;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Kelas;
 use App\Models\Rapor\Rapor;
 use App\Models\Rapor\RaporItem;
 use App\Models\Rapor\RaporNilai;
 use App\Models\Santri;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\DB;
 
@@ -87,6 +89,11 @@ class ClassController extends Controller
 
             DB::commit();
             Alert::success('Berhasil', 'Siswa berhasil dienroll', 'success');
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'description' => ActivityLog::MESSAGE['in_class'],
+                'type' => $request->method(),
+            ]);
             return redirect()->route('class.index')->with('success', 'Santri berhasil di-enroll.');
         } catch (\Exception $e) {
             DB::rollBack();
