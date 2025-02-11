@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountSettingController;
 use App\Http\Controllers\Asatidz\AsatidzController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\BiodataLembagaController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Setting\RaporController;
 use App\Http\Controllers\Setting\RaporItemController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Setting\TagihanController;
+use App\Models\BiodataLembaga;
 use App\Models\Tagihan;
 use Illuminate\Support\Facades\Route;
 
@@ -172,6 +174,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/setting/{id}/destroy/item-rapor', [RaporItemController::class, 'destroy'])->name('setting.rapor.destroy_item');
     Route::patch('/setting/{id}/update/item-rapor', [RaporItemController::class, 'update'])->name('setting.rapor.update_item');
 
+    Route::patch('/setting/biodata-lembaga', [BiodataLembagaController::class, 'update_biodata_lembaga'])->name('setting.biodata_lembaga.update');
+    Route::patch('/setting/biodata-kepala', [BiodataLembagaController::class, 'update_biodata_kepala'])->name('setting.biodata_kepala.update');
+    Route::patch('/setting/operasional-lembaga', [BiodataLembagaController::class, 'update_operasional_lembaga'])->name('setting.operasional_lembaga.update');
+    Route::patch('/setting/alamat-lembaga', [BiodataLembagaController::class, 'update_alamat_lembaga'])->name('setting.alamat_lembaga.update');
+
 
 
     // Account Setting
@@ -183,6 +190,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/update-password', [AccountSettingController::class, 'update_password'])->name('account.update_password');
         Route::patch('/update-password', [AccountSettingController::class, 'update_password_post'])->name('account.update_password_post');
     });
+
+
 
 
 
