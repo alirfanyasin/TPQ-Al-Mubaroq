@@ -53,7 +53,6 @@
                 <th>Jenis Kelamin</th>
                 <th>Tagihan Bulanan</th>
                 <th>Status</th>
-                <th>Menu</th>
               </tr>
             </thead>
             <tbody>
@@ -71,7 +70,6 @@
                   <td><span class="badge {{ $data->status == 'Belum Lunas' ? 'bg-danger' : 'bg-success' }}">
                       {{ $data->status }}</span>
                   </td>
-                  <td>menu</td>
                 </tr>
               @endforeach
 

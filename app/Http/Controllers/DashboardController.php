@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Santri;
+
+use App\Models\ActivityLog;
 use App\Models\Asatidz;
 use App\Models\Dashboard;
+use App\Models\Kelas;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $data = Dashboard::first();
-        $santri_total = Santri::all()->count();
-        $asatidz_total = Asatidz::all()->count();
 
-        return view('pages.dashboards.dashboard', [
-            'title' => 'Dashboard', 
-            'data' => $data,
-            'santri_total' => $santri_total, 
-            'asatidz_total' => $asatidz_total
+        $totalSantri = Santri::count();
+        $totalAsatidz = Asatidz::count();
+        $totalKelas = Kelas::count();
+        $activityLog = ActivityLog::orderBy('created_at', 'desc')->limit(10)->get();
+
+        return view('pages.dashboard', [
+            'title' => 'Dashboard',
+            'total_santri' => $totalSantri,
+            'total_asatidz' => $totalAsatidz,
+            'total_kelas' => $totalKelas,
+            'activity_logs' => $activityLog
         ]);
-
     }
 
     public function edit(Dashboard $data)
@@ -79,5 +84,4 @@ class DashboardController extends Controller
 
         return redirect()->route('dashboard');
     }
-
 }

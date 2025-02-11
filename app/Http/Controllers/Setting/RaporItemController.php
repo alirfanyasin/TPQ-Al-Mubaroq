@@ -16,6 +16,7 @@ class RaporItemController extends Controller
             'jilid_id' => 'required',
             'semester_id' => 'required',
         ]);
+        $validated['nama'] = ucwords(strtolower($validated['nama']));
         RaporItem::create($validated);
         return redirect()->route('settings')->with('success', 'Item Penialaian berhasil ditambahkan');
     }
