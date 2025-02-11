@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\AccountSettingController;
 use App\Http\Controllers\Asatidz\AsatidzController;
-use App\Models\Tagihan;
-use App\Models\GajiAsatidz;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HariAktifController;
@@ -16,7 +14,6 @@ use App\Http\Controllers\Setting\JilidController;
 use App\Http\Controllers\Setting\KelasController;
 use App\Http\Controllers\Setting\RaporController;
 use App\Http\Controllers\Asatidz\AbsensiController;
-use App\Http\Controllers\Asatidz\AsatidzController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Setting\TagihanController;
 use App\Http\Controllers\Setting\RaporItemController;
