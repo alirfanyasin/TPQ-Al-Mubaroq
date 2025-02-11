@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HariAktifController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\BiodataLembagaController;
 use App\Http\Controllers\Class\ClassController;
 use App\Http\Controllers\Setting\GajiController;
 use App\Http\Controllers\Santri\SantriController;
@@ -20,6 +21,8 @@ use App\Http\Controllers\Setting\RaporItemController;
 use App\Http\Controllers\Asatidz\GajiAsatidzController;
 use App\Http\Controllers\Santri\TagihanSantriController;
 use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
+use App\Models\BiodataLembaga;
+use App\Models\Tagihan;
 
 // Before autentication
 Route::middleware('guest')->group(function () {
@@ -32,7 +35,7 @@ Route::middleware('auth')->group(function () {
     // Hari Aktif
     Route::get('/hari-aktif', [HariAktifController::class, 'index'])->name('asatidz.hari_aktif');
     Route::put('/hari-aktif/update', [HariAktifController::class, 'update'])->name('hari_aktif.update');
-    
+
     // Dashboard Route
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/edit', [DashboardController::class, 'edit'])->name('edit.dashboard');
@@ -157,12 +160,11 @@ Route::middleware('auth')->group(function () {
 
         // Export
         Route::get('/export/excel', [GajiAsatidzController::class, 'export'])->name('gaji.export');
-        
+
         // Import
         Route::get('/donwload_template', [GajiAsatidzController::class, 'donwload_template'])->name('gaji.donwload_template');
         Route::get('/gaji_template', [GajiAsatidzController::class, 'tempGaji'])->name('gaji.template');
         Route::post('/gaji_template/import', [GajiAsatidzController::class, 'import'])->name('gaji.import');
-        
     });
 
     // Tagihan Route
@@ -200,6 +202,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/setting/{id}/destroy/item-rapor', [RaporItemController::class, 'destroy'])->name('setting.rapor.destroy_item');
     Route::patch('/setting/{id}/update/item-rapor', [RaporItemController::class, 'update'])->name('setting.rapor.update_item');
 
+    Route::patch('/setting/biodata-lembaga', [BiodataLembagaController::class, 'update_biodata_lembaga'])->name('setting.biodata_lembaga.update');
+    Route::patch('/setting/biodata-kepala', [BiodataLembagaController::class, 'update_biodata_kepala'])->name('setting.biodata_kepala.update');
+    Route::patch('/setting/operasional-lembaga', [BiodataLembagaController::class, 'update_operasional_lembaga'])->name('setting.operasional_lembaga.update');
+    Route::patch('/setting/alamat-lembaga', [BiodataLembagaController::class, 'update_alamat_lembaga'])->name('setting.alamat_lembaga.update');
+
 
 
     // Account Setting
@@ -211,6 +218,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/update-password', [AccountSettingController::class, 'update_password'])->name('account.update_password');
         Route::patch('/update-password', [AccountSettingController::class, 'update_password_post'])->name('account.update_password_post');
     });
+
+
 
 
 
