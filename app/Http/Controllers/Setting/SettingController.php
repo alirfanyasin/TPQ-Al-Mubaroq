@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Setting;
 
 
-use App\Http\Controllers\Controller;
-use App\Models\Asatidz;
+
 use App\Models\BiodataLembaga;
 use App\Models\Jilid;
 use App\Models\Kelas;
