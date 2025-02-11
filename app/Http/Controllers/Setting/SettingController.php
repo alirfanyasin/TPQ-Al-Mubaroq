@@ -38,7 +38,7 @@ class SettingController extends Controller
             'dataAsatidz' => $dataAsatidz,
             'dataKelas' => $dataKelas,
             'dataRaporItem' => $dataRaporItem,
-            'dataGajian' => $dataGajian
+            'dataGajian' => $dataGajian,
             'dataLembaga' => $dataLembaga,
         ]);
     }
