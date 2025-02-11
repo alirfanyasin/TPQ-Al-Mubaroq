@@ -85,23 +85,23 @@
               <span>Tagihan Santri</span>
             </a>
           </li>
-          <li class="sidebar-item">
-            <a href="" class='sidebar-link'>
+            <li class="sidebar-item {{ Request::is('gaji-asatidz') ? 'active' : '' }} {{ Request::is('gaji-asatidz/*') ? 'active' : '' }}">
+            <a href="{{ route('gaji.asatidz.index') }}" class='sidebar-link'>
               <i class="bi bi-person-video3"></i>
               <span>Penggajian Asatidz</span>
             </a>
-          </li>
+            </li>
           <li class="sidebar-item has-sub">
             <a href="#" class='sidebar-link'>
               <i class="bi bi-person-check"></i>
               <span>Presensi</span>
-            </a>
+          </a>
             <ul class="submenu ">
               <li class="submenu-item ">
                 <a href="">Santri</a>
               </li>
               <li class="submenu-item ">
-                <a href="">Asatidz</a>
+                <a href="{{ route('absensi.index') }}">Asatidz</a>
               </li>
             </ul>
           </li>

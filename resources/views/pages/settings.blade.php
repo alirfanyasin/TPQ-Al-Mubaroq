@@ -80,63 +80,7 @@
 
 
               {{-- Penggajian Asatidz Start --}}
-              <div class="tab-pane fade" id="penggajian" role="tabpanel" aria-labelledby="penggajian-tab">
-                <section class="section">
-                  <div class="card">
-                    <div class="card-header">
-                      <h4 class="card-title">Penggajian Asatidz Tetap</h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="gaji-pokok">Gaji Pokok</label>
-                            <input type="number" class="form-control" id="gaji-pokok" placeholder="Rp.">
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="gaji-per-sesi">Gaji Per Sesi</label>
-                            <input type="number" class="form-control" id="gaji-per-sesi" placeholder="Rp.">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card">
-                    <div class="card-header">
-                      <h4 class="card-title">Penggajian Asatidz Magang</h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="gaji-pokok">Gaji Pokok</label>
-                            <input type="number" class="form-control" id="gaji-pokok" placeholder="Rp.">
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="gaji-per-sesi">Gaji Per Sesi</label>
-                            <input type="number" class="form-control" id="gaji-per-sesi" placeholder="Rp.">
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="form-group">
-                            <label for="kenaikan-gaji">Kenaikan Gaji Asatidz</label>
-                            <input type="number" class="form-control" id="kenaikan-gaji" placeholder="Rp.">
-                          </div>
-                        </div>
-                        <div class="justify-content-end d-flex">
-                          <a href="#" class="btn icon icon-left btn-primary"><i data-feather="check-circle"></i>
-                            Simpan</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              </div>
+              @include('pages.setting_section.gaji')
               {{-- Penggajian Asatidz End --}}
 
 

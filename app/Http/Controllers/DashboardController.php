@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
 use App\Models\Asatidz;
+use App\Models\Dashboard;
 use App\Models\Kelas;
 use App\Models\Santri;
 use Illuminate\Http\Request;

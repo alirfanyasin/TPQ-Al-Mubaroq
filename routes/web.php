@@ -2,26 +2,27 @@
 
 use App\Http\Controllers\AccountSettingController;
 use App\Http\Controllers\Asatidz\AsatidzController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HariAktifController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\BiodataLembagaController;
 use App\Http\Controllers\Class\ClassController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
+use App\Http\Controllers\Setting\GajiController;
 use App\Http\Controllers\Santri\SantriController;
-use App\Http\Controllers\Santri\TagihanSantriController;
 use App\Http\Controllers\Setting\JilidController;
 use App\Http\Controllers\Setting\KelasController;
 use App\Http\Controllers\Setting\RaporController;
-use App\Http\Controllers\Setting\RaporItemController;
+use App\Http\Controllers\Asatidz\AbsensiController;
 use App\Http\Controllers\Setting\SettingController;
 use App\Http\Controllers\Setting\TagihanController;
+use App\Http\Controllers\Setting\RaporItemController;
+use App\Http\Controllers\Asatidz\GajiAsatidzController;
+use App\Http\Controllers\Santri\TagihanSantriController;
+use App\Http\Controllers\Rapor\RaporController as RaporRaporController;
 use App\Models\BiodataLembaga;
 use App\Models\Tagihan;
-use Illuminate\Support\Facades\Route;
-
-
-
 
 // Before autentication
 Route::middleware('guest')->group(function () {
@@ -29,11 +30,16 @@ Route::middleware('guest')->group(function () {
     Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 });
 
-
 // After autentication
 Route::middleware('auth')->group(function () {
+    // Hari Aktif
+    Route::get('/hari-aktif', [HariAktifController::class, 'index'])->name('asatidz.hari_aktif');
+    Route::put('/hari-aktif/update', [HariAktifController::class, 'update'])->name('hari_aktif.update');
+
     // Dashboard Route
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/edit', [DashboardController::class, 'edit'])->name('edit.dashboard');
+    Route::put('/{id}/update', [DashboardController::class, 'update'])->name('update.dashboard');
 
     // Santri Route
     Route::prefix('santri')->group(function () {
@@ -112,6 +118,9 @@ Route::middleware('auth')->group(function () {
         // Import
         Route::get('/donwload_template', [AsatidzController::class, 'donwload_template'])->name('asatidz.donwload_template');
         Route::post('/import', [AsatidzController::class, 'import'])->name('asatidz.import');
+
+        // Salary setting
+        Route::patch('/asatidz-salary', [GajiController::class, 'update'])->name('asatidz.salary');
     });
 
 
@@ -143,7 +152,20 @@ Route::middleware('auth')->group(function () {
         Route::post('/import-rapors', [RaporRaporController::class, 'import_rapor'])->name('rapors.import-post');
     });
 
+    // Gaji Asatidz Route
+    Route::prefix('gaji-asatidz')->group(function () {
+        Route::match(['get', 'post'], '/', [GajiAsatidzController::class, 'index'])->name('gaji.asatidz.index');
+        Route::get('/{id}/edit', [GajiAsatidzController::class, 'edit'])->name('gaji-asatidz.edit');
+        Route::PATCH('/{id}/edit', [GajiAsatidzController::class, 'update'])->name('gaji-asatidz.update');
 
+        // Export
+        Route::get('/export/excel', [GajiAsatidzController::class, 'export'])->name('gaji.export');
+
+        // Import
+        Route::get('/donwload_template', [GajiAsatidzController::class, 'donwload_template'])->name('gaji.donwload_template');
+        Route::get('/gaji_template', [GajiAsatidzController::class, 'tempGaji'])->name('gaji.template');
+        Route::post('/gaji_template/import', [GajiAsatidzController::class, 'import'])->name('gaji.import');
+    });
 
     // Tagihan Route
     Route::prefix('tagihan')->group(function () {
@@ -155,6 +177,12 @@ Route::middleware('auth')->group(function () {
         // Route::post('/history-tagihan-bulanan', [TagihanSantriController::class, 'history_tagihan_bulanan'])->name('santri.history_tagihan_bulanan');
     });
 
+    // Absensi Asatitdz
+    Route::match(['get', 'post'], '/absensi', [AbsensiController::class, 'index'])->name('absensi.index');
+    Route::get('/absensi/new', [AbsensiController::class, 'create'])->name('asatidz.create');
+    Route::post('/absensi/new', [AbsensiController::class, 'store'])->name('absensi.store');
+    Route::get('/absensi/edit', [AbsensiController::class, 'edit'])->name('absensi.edit');
+    Route::put('/absensi/{id}/edit', [AbsensiController::class, 'update'])->name('absensi.update');
 
     // Settings Route
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');

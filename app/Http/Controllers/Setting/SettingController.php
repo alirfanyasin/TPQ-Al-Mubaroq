@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Setting;
 
-use App\Http\Controllers\Controller;
-use App\Models\Asatidz;
+
+
 use App\Models\BiodataLembaga;
 use App\Models\Jilid;
 use App\Models\Kelas;
-use App\Models\Rapor\Rapor;
-use App\Models\Rapor\RaporItem;
+use App\Models\Asatidz;
 use App\Models\Tagihan;
+use App\Models\Rapor\Rapor;
 use Illuminate\Http\Request;
+use App\Models\Rapor\RaporItem;
+use App\Http\Controllers\Controller;
+use App\Models\GajiAsatidz;
 
 class SettingController extends Controller
 {
@@ -21,6 +24,7 @@ class SettingController extends Controller
         $dataAsatidz = Asatidz::select('id', 'nama_lengkap')->get();
         $dataKelas = Kelas::orderBy('nama', 'ASC')->get();
         $dataRaporItem = RaporItem::orderBy('jilid_id', 'ASC')->get();
+        $dataGajian = GajiAsatidz::find(1);
 
         $dataLembaga = BiodataLembaga::find(1);
 
@@ -33,6 +37,7 @@ class SettingController extends Controller
             'dataAsatidz' => $dataAsatidz,
             'dataKelas' => $dataKelas,
             'dataRaporItem' => $dataRaporItem,
+            'dataGajian' => $dataGajian,
             'dataLembaga' => $dataLembaga,
         ]);
     }
