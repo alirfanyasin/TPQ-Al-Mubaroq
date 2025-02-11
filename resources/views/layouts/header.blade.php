@@ -11,7 +11,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-lg-0">
-          <li class="nav-item dropdown me-3">
+          {{-- <li class="nav-item dropdown me-3">
             <a class="text-gray-600 nav-link active dropdown-toggle" href="#" data-bs-toggle="dropdown"
               data-bs-display="static" aria-expanded="false">
               <i class='bi bi-bell bi-sub fs-4'></i>
@@ -46,7 +46,7 @@
                 <p class="py-2 mb-0 text-center"><a href="#">See all notification</a></p>
               </li>
             </ul>
-          </li>
+          </li> --}}
         </ul>
         <div class="dropdown">
           <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -68,10 +68,10 @@
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="min-width: 11rem;">
-            <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
-                Profile</a></li>
+            <li><a class="dropdown-item" href="{{ route('account.index') }}"><i class="icon-mid bi bi-person me-2"></i>
+                Akun Saya</a></li>
             <li><a class="dropdown-item" href="{{ route('settings') }}"><i class="icon-mid bi bi-gear me-2"></i>
-                Settings</a></li>
+                Pengaturan</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
