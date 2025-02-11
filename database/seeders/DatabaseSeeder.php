@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call([JilidSeeder::class]);
         $this->call([SemesterSeeder::class]);
         $this->call([RaporItemSeeder::class]);
+        $this->call([BiodataLembagaSeeder::class]);
     }
 }

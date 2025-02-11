@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Setting;
 
 use App\Http\Controllers\Controller;
 use App\Models\Asatidz;
+use App\Models\BiodataLembaga;
 use App\Models\Jilid;
 use App\Models\Kelas;
 use App\Models\Rapor\Rapor;
@@ -21,6 +22,8 @@ class SettingController extends Controller
         $dataKelas = Kelas::orderBy('nama', 'ASC')->get();
         $dataRaporItem = RaporItem::orderBy('jilid_id', 'ASC')->get();
 
+        $dataLembaga = BiodataLembaga::find(1);
+
         confirmDelete('Hapus Kelas', 'Apakah Anda yakin?');
 
         return view('pages.settings', [
@@ -29,7 +32,8 @@ class SettingController extends Controller
             'dataJilid' => $dataJilid,
             'dataAsatidz' => $dataAsatidz,
             'dataKelas' => $dataKelas,
-            'dataRaporItem' => $dataRaporItem
+            'dataRaporItem' => $dataRaporItem,
+            'dataLembaga' => $dataLembaga,
         ]);
     }
 }
