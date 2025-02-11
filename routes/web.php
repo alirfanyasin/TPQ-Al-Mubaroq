@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountSettingController;
 use App\Http\Controllers\Asatidz\AsatidzController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -171,6 +172,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/setting/{id}/destroy/item-rapor', [RaporItemController::class, 'destroy'])->name('setting.rapor.destroy_item');
     Route::patch('/setting/{id}/update/item-rapor', [RaporItemController::class, 'update'])->name('setting.rapor.update_item');
 
+
+
+    // Account Setting
+    Route::prefix('account')->group(function () {
+        Route::get('/index', [AccountSettingController::class, 'index'])->name('account.index');
+        Route::get('/setting', [AccountSettingController::class, 'setting'])->name('account.setting');
+        Route::patch('/update', [AccountSettingController::class, 'update'])->name('account.update');
+
+        Route::get('/update-password', [AccountSettingController::class, 'update_password'])->name('account.update_password');
+        Route::patch('/update-password', [AccountSettingController::class, 'update_password_post'])->name('account.update_password_post');
+    });
 
 
 
