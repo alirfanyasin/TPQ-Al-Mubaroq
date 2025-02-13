@@ -175,6 +175,12 @@ Route::middleware('auth')->group(function () {
         Route::match(['get', 'post'], '/history-tagihan-bulanan', [TagihanSantriController::class, 'history_tagihan_bulanan'])->name('santri.history_tagihan_bulanan');
 
         // Route::post('/history-tagihan-bulanan', [TagihanSantriController::class, 'history_tagihan_bulanan'])->name('santri.history_tagihan_bulanan');
+
+        Route::get('/bulk/tagihan-bulanan', [TagihanSantriController::class, 'bulk_tagihan_bulanan'])->name('tagihan.bulk.tagihan_bulanan');
+        Route::post('/bulk/tagihan-bulanan', [TagihanSantriController::class, 'bulk_tagihan_bulanan_action'])->name('tagihan.bulk.tagihan_bulanan.action');
+
+        Route::get('/bulk/tagihan-pendaftaran', [TagihanSantriController::class, 'bulk_tagihan_pendaftaran'])->name('tagihan.bulk.tagihan_pendaftaran');
+        Route::get('/bulk/tagihan-seragam', [TagihanSantriController::class, 'bulk_tagihan_seragam'])->name('tagihan.bulk.tagihan_seragam');
     });
 
     // Absensi Asatitdz
