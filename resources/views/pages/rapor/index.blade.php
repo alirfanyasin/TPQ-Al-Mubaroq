@@ -25,25 +25,6 @@
 
           <a href="{{ route('rapors.import-view') }}" class="btn btn-secondary icon icon-left d-inline-block">Import</a>
 
-          {{-- <a href="{{ route('rapors.export') }}" class="btn btn-secondary icon icon-left d-inline-block">Export</a> --}}
-
-
-          {{-- <div class="d-inline-block">
-            <form action="" method="POST">
-              @csrf
-              <div class="input-group">
-                <button class="btn btn-danger" type="submit" id="button-export">Export</button>
-                <select class="form-select" name="kelas" aria-describedby="button-export">
-                  @foreach ($classes as $class)
-                    <option><a href="/export-rapors?jilid_id={{ $class->jilid->id }}&kelas_id={{ $class->id }}"
-                        class="btn btn-secondary icon icon-left d-inline-block">Export {{ $class->nama }}</a></option>
-                  @endforeach
-                </select>
-              </div>
-            </form>
-          </div> --}}
-
-
           <div class="d-inline-block">
             <form action="/rapor/export-rapors" method="GET">
               @csrf

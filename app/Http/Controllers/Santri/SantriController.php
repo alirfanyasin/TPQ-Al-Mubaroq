@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
 
 class SantriController extends Controller
 {
@@ -127,29 +128,64 @@ class SantriController extends Controller
             'nomor_telepon.unique' => 'Nomor Telepon sudah terdaftar',
         ]);
 
-        if (session()->has('biodata_santri_id')) {
-            Santri::where('id', session('biodata_santri_id'))->update($validatedData);
-        } else {
-            $santri = Santri::create($validatedData);
-            session(['biodata_santri_id' => $santri->id]);
 
-            // Create tagihan
-            TagihanPendaftaran::create([
-                'status' => 'Belum Lunas',
-                'santri_id' => $santri->id
-            ]);
-            TagihanSeragam::create([
-                'status' => 'Belum Lunas',
-                'santri_id' => $santri->id
-            ]);
-            TagihanBulanan::create([
-                'status' => 'Belum Lunas',
-                'date' => Carbon::now(),
-                'santri_id' => $santri->id
-            ]);
+        DB::beginTransaction();
+        try {
+            if (session()->has('biodata_santri_id')) {
+                Santri::where('id', session('biodata_santri_id'))->update($validatedData);
+            } else {
+                $santri = Santri::create($validatedData);
+                session(['biodata_santri_id' => $santri->id]);
+
+                TagihanPendaftaran::create([
+                    'status' => 'Belum Lunas',
+                    'santri_id' => $santri->id,
+                ]);
+
+                TagihanSeragam::create([
+                    'status' => 'Belum Lunas',
+                    'santri_id' => $santri->id,
+                ]);
+
+                TagihanBulanan::create([
+                    'status' => 'Belum Lunas',
+                    'date' => now(),
+                    'santri_id' => $santri->id,
+                ]);
+            }
+
+            session(['form_biodata_santri' => $validatedData]);
+            DB::commit();
+
+            return redirect()->route('santri.create_address');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.']);
         }
-        session(['form_biodata_santri' => $validatedData]);
-        return redirect()->route('santri.create_address');
+
+        // if (session()->has('biodata_santri_id')) {
+        //     Santri::where('id', session('biodata_santri_id'))->update($validatedData);
+        // } else {
+        //     $santri = Santri::create($validatedData);
+        //     session(['biodata_santri_id' => $santri->id]);
+
+        //     // Create tagihan
+        //     TagihanPendaftaran::create([
+        //         'status' => 'Belum Lunas',
+        //         'santri_id' => $santri->id
+        //     ]);
+        //     TagihanSeragam::create([
+        //         'status' => 'Belum Lunas',
+        //         'santri_id' => $santri->id
+        //     ]);
+        //     TagihanBulanan::create([
+        //         'status' => 'Belum Lunas',
+        //         'date' => Carbon::now(),
+        //         'santri_id' => $santri->id
+        //     ]);
+        // }
+        // session(['form_biodata_santri' => $validatedData]);
+        // return redirect()->route('santri.create_address');
     }
 
     /**
@@ -299,14 +335,14 @@ class SantriController extends Controller
             'kk_santri.max' => 'Kartu Keluarga tidak boleh lebih dari 3 MB',
         ]);
 
-        $fotoAsatidzPath = $request->file('foto_santri')->store('images/foto_santri', 'public');
-        $kkAsatidzPath = $request->file('kk_santri')->store('images/kk_santri', 'public');
+        $fotoSantriPath = $request->file('foto_santri')->store('images/foto_santri', 'public');
+        $kkSantriPath = $request->file('kk_santri')->store('images/kk_santri', 'public');
 
-        $validatedDocument['foto_santri'] = $fotoAsatidzPath;
-        $validatedDocument['kk_santri'] = $kkAsatidzPath;
+        $validatedDocument['foto_santri'] = $fotoSantriPath;
+        $validatedDocument['kk_santri'] = $kkSantriPath;
 
         if (session()->has('biodata_santri_id')) {
-            Santri::where('id', session('biodata_santri_id'))->update($validatedDocument);
+            $santri = Santri::where('id', session('biodata_santri_id'))->update($validatedDocument);
         } else {
 
             $santri = Santri::create($validatedDocument);
@@ -319,9 +355,11 @@ class SantriController extends Controller
             'description' => ActivityLog::MESSAGE['create'] . 'santri ',
             'type' => $request->method(),
         ]);
-        return redirect()->route('santri');
-        // return redirect()->route('santri.payment');
 
+        $santriFind = Santri::find(session('biodata_santri_id'));
+        // return redirect()->route('santri');
+        // return redirect()->route('santri.payment');
+        return redirect()->route('tagihan.pembayaran', ['id' => $santriFind->id, 'nama_lengkap' => $santriFind->nama_lengkap]);
     }
 
 
