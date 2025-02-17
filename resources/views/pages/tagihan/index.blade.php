@@ -26,8 +26,8 @@
             <div class="input-group">
               <button class="btn btn-success" type="button" id="button-bulk" onclick="handleBulkAction()">Bulk</button>
               <select class="form-select" id="bulk-action-select" aria-label="Pilih tindakan bulk">
-                <option value="{{ route('tagihan.bulk.tagihan_pendaftaran') }}">Tagihan Pendaftaran</option>
-                <option value="{{ route('tagihan.bulk.tagihan_seragam') }}">Tagihan Seragam</option>
+                {{-- <option value="{{ route('tagihan.bulk.tagihan_pendaftaran') }}">Tagihan Pendaftaran</option>
+                <option value="{{ route('tagihan.bulk.tagihan_seragam') }}">Tagihan Seragam</option> --}}
                 <option value="{{ route('tagihan.bulk.tagihan_bulanan') }}">Tagihan Bulanan</option>
               </select>
             </div>
