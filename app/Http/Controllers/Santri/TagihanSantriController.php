@@ -34,9 +34,11 @@ class TagihanSantriController extends Controller
                 ->first();
             $santri->tagihanBulanIni = $tagihanBulanIni;
         }
+
+
         return view('pages.tagihan.index', [
             'title' => 'Tagihan Santri',
-            'datas' => $data
+            'datas' => $data,
         ]);
     }
 
@@ -110,8 +112,15 @@ class TagihanSantriController extends Controller
     {
         // Validasi input
         $validatedData = $request->validate([
-            'tagihan.*' => 'nullable|numeric',
+            'tagihan' => 'required|array',
+            'tagihan.*' => 'nullable|numeric|min:0',
         ]);
+
+        // Cek apakah data tagihan umum tersedia
+        $tagihanSantri = Tagihan::find(1);
+        if (!$tagihanSantri) {
+            return redirect()->back()->withErrors(['error' => 'Data tagihan utama tidak ditemukan.']);
+        }
 
         // Mulai transaksi database
         DB::beginTransaction();
@@ -124,35 +133,29 @@ class TagihanSantriController extends Controller
                     throw new \Exception("Data tagihan dengan ID {$id} tidak ditemukan.");
                 }
 
-                $tagihanSantri = Tagihan::find(1);
+                // Update status pembayaran
+                $status = ($amount >= $tagihanSantri->tagihan_bulanan) ? 'Lunas' : 'Belum Lunas';
+                $dataTagihan->update([
+                    'bayar' => $amount,
+                    'status' => $status
+                ]);
 
+                // Jika statusnya "Lunas", buat tagihan untuk bulan berikutnya
+                if ($status === 'Lunas') {
+                    $nextMonthDate = Carbon::parse($dataTagihan->date)->addMonth();
 
-                if ($amount >= $tagihanSantri->tagihan_bulanan) {
-                    $dataTagihan->update([
-                        'bayar' => $amount,
-                        'status' => 'Lunas'
-                    ]);
-                } else {
-                    $dataTagihan->update([
-                        'bayar' => $amount,
-                        'status' => 'Belum Lunas'
-                    ]);
-                }
+                    $existingNextMonthTagihan = Bulanan::where('santri_id', $dataTagihan->santri_id)
+                        ->whereDate('date', $nextMonthDate)
+                        ->exists();
 
-
-
-                $nextMonthDate = Carbon::parse($dataTagihan->date)->addMonth();
-                $existingNextMonthTagihan = Bulanan::where('santri_id', $dataTagihan->santri_id)
-                    ->where('date', $nextMonthDate->format('Y-m-d'))
-                    ->exists();
-
-                if (!$existingNextMonthTagihan) {
-                    Bulanan::create([
-                        'date' => $nextMonthDate,
-                        'santri_id' => $dataTagihan->santri_id,
-                        'bayar' => 0,
-                        'status' => 'Belum Lunas',
-                    ]);
+                    if (!$existingNextMonthTagihan) {
+                        Bulanan::create([
+                            'date' => $nextMonthDate,
+                            'santri_id' => $dataTagihan->santri_id,
+                            'bayar' => 0,
+                            'status' => 'Belum Lunas',
+                        ]);
+                    }
                 }
             }
 
@@ -171,6 +174,7 @@ class TagihanSantriController extends Controller
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
+
 
 
     public function history_tagihan_bulanan(Request $request)
