@@ -53,8 +53,7 @@
           <table class="table table-striped" id="table1">
             <thead>
               <tr>
-                {{-- <th><input type="checkbox" id="selectAll"></th> --}}
-                <th>#</th>
+                <th><input type="checkbox" id="selectAll"></th>
                 <th>No</th>
                 <th>Nama Lengkap</th>
                 <th>Jenis Kelamin</th>

@@ -49,15 +49,10 @@ class ClassController extends Controller
         $santriIds = explode(',', $request->selected_santri);
         $kelasId = $request->kelas_id;
 
-
-
         DB::beginTransaction();
         try {
             foreach ($santriIds as $santriId) {
                 $santri = Santri::find($santriId);
-
-                dd($santri);
-
                 if (!$santri) {
                     throw new \Exception("Santri dengan ID {$santriId} tidak ditemukan.");
                 }
@@ -102,7 +97,6 @@ class ClassController extends Controller
             return redirect()->route('class.index')->with('success', 'Santri berhasil di-enroll.');
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
             return redirect()->back()->with('error', 'Gagal enroll santri: ' . $e->getMessage());
         }
     }
