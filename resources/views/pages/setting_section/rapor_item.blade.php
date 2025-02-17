@@ -164,7 +164,8 @@
 
               <div class="form-group">
                 <label for="nama_item">Nama Item Penilaian</label>
-                <input type="text" class="form-control" id="nama_item" name="nama" required>
+                <input type="text" class="form-control" id="nama_item" name="nama"
+                  oninput="validateInput(this)" required>
                 @error('nama')
                   <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -222,3 +223,11 @@
     {{-- Modal create rapor end --}}
   </section>
 </div>
+
+@push('js')
+  <script>
+    function validateInput(input) {
+      input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    }
+  </script>
+@endpush

@@ -37,8 +37,8 @@ class RaporItemSeeder extends Seeder
                     4 => ["Bercermin", "Naik Kendaraan", "Rukuk", "Itidal"],
                     5 => ["Turun Hujan", "Mendengar Petir", "Tahiyyat Awal"],
                     6 => ["Penutup Majelis", "Bersin & Jawab", "Qunut"],
-                    7 => ["Bertambah Ilmu", "Mau Tidur", "Bangun Tidur", "Masuk Masjid", "Keluar Masjid", "Masuk Kamar Mandi", "Keluar Kamar Mandi", "Kedua Orang Tua", "Masuk Rumah", "Keluar Rumah", "Doa & Dzikir"],
-                    8 => ["Bertambah Ilmu", "Mau Tidur", "Bangun Tidur", "Masuk Masjid", "Keluar Masjid", "Masuk Kamar Mandi", "Keluar Kamar Mandi", "Kedua Orang Tua", "Masuk Rumah", "Keluar Rumah", "Doa & Dzikir"],
+                    7 => ["Bertambah Ilmu", "Mau Tidur", "Bangun Tidur", "Masuk Masjid", "Keluar Masjid", "Masuk Kamar Mandi", "Keluar Kamar Mandi", "Kedua Orang Tua", "Masuk Rumah", "Keluar Rumah", "Doa Dan Dzikir"],
+                    8 => ["Bertambah Ilmu", "Mau Tidur", "Bangun Tidur", "Masuk Masjid", "Keluar Masjid", "Masuk Kamar Mandi", "Keluar Kamar Mandi", "Kedua Orang Tua", "Masuk Rumah", "Keluar Rumah", "Doa Dan Dzikir"],
                 ]
             ],
             [
@@ -82,10 +82,10 @@ class RaporItemSeeder extends Seeder
                 ]
             ],
             [
-                "category" => "TEORI WUDLU & SHOLAT",
+                "category" => "TEORI WUDLU DAN SHOLAT",
                 "items" => [
-                    7 => ["Wudlu & Sholat"],
-                    8 => ["Wudlu & Sholat"],
+                    7 => ["Wudlu Dan Sholat"],
+                    8 => ["Wudlu Dan Sholat"],
                 ]
             ]
         ];
