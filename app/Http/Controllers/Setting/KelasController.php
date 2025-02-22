@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Kelas;
+use App\Models\Rapor\Rapor;
+use App\Models\Rapor\RaporNilai;
+use App\Models\Santri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class KelasController extends Controller
@@ -43,14 +47,30 @@ class KelasController extends Controller
             'asatidz_id' => $request->asatidz_id
         ]);
         Alert::success('Berhasil', 'Kelas berhasil diupdate', 'success');
-        // toast('Kelas berhasil diupdate', 'success');
         return redirect()->route('settings');
     }
 
     public function destroy(string $id)
     {
-        $data = Kelas::find($id);
-        $data->delete();
-        return redirect()->route('settings');
+        DB::beginTransaction();
+        try {
+            Santri::where('kelas_id', $id)->update(['kelas_id' => null]);
+
+            $raporIds = Rapor::where('kelas_id', $id)->pluck('id');
+
+            RaporNilai::whereIn('rapor_id', $raporIds)->delete();
+
+            Rapor::whereIn('id', $raporIds)->delete();
+
+            Kelas::findOrFail($id)->delete();
+
+            DB::commit();
+
+            Alert::success('Berhasil', 'Kelas berhasil dihapus', 'success');
+            return redirect()->route('settings');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('settings')->with('error', 'Gagal menghapus kelas.');
+        }
     }
 }

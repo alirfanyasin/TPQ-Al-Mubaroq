@@ -184,6 +184,33 @@ class RaporController extends Controller
         ]);
     }
 
+    public function print_all(Request $request)
+    {
+        $dataRapor = Rapor::with(['raporNilai.raporItem', 'santri.kelas.asatidz', 'jilid'])->get();
+
+        return view('pages.rapor.print', [
+            'dataRapor' => $dataRapor, // Kirim semua data rapor
+            'title' => 'Rapor Santri',
+        ]);
+    }
+
+    public function export(Request $request)
+    {
+        $kelasId = $request->input('kelas_id');
+
+        if (!$kelasId) {
+            return redirect()->back()->withErrors(['kelas_id' => 'Kelas ID is required']);
+        }
+
+        // Mengambil kelas berdasarkan kelas_id
+        $kelas = Kelas::findOrFail($kelasId);
+
+        // Mengambil jilid_id dari relasi jilid pada model Kelas
+        $jilidId = $kelas->jilid->id;
+
+        return Excel::download(new RaporExport($jilidId, $kelasId), 'rapors.xlsx');
+    }
+
 
     public function export_rapor(Request $request)
     {

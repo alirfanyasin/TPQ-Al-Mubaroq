@@ -38,13 +38,20 @@
                         <button type="button" class="btn d-inline-block icon" data-bs-toggle="modal"
                           data-bs-target="#editKelasModal-{{ $data->id }}"><i class="bi bi-pencil"></i></button>
 
+
                         <form action="{{ route('setting.destroy_kelas', ['id' => $data->id]) }}" method="POST"
                           class="d-inline">
                           @csrf
                           @method('DELETE')
-                          <button class="btn icon" type="submit" data-confirm-delete="true"><i
-                              class="bi bi-trash"></i></button>
+                          <button class="btn icon" type="submit"><i class="bi bi-trash"></i></button>
                         </form>
+
+                        {{-- <form action="{{ route('setting.destroy_kelas', ['id' => $data->id]) }}" method="POST"
+                          class="d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn icon" type="submit"><i class="bi bi-trash"></i></button>
+                        </form> --}}
                       </td>
                     </tr>
 

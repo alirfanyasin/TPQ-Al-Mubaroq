@@ -14,7 +14,7 @@
 <body class="vh-100">
   <div id="auth">
     <div class="row vh-100 d-flex justify-content-center">
-      <div class="col-6">
+      <div class="col-12 col-md-10 col-lg-8 col-xl-6">
         @yield('auth-content')
       </div>
 

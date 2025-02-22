@@ -40,7 +40,7 @@
           </div>
 
           <div class="d-inline-block">
-            <form action="{{ route('rapor.print') }}" method="POST">
+            <form action="{{ route('rapor.print') }}" method="POST" target="_blank">
               @csrf
               <div class="input-group">
                 <button class="btn btn-success" type="submit" id="button-print">Cetak</button>
