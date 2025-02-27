@@ -36,7 +36,8 @@
                   <div class="form-group">
                     <label for="pembayaran-awal-pendaftaran">Pembayaran Awal</label>
                     <input type="number" class="form-control" id="pembayaran-awal-pendaftaran" placeholder="Rp."
-                      name="tagihan_pendaftaran" value="{{ $tagihanSantri->tagihanPendaftaran->bayar }}">
+                      name="tagihan_pendaftaran"
+                      value="{{ $tagihanSantri->tagihanPendaftaran->bayar == 0 ? $data->tagihan_pendaftaran : $tagihanSantri->tagihanPendaftaran->bayar }}">
                   </div>
                 </div>
 
@@ -49,7 +50,8 @@
                   <div class="form-group">
                     <label for="pembayaran-awal-bulanan">Pembayaran Awal</label>
                     <input type="text" class="form-control" id="pembayaran-awal-bulanan" placeholder="Rp."
-                      name="tagihan_bulanan" value="{{ $tagihanBulananSantri->bayar }}">
+                      name="tagihan_bulanan"
+                      value="{{ $tagihanBulananSantri->bayar == 0 ? $data->tagihan_bulanan : $tagihanBulananSantri->bayar }}">
                   </div>
                 </div>
 
@@ -61,14 +63,15 @@
                   <div class="form-group">
                     <label for="pembayaran-awal-seragam">Pembayaran Awal</label>
                     <input type="number" class="form-control" id="pembayaran-awal-seragam" placeholder="Rp."
-                      name="tagihan_seragam" value="{{ $tagihanSantri->tagihanSeragam->bayar }}">
+                      name="tagihan_seragam"
+                      value="{{ $tagihanSantri->tagihanSeragam->bayar == 0 ? $data->tagihan_biaya_seragam : $tagihanSantri->tagihanSeragam->bayar }}">
                   </div>
-                  <div class="form-check">
+                  {{-- <div class="form-check">
                     <div class="checkbox">
                       <input type="checkbox" id="lewati" class="form-check-input">
                       <label for="lewati">Lewati pembayaran seragam</label>
                     </div>
-                  </div>
+                  </div> --}}
                 </div>
               </div>
 

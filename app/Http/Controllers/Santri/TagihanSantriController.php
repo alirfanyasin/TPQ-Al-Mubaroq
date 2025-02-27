@@ -12,6 +12,8 @@ use App\Models\Tagihan\TagihanSantri as TagihanTagihanSantri;
 use App\Models\TagihanSantri;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TagihanSantriController extends Controller
 {
@@ -32,9 +34,11 @@ class TagihanSantriController extends Controller
                 ->first();
             $santri->tagihanBulanIni = $tagihanBulanIni;
         }
+
+
         return view('pages.tagihan.index', [
             'title' => 'Tagihan Santri',
-            'datas' => $data
+            'datas' => $data,
         ]);
     }
 
@@ -90,14 +94,88 @@ class TagihanSantriController extends Controller
     }
 
 
-    // public function history_tagihan_bulanan()
-    // {
-    //     $dataTagihanBulanan = Bulanan::orderBy('date', 'asc')->get();
-    //     return view('pages.tagihan.history_bulanan', [
-    //         'title' => 'History Tagihan Bulanan',
-    //         'datas' => $dataTagihanBulanan
-    //     ]);
-    // }
+
+    public function bulk_tagihan_bulanan()
+    {
+        $dataTagihanBulanan = Bulanan::where('status', 'Belum Lunas')->get();
+        $tagihanSantri = Tagihan::find(1);
+        $tagihanBulananValue = $tagihanSantri ? $tagihanSantri->tagihan_bulanan : 0;
+        return view('pages.tagihan.bulk_tagihan_bulanan', [
+            'title' => 'Bulk Tagihan Bulanan',
+            'datas' => $dataTagihanBulanan,
+            'tagihanSantri' => $tagihanBulananValue
+        ]);
+    }
+
+
+    public function bulk_tagihan_bulanan_action(Request $request)
+    {
+        // Validasi input
+        $validatedData = $request->validate([
+            'tagihan' => 'required|array',
+            'tagihan.*' => 'nullable|numeric|min:0',
+        ]);
+
+        // Cek apakah data tagihan umum tersedia
+        $tagihanSantri = Tagihan::find(1);
+        if (!$tagihanSantri) {
+            return redirect()->back()->withErrors(['error' => 'Data tagihan utama tidak ditemukan.']);
+        }
+
+        // Mulai transaksi database
+        DB::beginTransaction();
+
+        try {
+            foreach ($validatedData['tagihan'] as $id => $amount) {
+                $dataTagihan = Bulanan::find($id);
+
+                if (!$dataTagihan) {
+                    throw new \Exception("Data tagihan dengan ID {$id} tidak ditemukan.");
+                }
+
+                // Update status pembayaran
+                $status = ($amount >= $tagihanSantri->tagihan_bulanan) ? 'Lunas' : 'Belum Lunas';
+                $dataTagihan->update([
+                    'bayar' => $amount,
+                    'status' => $status
+                ]);
+
+                // Jika statusnya "Lunas", buat tagihan untuk bulan berikutnya
+                if ($status === 'Lunas') {
+                    $nextMonthDate = Carbon::parse($dataTagihan->date)->addMonth();
+
+                    $existingNextMonthTagihan = Bulanan::where('santri_id', $dataTagihan->santri_id)
+                        ->whereDate('date', $nextMonthDate)
+                        ->exists();
+
+                    if (!$existingNextMonthTagihan) {
+                        Bulanan::create([
+                            'date' => $nextMonthDate,
+                            'santri_id' => $dataTagihan->santri_id,
+                            'bayar' => 0,
+                            'status' => 'Belum Lunas',
+                        ]);
+                    }
+                }
+            }
+
+            // Commit transaksi jika semua operasi berhasil
+            DB::commit();
+
+            // Tampilkan pesan sukses
+            Alert::success('Berhasil', 'Tagihan berhasil disimpan');
+            return redirect()->route('tagihan.index');
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            DB::rollBack();
+
+            // Tampilkan pesan error
+            Alert::error('Gagal', 'Tagihan gagal disimpan');
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+
 
     public function history_tagihan_bulanan(Request $request)
     {
@@ -137,10 +215,6 @@ class TagihanSantriController extends Controller
 
 
 
-
-
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -167,35 +241,4 @@ class TagihanSantriController extends Controller
     //     }
     // }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

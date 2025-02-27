@@ -31,7 +31,7 @@
                           class="d-inline">
                           @csrf
                           @method('DELETE')
-                          <button class="btn icon"><i class="bi bi-trash"></i></button>
+                          <button class="btn icon" type="submit"><i class="bi bi-trash"></i></button>
                         </form>
                       </td>
                     </tr>

@@ -120,9 +120,10 @@
       <div class="text-center col-6">
         <div style="margin-bottom: 40px"></div>
         <p>Wali Kelas,</p>
-        <img
+        <div style="height: 50px"></div>
+        {{-- <img
           src="https://www.shutterstock.com/image-vector/fake-autograph-samples-handdrawn-signatures-260nw-2332469589.jpg"
-          width="200px" alt="Signature">
+          width="200px" alt="Signature"> --}}
         <p>{{ $rapor->santri->kelas->asatidz->nama_lengkap }}</p>
       </div>
       <div class="text-center col-6">
@@ -130,9 +131,10 @@
           Surabaya, {{ now()->format('d M Y') }}
         </p>
         <p>Ketua TPQ,</p>
-        <img
+        <div style="height: 50px"></div>
+        {{-- <img
           src="https://www.shutterstock.com/image-vector/fake-autograph-samples-handdrawn-signatures-260nw-2332469589.jpg"
-          width="200px" alt="Signature">
+          width="200px" alt="Signature"> --}}
         <p>{{ $rapor->santri->kelas->asatidz->nama_lengkap }}</p>
       </div>
     </div>

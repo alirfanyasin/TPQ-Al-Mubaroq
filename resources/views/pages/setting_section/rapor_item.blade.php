@@ -72,12 +72,24 @@
                               <fieldset class="form-group">
                                 <label for="jenis_penilaian">Pilih Jenis Penilaian</label>
                                 <select class="form-select" id="jenis_penilaian" name="jenis_penilaian" required>
-                                  <option value="BACA TULIS AL-QURAN">BACA TULIS AL-QURAN</option>
-                                  <option value="HAFALAN DOA HARIAN">HAFALAN DOA HARIAN</option>
-                                  <option value="HAFALAN SURAH PENDEK">HAFALAN SURAH PENDEK</option>
-                                  <option value="PRAKTEK GERAKAN">PRAKTEK GERAKAN</option>
-                                  <option value="HAFALAN HADIST">HAFALAN HADIST</option>
-                                  <option value="TEORI WUDLU & SHOLAT">TEORI WUDLU & SHOLAT</option>
+                                  <option value="BACA TULIS AL-QURAN"
+                                    {{ $data->jenis_penilaian == 'BACA TULIS AL-QURAN' ? 'selected' : '' }}>BACA
+                                    TULIS AL-QURAN</option>
+                                  <option value="HAFALAN DOA HARIAN"
+                                    {{ $data->jenis_penilaian == 'HAFALAN DOA HARIAN' ? 'selected' : '' }}>HAFALAN
+                                    DOA HARIAN</option>
+                                  <option value="HAFALAN SURAH PENDEK"
+                                    {{ $data->jenis_penilaian == 'HAFALAN SURAH PENDEK' ? 'selected' : '' }}>HAFALAN
+                                    SURAH PENDEK</option>
+                                  <option value="PRAKTEK GERAKAN"
+                                    {{ $data->jenis_penilaian == 'PRAKTEK GERAKAN' ? 'selected' : '' }}>PRAKTEK
+                                    GERAKAN</option>
+                                  <option value="HAFALAN HADIST"
+                                    {{ $data->jenis_penilaian == 'HAFALAN HADIST' ? 'selected' : '' }}>HAFALAN HADIST
+                                  </option>
+                                  <option value="TEORI WUDLU & SHOLAT"
+                                    {{ $data->jenis_penilaian == 'TEORI WUDLU & SHOLAT' ? 'selected' : '' }}>TEORI
+                                    WUDLU & SHOLAT</option>
                                 </select>
                                 @error('jenis_penilaian')
                                   <small class="text-danger">{{ $message }}</small>
@@ -152,7 +164,8 @@
 
               <div class="form-group">
                 <label for="nama_item">Nama Item Penilaian</label>
-                <input type="text" class="form-control" id="nama_item" name="nama" required>
+                <input type="text" class="form-control" id="nama_item" name="nama"
+                  oninput="validateInput(this)" required>
                 @error('nama')
                   <small class="text-danger">{{ $message }}</small>
                 @enderror
@@ -210,3 +223,11 @@
     {{-- Modal create rapor end --}}
   </section>
 </div>
+
+@push('js')
+  <script>
+    function validateInput(input) {
+      input.value = input.value.replace(/[^a-zA-Z0-9\s]/g, '');
+    }
+  </script>
+@endpush

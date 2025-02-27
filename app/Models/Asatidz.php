@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Asatidz extends Model
 {
@@ -29,5 +29,25 @@ class Asatidz extends Model
     public function kelas(): HasMany
     {
         return $this->hasMany(Kelas::class, 'asatidz_id');
+    }
+
+    /**
+     * Get all of the gaji for the Asatidz
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function gaji(): HasMany
+    {
+        return $this->hasMany(GajiAsatidzBulanan::class, 'asatidz_id');
+    }
+
+    /**
+     * Get all of the absensi for the Asatidz
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function absensi(): HasMany
+    {
+        return $this->hasMany(Absensi::class, 'asatidz_id');
     }
 }

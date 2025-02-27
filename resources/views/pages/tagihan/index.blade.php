@@ -21,19 +21,17 @@
         <div class="card-header">
           <a href="{{ route('santri.history_tagihan_bulanan') }}" class="btn btn-primary icon icon-left">Riwayat Tagihan
             Bulanan</a>
-          {{-- <div class="btn-group">
-            <div class="dropdown">
-              <button class="btn btn-success icon icon-left dropdown-toggle me-1" type="button"
-                id="dropdownMenuExportImport" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="bi bi-file-earmark-spreadsheet-fill"></i>
-                Import dan Export
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuExportImport">
-                <a class="dropdown-item" href="{{ route('santri.donwload_template') }}">Import Data</a>
-                <a class="dropdown-item" href="{{ route('santri.export') }}">Export Data</a>
-              </div>
+
+          <div class="d-inline-block">
+            <div class="input-group">
+              <button class="btn btn-success" type="button" id="button-bulk" onclick="handleBulkAction()">Bulk</button>
+              <select class="form-select" id="bulk-action-select" aria-label="Pilih tindakan bulk">
+                {{-- <option value="{{ route('tagihan.bulk.tagihan_pendaftaran') }}">Tagihan Pendaftaran</option>
+                <option value="{{ route('tagihan.bulk.tagihan_seragam') }}">Tagihan Seragam</option> --}}
+                <option value="{{ route('tagihan.bulk.tagihan_bulanan') }}">Tagihan Bulanan</option>
+              </select>
             </div>
-          </div> --}}
+          </div>
         </div>
         <div class="card-body">
           <table class="table table-striped" id="table1">
@@ -66,14 +64,13 @@
                   </td>
                   <td>
                     @if ($data->tagihanBulanIni)
-                      <!-- Menampilkan tagihan bulan ini yang statusnya 'Belum Lunas' -->
                       <span
                         class="badge {{ $data->tagihanBulanIni->status == 'Belum Lunas' ? 'bg-danger' : 'bg-success' }}">
                         {{ $data->tagihanBulanIni->status }}
                       </span>
 
                       <span class="badge bg-secondary">
-                        {{ \Carbon\Carbon::parse($data->tagihanBulanIni->date)->format('d-m-Y') }}
+                        {{ \Carbon\Carbon::parse($data->tagihanBulanIni->date)->format('d-M-Y') }}
                       </span>
                     @else
                       <span
@@ -102,4 +99,16 @@
 @push('js')
   <script src="/template/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
   <script src="/template/assets/js/pages/simple-datatables.js"></script>
+
+
+  <script>
+    function handleBulkAction() {
+      const selectedValue = document.getElementById('bulk-action-select').value;
+      if (selectedValue) {
+        window.location.href = selectedValue;
+      } else {
+        alert('Pilih tindakan terlebih dahulu.');
+      }
+    }
+  </script>
 @endpush

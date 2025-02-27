@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Rapor;
 
 use App\Exports\RaporExport;
 use App\Http\Controllers\Controller;
+use App\Imports\RaporImport;
 use App\Models\Jilid;
 use App\Models\Kelas;
 use App\Models\Rapor\Rapor;
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RaporController extends Controller
 {
@@ -109,29 +111,29 @@ class RaporController extends Controller
         return redirect()->back()->with('success', 'Semester telah berhasil diperbarui.');
     }
 
-    public function generate_item_penilaian(string $id)
-    {
-        $dataRapor = Rapor::findOrFail($id);
-        $raporItems = RaporItem::where('semester_id', $dataRapor->semester_id)
-            ->where('jilid_id', $dataRapor->jilid_id)
-            ->get();
+    // public function generate_item_penilaian(string $id)
+    // {
+    //     $dataRapor = Rapor::findOrFail($id);
+    //     $raporItems = RaporItem::where('semester_id', $dataRapor->semester_id)
+    //         ->where('jilid_id', $dataRapor->jilid_id)
+    //         ->get();
 
-        foreach ($raporItems as $item) {
-            $existingRaporNilai = RaporNilai::where('rapor_id', $id)
-                ->where('rapor_item_id', $item->id)
-                ->exists();
+    //     foreach ($raporItems as $item) {
+    //         $existingRaporNilai = RaporNilai::where('rapor_id', $id)
+    //             ->where('rapor_item_id', $item->id)
+    //             ->exists();
 
-            if (!$existingRaporNilai) {
-                RaporNilai::create([
-                    'rapor_id' => $id,
-                    'rapor_item_id' => $item->id,
-                    'nilai' => 0.0,
-                ]);
-            }
-        }
+    //         if (!$existingRaporNilai) {
+    //             RaporNilai::create([
+    //                 'rapor_id' => $id,
+    //                 'rapor_item_id' => $item->id,
+    //                 'nilai' => 0.0,
+    //             ]);
+    //         }
+    //     }
 
-        return redirect()->route('rapor.item_penilaian', ['id' => $id]);
-    }
+    //     return redirect()->route('rapor.item_penilaian', ['id' => $id]);
+    // }
 
 
 
@@ -182,6 +184,33 @@ class RaporController extends Controller
         ]);
     }
 
+    public function print_all(Request $request)
+    {
+        $dataRapor = Rapor::with(['raporNilai.raporItem', 'santri.kelas.asatidz', 'jilid'])->get();
+
+        return view('pages.rapor.print', [
+            'dataRapor' => $dataRapor, // Kirim semua data rapor
+            'title' => 'Rapor Santri',
+        ]);
+    }
+
+    public function export(Request $request)
+    {
+        $kelasId = $request->input('kelas_id');
+
+        if (!$kelasId) {
+            return redirect()->back()->withErrors(['kelas_id' => 'Kelas ID is required']);
+        }
+
+        // Mengambil kelas berdasarkan kelas_id
+        $kelas = Kelas::findOrFail($kelasId);
+
+        // Mengambil jilid_id dari relasi jilid pada model Kelas
+        $jilidId = $kelas->jilid->id;
+
+        return Excel::download(new RaporExport($jilidId, $kelasId), 'rapors.xlsx');
+    }
+
 
     public function export_rapor(Request $request)
     {
@@ -198,5 +227,24 @@ class RaporController extends Controller
         $jilidId = $kelas->jilid->id;
 
         return Excel::download(new RaporExport($jilidId, $kelasId), 'rapors.xlsx');
+    }
+
+    public function import_rapor_view()
+    {
+        return view('pages.import.import_rapor', [
+            'title' => 'Import Rapor'
+        ]);
+    }
+
+
+    public function import_rapor(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv'
+        ]);
+
+        Excel::import(new RaporImport, $request->file('file'));
+
+        return redirect()->back()->with('success', 'Data berhasil diimport');
     }
 }

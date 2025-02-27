@@ -11,7 +11,7 @@
 
 
     <h1 class="text-black auth-title">Log in.</h1>
-    <p class="mb-5 auth-subtitle">Selamat Datang Di TPQ AL-Mubarok.</p>
+    <p class="mb-5 auth-subtitle">Selamat Datang Di TPQ Al-Mubaarok.</p>
 
     @if ($errors->has('errors'))
       <div class="alert alert-danger alert-dismissible" role="alert">
