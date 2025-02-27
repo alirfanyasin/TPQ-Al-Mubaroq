@@ -14,9 +14,11 @@ use Illuminate\Http\Request;
 use App\Exports\ExportAsatidz;
 use App\Imports\ImportAsatidz;
 use App\Models\AbsensiHistory;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\GajiAsatidzBulanan;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -93,7 +95,7 @@ class GajiAsatidzController extends Controller
             "Juli", "Agustus", "September", "Oktober", "November", "Desember"
         ];
         $date = Carbon::now()->locale('id_ID')->isoFormat('dddd, D MMMM YYYY');
-    
+
         // Membuat dropdown berdasarkan bulan dan tahun yang tersedia
         $bulanArray = GajiAsatidzBulanan::select('tanggal')->get()
             ->map(function ($gaji) use ($months) {
@@ -163,18 +165,6 @@ class GajiAsatidzController extends Controller
             'total_bulan_ini' => $total_bulan_ini,
         ]);
     }
-    
-
-    // public function show(Request $id)
-    // {
-    //     $npa = $id->input('asatidz_id');
-    //     $asatidz = Asatidz::where('asatidz_id', $npa)->first();
-    //     $ttl = $asatidz->tanggal_lahir;
-    //     $umur = Carbon::parse($ttl)->age;
-    //     $bulan_ini = GajiAsatidzBulanan::where('asatidz_id', $npa)->where('tanggal', 'LIKE', Carbon::now()->format('Y-m').'%')->first();
-    //     $totalSesi = absensi::where('asatidz_id', $npa)->whereMonth('created_at', Carbon::now()->month)->sum('jumlah_sesi');
-    //     return view('asatidz.detail_asatidz', ['asatidz' => $asatidz, 'umur' => $umur, 'bulan_ini' => $bulan_ini, 'totalSesi' => $totalSesi]);
-    // }
 
     public function edit(Request $request, $id)
     {
@@ -267,52 +257,6 @@ class GajiAsatidzController extends Controller
         ]);
     }
 
-
-    // public function import(Request $request)
-    // {
-    //     $request->validate([
-    //         'file' => 'required|mimes:xlsx,xls,csv|max:2048',
-    //     ], [
-    //         'file.required' => 'File wajib diisi',
-    //         'file.mimes' => 'File wajib bertipe xlsx, xls, csv',
-    //         'file.max' => 'File maksimal 2 mb',
-    //     ]);
-
-    //     if (!$request->hasFile('file')) {
-    //         return back()->withErrors(['file' => 'File tidak ditemukan, pastikan Anda memilih file untuk diunggah.']);
-    //     }
-
-    //     $file = $request->file('file');
-
-    //     if (!$file->isValid()) {
-    //         return back()->withErrors(['file' => 'File tidak valid atau rusak.']);
-    //     }
-
-    //     try {
-    //         Excel::import(new GajiImport, $file);
-    //     } catch (\Exception $e) {
-    //         return back()->withErrors(['file' => 'Terjadi kesalahan saat mengimpor file: ' . $e->getMessage()]);
-    //     }
-
-    //     return redirect('/asatidz')->with('success', 'Berhasil import data asatidz');
-    // }
-    
-    // public function export()
-    // {
-    //     $export = new ExportAsatidz();
-    //     $fileName = 'Asatidz.xlsx';
-    //     $filePath = storage_path('app/public/excel/' . $fileName);
-
-    //     try {
-    //         Excel::store($export, 'public/excel/' . $fileName);
-
-    //         // Return a download response for the Excel file
-    //         return response()->download($filePath, $fileName)->deleteFileAfterSend(true);
-    //     } catch (Exception $e) {
-    //         return redirect()->route('settings', ['error' => $e->getMessage()]);
-    //     }
-    // }
-
     public function import(Request $request)
     {
         try {
@@ -332,6 +276,67 @@ class GajiAsatidzController extends Controller
         return redirect()->back()->with('success', 'Data berhasil diimport!');
     }
 
+    public function exportpdf(Request $request)
+    {
+        // Ambil bulan dari request atau default ke bulan terbaru
+        $bulan = $request->query('bulan_tahun', Carbon::now()->format('F Y'));
+    
+        // Konversi nama bulan Indonesia ke Inggris agar bisa digunakan di Carbon
+        $bulanIndonesia = [
+            'Januari' => 'January', 'Februari' => 'February', 'Maret' => 'March',
+            'April' => 'April', 'Mei' => 'May', 'Juni' => 'June',
+            'Juli' => 'July', 'Agustus' => 'August', 'September' => 'September',
+            'Oktober' => 'October', 'November' => 'November', 'Desember' => 'December'
+        ];
+    
+        // Pecah string "Januari 2024" menjadi ["Januari", "2024"]
+        $bulanParts = explode(' ', $bulan);
+        if (count($bulanParts) != 2) {
+            return redirect()->back()->with('error', 'Format bulan tidak valid');
+        }
+    
+        $bulanIndo = $bulanParts[0];  // "Januari"
+        $tahun = $bulanParts[1];      // "2024"
+    
+        // Pastikan bulan dalam bahasa Inggris untuk digunakan di Carbon
+        if (!array_key_exists($bulanIndo, $bulanIndonesia)) {
+            return redirect()->back()->with('error', 'Nama bulan tidak valid');
+        }
+    
+        $bulanInggris = $bulanIndonesia[$bulanIndo]; // "January"
+    
+        // Konversi format ke 'Y-m' untuk filter database
+        try {
+            $formattedDate = Carbon::createFromFormat('F Y', "$bulanInggris $tahun")->format('Y-m');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Format bulan tidak valid');
+        }
+    
+        // Ambil data penggajian berdasarkan bulan yang dipilih
+        $asatidz = GajiAsatidzBulanan::join('asatidzs', 'gaji_asatidz_bulanans.asatidz_id', '=', 'asatidzs.id')
+            ->whereRaw('DATE_FORMAT(tanggal, "%Y-%m") = ?', [$formattedDate])
+            ->get();
+        // Ambil jumlah hari aktif bulan yang dipilih
+        $hariAktif = HariAktif::where('bulan_tahun', 'like', '%' . $bulanInggris . '%')->first();
+
+        $totalHariAktif = $hariAktif->jumlah_hari;
+    
+        // Ambil pengaturan gaji
+        $setting = GajiAsatidz::first();
+    
+        // Generate PDF dengan data yang sudah difilter
+        $pdf = PDF::loadView('pages.gaji.pdf', [
+            'bulan' => $bulan,
+            'gaji' => $asatidz,
+            'setting' => $setting,
+            'hari_aktif_bulan_ini' => $totalHariAktif
+        ]);
+    
+        return $pdf->download('gaji_report_' . str_replace(' ', '_', $bulan) . '.pdf');
+    }
+    
+    
+    
     public function tempGaji()
     {
         $filename = 'template_penggajian.xlsx';

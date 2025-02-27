@@ -33,7 +33,7 @@
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuExportImport">
                   <a class="dropdown-item" href="{{ route('gaji.donwload_template') }}">Import Data</a>
                   <a class="dropdown-item" href="{{ route('gaji.export') }}">Export Data .xlxs</a>
-                  <a class="dropdown-item" href="">Export Data PDF</a>
+                  <a class="dropdown-item" href="{{ route('gaji.pdf', ['bulan_tahun' => request('bulan', $selectedBulan)])}}" >Export Data PDF</a>              
                 </div>
               </div>
             
@@ -83,7 +83,7 @@
                   @php
                     $lembur = 0;
                     $gajiPokok = 0;
-
+                    // dd($row->status);
                     if ($row->status == 'Magang') {
                       $lembur = $setting->lembur_magang * $row->Gaji->lembur;
                       if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
@@ -91,6 +91,7 @@
                       } else {
                         $gajiPokok = $setting->gaji_magang;
                       }
+                      $total_gaji = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional + $lembur + $row->Gaji->extra - $row->Gaji->kasbon;
                     } else {
                       $lembur = $setting->lembur_tetap * $row->lembur;
                       if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
@@ -98,9 +99,9 @@
                       } else {
                         $gajiPokok = $setting->gaji_tetap;
                       }
+                      $total_gaji = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional + $lembur + $row->Gaji->extra + $setting->kenaikan - $row->Gaji->kasbon;
                     }
                     
-                    $total_gaji = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional + $lembur + $row->Gaji->extra + $setting->kenaikan - $row->Gaji->kasbon;
                     $gaji_bruto = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional;
                     
                   @endphp
@@ -116,7 +117,7 @@
                     </td>
                     <td class="mnony text-center">
                       <span class="badge bg-primary">
-                      Rp. {{ number_format($total_gaji ?? 0, 0, ',', '.') }}
+                      Rp. {{ number_format($total_gaji, 0, ',', '.') }}
                       </span>
                     </td>
                     <td class="mnony text-center">
