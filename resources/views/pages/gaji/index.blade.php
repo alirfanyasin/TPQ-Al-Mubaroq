@@ -76,11 +76,14 @@
               </tr>
               </thead>
               <tbody>
+                @php
+                  $no = 1;
+                @endphp
                 @foreach ($asatidzModel as $row)
-                    @php
+                  @php
                     $lembur = 0;
                     $gajiPokok = 0;
-                    
+
                     if ($row->status == 'Magang') {
                       $lembur = $setting->lembur_magang * $row->Gaji->lembur;
                       if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
@@ -88,7 +91,6 @@
                       } else {
                         $gajiPokok = $setting->gaji_magang;
                       }
-                      // dd($lembur);
                     } else {
                       $lembur = $setting->lembur_tetap * $row->lembur;
                       if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
@@ -103,7 +105,7 @@
                     
                   @endphp
                     <tr role="button" onclick="window.location.href='{{ route('asatidz.show', $row->id) }}'" style="cursor: pointer">
-                    <td class="text-center">{{ $row->id }}</td>
+                    <td class="text-center">{{ $no++ }}</td>
                     <td style="font-size: 0.9em;">{{ $row->nama_lengkap }}</td>
                     <td class="status text-center">
                       @if ($row->status != 'Magang')
@@ -160,7 +162,7 @@
                 @endforeach
               </tbody>
             </table>
-          </div>
+          </div> 
         </div>
       </section>
     </div>

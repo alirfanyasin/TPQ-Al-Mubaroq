@@ -87,7 +87,7 @@ class GajiAsatidzController extends Controller
 
     public function index(Request $request)
     {
-        $asatidzs = Asatidz::with('gaji', 'absensi')->get();
+        $asatidzs = Asatidz::with('gaji', 'absensi')->orderBy('nama_lengkap', 'ASC')->get();
         $months = [
             "Januari", "Februari", "Maret", "April", "Mei", "Juni",
             "Juli", "Agustus", "September", "Oktober", "November", "Desember"
