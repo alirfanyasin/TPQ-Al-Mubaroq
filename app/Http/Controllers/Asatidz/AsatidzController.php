@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\AsatidzImport;
 use App\Jobs\CreateNewUserAfter;
 use App\Models\Asatidz;
+use App\Models\GajiAsatidzBulanan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -129,6 +130,18 @@ class AsatidzController extends Controller
         } else {
             $asatidz = Asatidz::create($validatedData);
             session(['biodata_asatid_id' => $asatidz->id]);
+
+            GajiAsatidzBulanan::create([
+                'asatidz_id' => $asatidz->id,
+                'tanggal' => now(),
+            ]);
+
+            // if ($gaji) {
+            //     dd("Data gaji berhasil dibuat", $gaji);
+            // } else {
+            //     dd("Gagal membuat data gaji");
+            // }
+            
         }
         session(['form_biodata' => $validatedData]);
 

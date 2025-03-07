@@ -89,7 +89,7 @@ class GajiAsatidzController extends Controller
 
     public function index(Request $request)
     {
-        $asatidzs = Asatidz::with('gaji', 'absensi')->orderBy('nama_lengkap', 'ASC')->get();
+        // $asatidzs = Asatidz::with('gaji', 'absensi')->orderBy('nama_lengkap', 'ASC')->get();
         $months = [
             "Januari", "Februari", "Maret", "April", "Mei", "Juni",
             "Juli", "Agustus", "September", "Oktober", "November", "Desember"
@@ -120,18 +120,25 @@ class GajiAsatidzController extends Controller
         // Pisahkan bulan dan tahun yang dipilih
         [$selectedBulanName, $selectedTahun] = explode(' ', $selectedBulanTahun);
         $selectedBulanIndex = array_search($selectedBulanName, $months) + 1;
-    
+        
+        $selectedDate = Carbon::createFromDate($selectedTahun, $selectedBulanIndex, 1)->endOfMonth();
+
+        // Ambil asatidz yang bergabung sebelum atau pada bulan yang dipilih
+        $asatidzs = Asatidz::with('gaji', 'absensi')
+        ->whereDate('created_at', '<=', $selectedDate)
+        ->orderBy('nama_lengkap', 'ASC')
+        ->get();
+        
         // Filter data penggajian berdasarkan bulan dan tahun yang dipilih
         $filteredGaji = GajiAsatidzBulanan::whereMonth('tanggal', $selectedBulanIndex)
             ->whereYear('tanggal', $selectedTahun)
             ->get();
-    
+        
         // Menggabungkan data asatidz dengan data penggajian
         $asatidzs->each(function ($asatidz) use ($filteredGaji) {
-            $latestPenggajian = $filteredGaji->where('asatidz_id', $asatidz->id)->first();
-            $asatidz->Gaji = $latestPenggajian;
+            $asatidz->Gaji = $filteredGaji->where('asatidz_id', $asatidz->id)->first() ?? null;
         });
-    
+
         // Menghitung total gaji bulan ini
         $total_bulan_ini = 0;
         foreach ($asatidzs as $asatidz) {
@@ -169,7 +176,14 @@ class GajiAsatidzController extends Controller
     public function edit(Request $request, $id)
     {
         // Ambil bulan yang difilter dari request atau gunakan default bulan ini
-        $bulanFilter = $request->input('bulan', Carbon::now()->format('Y m'));
+        $bulanFilter = $request->input('bulan', Carbon::now()->format('F Y'));
+        
+        $bulankeIndonesia = [
+            "January" => "Januari", "February" => "Februari", "March" => "Maret",
+            "April" => "April", "May" => "Mei", "June" => "Juni",
+            "July" => "Juli", "August" => "Agustus", "September" => "September",
+            "October" => "Oktober", "November" => "November", "December" => "Desember"
+        ];
 
         $months = [
             "Januari", "Februari", "Maret", "April", "Mei", "Juni",
@@ -178,12 +192,13 @@ class GajiAsatidzController extends Controller
         
         // Pastikan data hari aktif tersedia
         $bulanFilterParts = explode(' ', $bulanFilter);
-        // dd($bulanFilter);
+        
         $bulanName = $bulanFilterParts[0];
         $tahun = $bulanFilterParts[1];
-        $bulanIndex = array_search($bulanName, $months) + 1;
+        $bulanIndo = $bulankeIndonesia[$bulanName] ?? $bulanName;
+        $bulanIndex = array_search($bulanIndo, $months) + 1;
         $formattedBulanFilter = Carbon::createFromDate($tahun, $bulanIndex, 1)->format('F Y');
-
+        // dd($bulanIndex, $formattedBulanFilter);
         // Ambil data asatidz
         $asatidz = Asatidz::with(['gaji' => function ($query) use ($formattedBulanFilter) {
             $query->whereYear('tanggal', Carbon::createFromFormat('F Y', $formattedBulanFilter)->year)
@@ -193,10 +208,10 @@ class GajiAsatidzController extends Controller
 
         // Ambil data gaji bulan yang dipilih
         $gaji = $asatidz->gaji->first(); // Ambil gaji terbaru sesuai filter
-
+        
         $hariAktif = HariAktif::where('bulan_tahun', 'like', '%' . $formattedBulanFilter . '%')->first();
         $totalHariAktif = $hariAktif ? $hariAktif->jumlah_hari : 0;
-    
+        
         return view('pages.gaji.edit_gaji', [
             'asatidz' => $asatidz,
             'gaji' => $gaji,
@@ -225,7 +240,14 @@ class GajiAsatidzController extends Controller
             "Januari", "Februari", "Maret", "April", "Mei", "Juni",
             "Juli", "Agustus", "September", "Oktober", "November", "Desember"
         ];
-        $bulanIndex = array_search($bulanName, $months) + 1;
+        $bulankeIndonesia = [
+            "January" => "Januari", "February" => "Februari", "March" => "Maret",
+            "April" => "April", "May" => "Mei", "June" => "Juni",
+            "July" => "Juli", "August" => "Agustus", "September" => "September",
+            "October" => "Oktober", "November" => "November", "December" => "Desember"
+        ];
+        $bulanIndo = $bulankeIndonesia[$bulanName] ?? $bulanName;
+        $bulanIndex = array_search($bulanIndo, $months) + 1;
 
         // Update data gaji asatidz
         $gaji = GajiAsatidzBulanan::where('asatidz_id', $id)

@@ -17,7 +17,7 @@ class AbsensiHistorySeeder extends Seeder
     public function run()
     {
         for ($i = 1; $i <= 31; $i++) {
-            $tanggal = Carbon::create(2025, 1, $i);
+            $tanggal = Carbon::create(2025, 2, $i);
             $formatedtgl = $tanggal->locale('id_ID')->isoFormat('dddd, D MMMM YYYY');
             $masuk = rand(17, 20);
             $tidak = 20 - $masuk;

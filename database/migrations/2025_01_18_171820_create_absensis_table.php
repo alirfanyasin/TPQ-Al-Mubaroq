@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('absensis', function (Blueprint $table) {
             $table->id(); // Add an auto-incrementing ID as the primary key
             $table->foreignId('absensi_history_id')->constrained(); // Keep foreign key
-            $table->foreignId('asatidz_id')->nullable()->constrained()->onDelete('cascade'); // Foreign key for Asatidz
+            $table->foreignId('asatidz_id')->constrained()->cascadeOnDelete(); // Foreign key for Asatidz
             $table->integer('jumlah_sesi')->nullable();
             $table->integer('jumlah_masuk')->nullable();
             $table->integer('jumlah_tidak')->nullable();
