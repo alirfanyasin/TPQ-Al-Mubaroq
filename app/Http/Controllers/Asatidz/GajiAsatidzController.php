@@ -30,52 +30,46 @@ class GajiAsatidzController extends Controller
     {
         $asatidz = Asatidz::all();
         $setting = GajiAsatidz::first();
-        $jabatan = [
-            'Pembina' => 75000,
-            'Kepala TPQ' => 50000,
-            'Sekretaris' => 25000,
-            'Bendahara' => 25000,
-            'Admin' => 25000,
-            'Pengajar' => 25000,
-        ];
-        $operasional = [
-            225000,
-            125000,
-            100000,
-            75000,
-            50000,
-            50000,
-            125000,
-            125000,
-            75000,
-            100000,
-            100000,
-            75000,
-            25000,
-        ];
-        $i = 0;
+        $currentDate = Carbon::now();
+        $previousMonth = $currentDate->copy()->subMonth();
+    
         foreach ($asatidz as $asatid) {
-            $gaji_pokok = 0;
-            if ($asatid->status == 'Magang') {
-                $gaji_pokok = $setting->gaji_magang;
+            // Cek apakah ada data gaji bulan sebelumnya
+            $previousSalary = GajiAsatidzBulanan::where('asatidz_id', $asatid->id)
+                ->whereYear('tanggal', $previousMonth->year)
+                ->whereMonth('tanggal', $previousMonth->month)
+                ->first();
+    
+            if ($previousSalary) {
+                // Jika ada gaji sebelumnya, gunakan nilai yang sama
+                $gaji_pokok = $previousSalary->gaji_pokok;
+                $tunjangan_jabatan = $previousSalary->tunjangan_jabatan;
+                $tunjangan_operasional = $previousSalary->tunjangan_operasional;
+                $kenaikan = $previousSalary->kenaikan;
             } else {
-                $gaji_pokok = $setting->gaji_tetap;
+                // Jika tidak ada gaji sebelumnya, gunakan nilai default
+                $gaji_pokok = ($asatid->status == 'Magang') ? $setting->gaji_magang : $setting->gaji_tetap;
+                $tunjangan_jabatan = 0;
+                $tunjangan_operasional = 0;
+                $kenaikan = ($asatid->status == 'Magang') ? 0 : 25000;
             }
-            $gaji_bruto = $gaji_pokok + ($asatid->status == 'Magang' ? 0 : $jabatan[$asatid->jabatan]) + ($asatid->status == 'Tetap' ? $operasional[$i] : 0);
-            GajiAsatidzBulanan::factory()->create([
+            
+            $gaji_bruto = $gaji_pokok + $tunjangan_jabatan + $tunjangan_operasional + $kenaikan;
+
+            GajiAsatidzBulanan::create([
                 'asatidz_id' => $asatid->id,
                 'gaji_pokok' => $gaji_pokok,
-                'tunjangan_jabatan' => $jabatan[$asatid->jabatan],
-                'tunjangan_operasional' => ($asatid->status == 'Tetap' ? $operasional[$i] : 0),
-                'kenaikan' => ($asatid->status == 'Magang' ? 0 : 25000),
+                'tunjangan_jabatan' => $tunjangan_jabatan,
+                'tunjangan_operasional' => $tunjangan_operasional,
                 'gaji_bruto' => $gaji_bruto,
-                'tanggal' => Carbon::now()->format('Y-m-d'),
+                'kenaikan' => $kenaikan,
+                // 'tanggal' => $currentDate->format('Y-m-d'),
+                'tanggal' => ('2025-2-1'),
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-            $i++;
         }
-    }
+    }    
 
     public function checkDuplicate(Request $request)
     {
@@ -267,9 +261,13 @@ class GajiAsatidzController extends Controller
         return redirect()->route('gaji.asatidz.index')->with('success', 'Data gaji berhasil diperbarui.');
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new GajiExport, 'gaji.xlsx');
+        $bulan_tahun = $request->query('bulan_tahun', Carbon::now()->format('F Y'));
+
+        $filename = 'gaji_' . str_replace(' ', '_', strtolower($bulan_tahun)) . '.xlsx';
+
+        return Excel::download(new GajiExport($bulan_tahun), $filename);
     }
 
     public function donwload_template()
@@ -288,10 +286,11 @@ class GajiAsatidzController extends Controller
             Excel::import(new GajiImport($sheet), $data);
         } catch (Exception $e) {
             $message = str_replace(" ", "-", $e->getMessage());
+            dd($message);
             if (stristr($message, "Undefined-array-key") ==  true) {
                 $message = str_replace("Undefined-array-key", "tidak-ada-coulumn", $message);
             }
-            dd($message);
+            // dd($message);
             return redirect()->route('settings', ['error' => $message]);
         }
 
@@ -302,7 +301,7 @@ class GajiAsatidzController extends Controller
     {
         // Ambil bulan dari request atau default ke bulan terbaru
         $bulan = $request->query('bulan_tahun', Carbon::now()->format('F Y'));
-    
+        
         // Konversi nama bulan Indonesia ke Inggris agar bisa digunakan di Carbon
         $bulanIndonesia = [
             'Januari' => 'January', 'Februari' => 'February', 'Maret' => 'March',

@@ -32,7 +32,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuExportImport">
                   <a class="dropdown-item" href="{{ route('gaji.donwload_template') }}">Import Data</a>
-                  <a class="dropdown-item" href="{{ route('gaji.export') }}">Export Data .xlxs</a>
+                  <a class="dropdown-item" href="{{ route('gaji.export', ['bulan_tahun' => request('bulan', $selectedBulan)])}}">Export Data .xlxs</a>
                   <a class="dropdown-item" href="{{ route('gaji.pdf', ['bulan_tahun' => request('bulan', $selectedBulan)])}}" >Export Data PDF</a>              
                 </div>
               </div>
