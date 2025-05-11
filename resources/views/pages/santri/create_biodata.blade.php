@@ -132,9 +132,9 @@
 
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="nomor-induk">Nomor Induk</label>
+                  <label for="nomor-induk">NIS</label>
                   <input type="number" class="form-control" id="nomor-induk" name="nomor_induk" placeholder=""
-                    value="{{ old('nomor_induk', session('form_biodata_santri.nomor_induk')) }}">
+                    value="{{ old('nomor_induk', session('form_biodata_santri.nomor_induk') ?? $data_nis->nomor_induk + 1) }}" readonly>
                   @error('nomor_induk')
                     <small class="text-danger">{{ $message }}</small>
                   @enderror

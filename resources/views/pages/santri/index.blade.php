@@ -44,7 +44,7 @@
                 <th>No</th>
                 <th>Nama Lengkap</th>
                 <th>Jenis Kelamin</th>
-                <th>Nomor Telepon (WA)</th>
+                <th>NIS</th>
                 <th>Menu</th>
               </tr>
             </thead>
@@ -57,7 +57,7 @@
                   <td>{{ $no++ }}</td>
                   <td>{{ $data->nama_lengkap }}</td>
                   <td>{{ $data->jenis_kelamin }}</td>
-                  <td>{{ $data->nomor_telepon }}</td>
+                  <td>{{ $data->nomor_induk }}</td>
                   <td>
                     <a href="{{ route('santri.show', ['id' => $data->id]) }}" class="btn icon"><i
                         class="bi bi-eye"></i></a>

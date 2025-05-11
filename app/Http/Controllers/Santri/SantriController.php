@@ -29,7 +29,7 @@ class SantriController extends Controller
         confirmDelete('Hapus Kelas', 'Apakah Anda yakin?');
         return view('pages.santri.index', [
             'title' => 'Data Santri',
-            'datas' => Santri::select('id', 'nama_lengkap', 'jenis_kelamin', 'nomor_telepon')->orderBy('nama_lengkap', 'ASC')->get()
+            'datas' => Santri::select('id', 'nama_lengkap', 'jenis_kelamin', 'nomor_induk')->orderBy('nama_lengkap', 'ASC')->get()
         ]);
     }
 
@@ -39,7 +39,8 @@ class SantriController extends Controller
     public function create_biodata()
     {
         return view('pages.santri.create_biodata', [
-            'title' => 'Tambah Data Santri'
+            'title' => 'Tambah Data Santri',
+            'data_nis' => Santri::select('nomor_induk')->orderBy('nomor_induk', 'DESC')->first(),
         ]);
     }
 
@@ -101,7 +102,7 @@ class SantriController extends Controller
         $validatedData  = $request->validate([
             'nama_lengkap' => 'required',
             'nik' => 'required|unique:santris,nik,' . session('biodata_santri_id'),
-            'nomor_induk' => 'required',
+            'nomor_induk' => 'required|unique:santris,nomor_induk,' . session('biodata_santri_id'),
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',

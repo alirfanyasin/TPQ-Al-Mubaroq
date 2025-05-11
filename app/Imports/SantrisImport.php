@@ -24,7 +24,7 @@ class SantrisImport implements ToModel, WithHeadingRow
                 "nama_lengkap" => $row['nama_lengkap'] ?? null,
                 "nik" => $row['nik'] ?? null,
                 "tempat_lahir" => $row['tempat_lahir'] ?? null,
-                "nomor_induk" => $row['nomor_induk'] ?? null,
+                "nomor_induk" => $row['nis'] ?? null,
                 "jenis_kelamin" => $row['jenis_kelamin'] ?? null,
                 "agama" => $row['agama'] ?? null,
                 "jenis_tempat_tinggal" => $row['jenis_tempat_tinggal'] ?? null,

@@ -16,13 +16,18 @@ class SantriSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+
     public function run(): void
     {
+
+        $year = now()->format('y');
+        $shortYear = substr($year, -2);
+
         for ($i = 1; $i <= 10; $i++) {
             $data = Santri::create([
                 'nama_lengkap' => fake()->name(),
                 'nik' => '320123456789' . $i,
-                'nomor_induk' => 'NIS-' . $i,
+                'nomor_induk' => $shortYear . str_pad($i, 4, '0', STR_PAD_LEFT),
                 'tempat_lahir' => fake()->address(),
                 'tanggal_lahir' => Carbon::now()->subYears(rand(10, 20))->format('Y-m-d'),
                 'jenis_kelamin' => $i % 2 == 0 ? 'Laki-Laki' : 'Perempuan',
