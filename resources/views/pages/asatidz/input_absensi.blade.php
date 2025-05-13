@@ -69,13 +69,7 @@
     </section>
   </div>
 @endsection
-@push('css')
-  <link rel="stylesheet" href="/template/assets/extensions/simple-datatables/style.css">
-  <link rel="stylesheet" href="/template/assets/css/pages/simple-datatables.css">
-@endpush
 @push('js')
-  <script src="/template/assets/extensions/simple-datatables/umd/simple-datatables.js"></script>
-  <script src="/template/assets/js/pages/simple-datatables.js"></script>
   <script>
     $(document).ready(function() {
       $(document).on('change', 'input[type="radio"]', function() {

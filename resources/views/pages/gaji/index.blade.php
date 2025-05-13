@@ -32,8 +32,8 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuExportImport">
                   <a class="dropdown-item" href="{{ route('gaji.donwload_template') }}">Import Data</a>
-                  <a class="dropdown-item" href="{{ route('gaji.export') }}">Export Data .xlxs</a>
-                  <a class="dropdown-item" href="">Export Data PDF</a>
+                  <a class="dropdown-item" href="{{ route('gaji.export', ['bulan_tahun' => request('bulan', $selectedBulan)])}}">Export Data .xlxs</a>
+                  <a class="dropdown-item" href="{{ route('gaji.pdf', ['bulan_tahun' => request('bulan', $selectedBulan)])}}" >Export Data PDF</a>              
                 </div>
               </div>
             
@@ -76,34 +76,43 @@
               </tr>
               </thead>
               <tbody>
+                @php
+                  $no = 1;
+                @endphp
                 @foreach ($asatidzModel as $row)
-                    @php
+                  @php
                     $lembur = 0;
                     $gajiPokok = 0;
-                    
+                    $total_gaji = 0;
+                    $gaji_bruto = 0;
+                    $tot_sesi = 0;
+
+                    // Pastikan Gaji tidak null sebelum mengakses propertinya
+                    $gaji = optional($row->Gaji); 
+
                     if ($row->status == 'Magang') {
-                      $lembur = $setting->lembur_magang * $row->Gaji->lembur;
-                      if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
-                        $gajiPokok = $row->Gaji->jumlah_hari_efektif * $setting->lembur_magang;
+                      $lembur = $setting->lembur_magang * $gaji->lembur ?? 0;
+                      if (($gaji->jumlah_hari_efektif ?? 0) < $totalHariAktif) {
+                        $gajiPokok = ($gaji->jumlah_hari_efektif ?? 0) * $setting->lembur_magang;
                       } else {
                         $gajiPokok = $setting->gaji_magang;
                       }
-                      // dd($lembur);
+                      $total_gaji = $gajiPokok + ($gaji->tunjangan_jabatan ?? 0) + ($gaji->tunjangan_operasional ?? 0) + $lembur + ($gaji->extra ?? 0) - ($gaji->kasbon ?? 0);
                     } else {
-                      $lembur = $setting->lembur_tetap * $row->lembur;
-                      if ($row->Gaji->jumlah_hari_efektif < $totalHariAktif) {
-                        $gajiPokok = $row->Gaji->jumlah_hari_efektif * $setting->lembur_tetap;
+                      $lembur = $setting->lembur_tetap * ($gaji->lembur ?? 0);
+                      if (($gaji->jumlah_hari_efektif ?? 0) < $totalHariAktif) {
+                        $gajiPokok = ($gaji->jumlah_hari_efektif ?? 0) * $setting->lembur_tetap;
                       } else {
                         $gajiPokok = $setting->gaji_tetap;
                       }
+                      $total_gaji = $gajiPokok + ($gaji->tunjangan_jabatan ?? 0) + ($gaji->tunjangan_operasional ?? 0) + $lembur + ($gaji->extra ?? 0) + $setting->kenaikan - ($gaji->kasbon ?? 0);
                     }
-                    
-                    $total_gaji = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional + $lembur + $row->Gaji->extra + $setting->kenaikan - $row->Gaji->kasbon;
-                    $gaji_bruto = $gajiPokok + $row->Gaji->tunjangan_jabatan + $row->Gaji->tunjangan_operasional;
-                    
+
+                    $gaji_bruto = $gajiPokok + ($gaji->tunjangan_jabatan ?? 0) + ($gaji->tunjangan_operasional ?? 0);
+                    $tot_sesi = $gaji->jumlah_hari_efektif ?? 0;
                   @endphp
-                    <tr role="button" onclick="window.location.href='{{ route('asatidz.show', $row->id) }}'" style="cursor: pointer">
-                    <td class="text-center">{{ $row->id }}</td>
+                  <tr role="button" onclick="window.location.href='{{ route('asatidz.show', $row->id) }}'" style="cursor: pointer">
+                    <td class="text-center">{{ $no++ }}</td>
                     <td style="font-size: 0.9em;">{{ $row->nama_lengkap }}</td>
                     <td class="status text-center">
                       @if ($row->status != 'Magang')
@@ -114,13 +123,10 @@
                     </td>
                     <td class="mnony text-center">
                       <span class="badge bg-primary">
-                      Rp. {{ number_format($total_gaji ?? 0, 0, ',', '.') }}
+                      Rp. {{ number_format($total_gaji, 0, ',', '.') }}
                       </span>
                     </td>
                     <td class="mnony text-center">
-                      @php
-                      $tot_sesi = $row->Gaji->jumlah_hari_efektif;
-                      @endphp
                       <span class="badge bg-primary">{{ $tot_sesi }}</span>
                     </td>
                     <td class="mnony text-center">
@@ -130,7 +136,7 @@
                     </td>
                     <td class="mnony text-center">
                       <span class="badge bg-primary">
-                      Rp. {{ number_format($row->Gaji->extra, 0, ',', '.') }}
+                      Rp. {{ number_format($gaji->extra ?? 0, 0, ',', '.') }}
                       </span>
                     </td>
                     <td class="mnony text-center">
@@ -140,12 +146,12 @@
                     </td>
                     <td class="mnony text-center">
                       <span class="badge bg-primary">
-                      Rp. {{ number_format($row->kasbon, 0, ',', '.') }}
+                      Rp. {{ number_format($gaji->kasbon ?? 0, 0, ',', '.') }}
                       </span>
                     </td>
                     <td class="mnony text-center">
                       <span class="badge bg-primary">
-                      {{ ($row->Gaji->jumlah_hari_efektif / $totalHariAktif) * 100 > 80 ? 'YA' : 'TIDAK' }}
+                      {{ ($tot_sesi / max($totalHariAktif, 1)) * 100 > 80 ? 'YA' : 'TIDAK' }}
                       </span>
                     </td>
                     <td class="edit text-center">
@@ -156,11 +162,11 @@
                         </button>
                       </form>
                     </td>                  
-                    </tr>
+                  </tr>
                 @endforeach
               </tbody>
             </table>
-          </div>
+          </div> 
         </div>
       </section>
     </div>

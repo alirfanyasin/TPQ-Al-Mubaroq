@@ -160,6 +160,7 @@ Route::middleware('auth')->group(function () {
 
         // Export
         Route::get('/export/excel', [GajiAsatidzController::class, 'export'])->name('gaji.export');
+        Route::get('/export/pdf', [GajiAsatidzController::class, 'exportpdf'])->name('gaji.pdf');
 
         // Import
         Route::get('/donwload_template', [GajiAsatidzController::class, 'donwload_template'])->name('gaji.donwload_template');

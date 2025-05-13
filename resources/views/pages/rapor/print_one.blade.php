@@ -15,9 +15,12 @@
 <body>
 
   <header>
-    <h3 class="text-center fw-bold">Lembar Penilaian Munaqosah Semester {{ $data->semester->nama }} <br>
-      TPQ Al Mubaarok <br> Tahun Ajaran {{ date('Y') . '/' . date('Y') + 1 }}
-    </h3>
+      {{-- <div>
+        <img src="{{ asset('template/assets/images/logo/logo.png') }}" alt="Logo" width="100px">
+      </div> --}}
+      <h3 class="text-center fw-bold">Lembar Penilaian Munaqosah Semester {{ $data->semester->nama }} <br>
+        TPQ Al Mubaarok <br> Tahun Ajaran {{ date('Y') . '/' . date('Y') + 1 }}
+      </h3>
     <hr>
     <div class="row">
       <div class="col-6">

@@ -46,54 +46,52 @@ class GajiImport implements ToModel,  WithHeadingRow, WithCalculatedFormulas
             }
         }
         $arrayTable = array('asatidz_id','nama_lengkap','gaji_pokok','masa_kerja',
-                                'gaji_bruto','lembur','extra','kenaikan','kasbon','tunjangan_operasional',
-                                'tunjangan_jabatan','jumlah_hari_efektif','tanggal'
+                                'sesi_lembur','extra','kenaikan','kasbon','tunjangan_operasional',
+                                'tunjangan_jabatan','jumlah_sesi_efektif','tanggal'
                             );
         foreach ($arrayTable as $value) {
             if (!isset($this->header[$value])) {
                 throw new Exception('Nama tabel tidak valid. '.$this->header[$value]);
             }
         }
-        // Cari data penggajian berdasarkan npa dan tanggal
+        // Cari data penggajian berdasarkan asatidz_id dan tanggal
         $date = Carbon::createFromFormat('Y-m-d',$row['tanggal']);
         $date = $date->format('Y-m');
         $gaji = GajiAsatidzBulanan::where('asatidz_id', $row['asatidz_id'])
                         ->where('tanggal', 'LIKE',$date.'%')
                         ->first();
 
-                    if ($gaji) {
-                        // Jika data penggajian sudah ada, lakukan update
-                        $gaji->update([
-                            'asatidz_id' => $row['asatidz_id'],
-                            'gaji_pokok' => $row['gaji_pokok'],
-                            'masa_kerja' => $row['masa_kerja'],
-                            'gaji_bruto' => $row['gaji_bruto'],
-                            'lembur' => $row['lembur'],
-                            'extra' => $row['extra'],
-                            'kenaikan' => $row['kenaikan'],
-                            'kasbon' => $row['kasbon'],
-                            'tunjangan_operasional' => $row['tunjangan_operasional'],
-                            'tunjangan_jabatan' => $row['tunjangan_jabatan'],
-                            'jumlah_hari_efektif' => $row['jumlah_hari_efektif'],
-                            ]);
-                    } else {
-                        // Jika data penggajian belum ada, buat data baru
-                        $gaji = new GajiAsatidzBulanan([
-                            'asatidz_id' => $row['asatidz_id'],
-                            'gaji_pokok' => $row['gaji_pokok'],
-                            'masa_kerja' => $row['masa_kerja'],
-                            'gaji_bruto' => $row['gaji_bruto'],
-                            'lembur' => $row['lembur'],
-                            'extra' => $row['extra'],
-                            'kenaikan' => $row['kenaikan'],
-                            'kasbon' => $row['kasbon'],
-                            'tunjangan_operasional' => $row['tunjangan_operasional'],
-                            'tunjangan_jabatan' => $row['tunjangan_jabatan'],
-                            'jumlah_hari_efektif' => $row['jumlah_hari_efektif'],
-                            'tanggal' => $row['tanggal'],
-                         ]);
-                    $gaji->save();
-                    }
+        if ($gaji) {
+            // Jika data penggajian sudah ada, lakukan update
+            $gaji->update([
+                'asatidz_id' => $row['asatidz_id'],
+                'gaji_pokok' => $row['gaji_pokok'],
+                'masa_kerja' => $row['masa_kerja'],
+                'lembur' => $row['sesi_lembur'],
+                'extra' => $row['extra'],
+                'kenaikan' => $row['kenaikan'],
+                'kasbon' => $row['kasbon'],
+                'tunjangan_operasional' => $row['tunjangan_operasional'],
+                'tunjangan_jabatan' => $row['tunjangan_jabatan'],
+                'jumlah_hari_efektif' => $row['jumlah_sesi_efektif'],
+            ]);
+        } else {
+            // Jika data penggajian belum ada, buat data baru
+            $gaji = new GajiAsatidzBulanan([
+                'asatidz_id' => $row['asatidz_id'],
+                'gaji_pokok' => $row['gaji_pokok'],
+                'masa_kerja' => $row['masa_kerja'],
+                'lembur' => $row['sesi_lembur'],
+                'extra' => $row['extra'],
+                'kenaikan' => $row['kenaikan'],
+                'kasbon' => $row['kasbon'],
+                'tunjangan_operasional' => $row['tunjangan_operasional'],
+                'tunjangan_jabatan' => $row['tunjangan_jabatan'],
+                'jumlah_hari_efektif' => $row['jumlah_sesi_efektif'],
+                'tanggal' => $row['tanggal'],
+            ]);
+        $gaji->save();
+        }
         return $gaji;
     }
 

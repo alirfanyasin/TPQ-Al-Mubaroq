@@ -2,8 +2,9 @@
 
 namespace App\Imports;
 
-use App\Models\Asatidz;
 use App\Models\User;
+use App\Models\Asatidz;
+use App\Models\GajiAsatidzBulanan;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -73,6 +74,17 @@ class AsatidzImport implements ToModel, WithHeadingRow
 
         // Simpan data Asatidz
         $asatidz->save();
+
+        GajiAsatidzBulanan::create([
+            'asatidz_id' => $asatidz->id,
+            'tanggal' => now(),
+            'jumlah_hari_efektif' => 0,
+            'tunjangan_jabatan' => 0,
+            'tunjangan_operasional' => 0,
+            'lembur' => 0,
+            'extra' => 0,
+            'kasbon' => 0,
+        ]);
 
         return $asatidz;
     }

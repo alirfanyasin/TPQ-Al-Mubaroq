@@ -86,6 +86,10 @@
                   <label for="kasbon" class="form-label">Kasbon</label>
                   <input type="number" name="kasbon" id="kasbon" class="form-control" value="{{ old('kasbon', $gaji->kasbon) }}">
                 </div>
+                <div class="mb-3">
+                  <label for="kasbon" class="form-label">Kenaikan Gaji Asatidz</label>
+                  <input type="number" name="kenaikan" id="kenaikan" class="form-control" value="{{ old('kenaikan', $gaji->kenaikan) }}">
+                </div>
               </div>
             </div>
             <div class="d-flex justify-content-between mt-4">
