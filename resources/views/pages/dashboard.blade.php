@@ -81,12 +81,12 @@
                 <h4>Tagihan Bulanan</h4>
               </div>
               <div class="card-body">
-                <div id="chart-profile-visit"></div>
+                <div id="chart-tagihan"></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-12 col-xl-12">
             <div class="card">
               <div class="card-header">
@@ -122,10 +122,10 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
       </div>
       <div class="col-12 col-lg-4">
-        <div class="card">
+        {{-- <div class="card">
           <div class="card-header">
             <h4>Pengguna Aktif</h4>
           </div>
@@ -161,13 +161,13 @@
               <button class='mt-3 font-bold btn btn-block btn-xl btn-outline-primary'>Start Conversation</button>
             </div>
           </div>
-        </div>
+        </div> --}}
         <div class="card">
           <div class="card-header">
-            <h4>Visitors Profile</h4>
+            <h4>Total Santri dan Satriwati</h4>
           </div>
           <div class="card-body">
-            <div id="chart-visitors-profile"></div>
+            <div id="chart-gender"></div>
           </div>
         </div>
       </div>
@@ -177,4 +177,68 @@
 @push('js')
   <script src="/template/assets/extensions/apexcharts/apexcharts.min.js"></script>
   <script src="/template/assets/js/pages/dashboard.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var options = {
+        chart: {
+          type: 'bar',
+          height: 350
+        },
+        colors: ['#435EBE'],
+        series: [{
+          name: 'Total Tagihan',
+          data: @json($total)
+        }],
+        xaxis: {
+          categories: @json($bulan)
+        },
+        tooltip: {
+          y: {
+            formatter: function(val) {
+              return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+              }).format(val);
+            }
+          }
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function(val) {
+            return new Intl.NumberFormat('id-ID', {
+              style: 'currency',
+              currency: 'IDR',
+              minimumFractionDigits: 0
+            }).format(val);
+          },
+          style: {
+            fontSize: '12px',
+            colors: ['#FFF']
+          }
+        }
+      };
+
+
+      var chart = new ApexCharts(document.querySelector("#chart-tagihan"), options);
+      chart.render();
+    });
+  </script>
+
+  <script>
+    var options = {
+      chart: {
+        type: 'pie'
+      },
+      labels: ['Laki-Laki', 'Perempuan'],
+      series: [{{ $jumlah_laki }}, {{ $jumlah_perempuan }}],
+      colors: ['#435EBE', '#F472B6'], // biru dan pink
+      legend: {
+        position: 'bottom'
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart-gender"), options);
+    chart.render();
+  </script>
 @endpush
